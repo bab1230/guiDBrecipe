@@ -1,0 +1,13 @@
+.login-form {
+    border-radius: 4px;
+}
+.center-login {
+    position: absolute;
+    z-index: 15;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+}
+.nobold {
+    font-weight: normal;
+}
