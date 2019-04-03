@@ -21,8 +21,10 @@ var connection = mysql.createConnection({
 app.use(session({
 	secret: 'secret',
 	resave: true,
-	saveUninitialized: true
+	saveUninitialized: true,
+	cookie  : { maxAge  : new Date(Date.now() + 120 * 1000)}
 }));
+
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 
@@ -35,7 +37,7 @@ app.get('/', function(request, response) {
    }
 });
 
-
+// Authentication username and password
 app.post('/auth', function(request, response) {
     	var username = request.body.username;
     	var password = request.body.password;
@@ -57,21 +59,27 @@ app.post('/auth', function(request, response) {
 });
 
 // Logout endpoint
-app.get('/logout', function (req, res) {
-  req.session.destroy();
-  res.send("logout success!");
+app.get('/logout', function (request, response) {
+  if (request.session.loggedin){
+    request.session.destroy();
+    response.send("Logout successful!");
+  }
+  else{
+    response.send("<h1>You are not logged in. Can't log out!</h1>")
+  }
 });
 
-var auth = function(req, res, next) {
-  if (req.session && request.session.loggedin)
+
+var auth = function(request, response, next) {
+  if (request.session && request.session.loggedin)
     return next();
   else
-    return res.sendStatus(401);
+    return response.sendStatus(401);
 };
 
 // Get content endpoint
-app.get('/content', auth, function (req, res) {
-    res.send("You can only see this after you've logged in.");
+app.get('/content', auth, function (request, response) {
+    response.send("Under construction....");
 });
 
 
