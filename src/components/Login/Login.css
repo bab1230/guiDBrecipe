@@ -9,6 +9,15 @@
     left: 50%;
     transform: translate(-50%, 50%);
 }
+.center-sign {
+    position: relative;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%, 50%);
+}
 .nobold {
     font-weight: normal;
+}
+.sign-up {
+    padding-left: 50px;
 }

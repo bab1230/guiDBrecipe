@@ -30,6 +30,7 @@ class Login extends Component {
 			<>
 				<div className="form-horizontal login-form col-md-3 center-login shadow-lg">
 				<h1 className="nobold">Login:</h1>
+				<hr/>
 					<form>
 						<div className="form-group">
 							<label htmlFor="username">Username:</label>
@@ -47,7 +48,9 @@ class Login extends Component {
 						</div>
 						<button className="btn btn-primary w-100 mb-2" onClick={this.verifyUser}>Log In</button>
 					</form>
+					<SignUp className="center-sign"/>
 				</div>
+				
 			</>
 		);
 	}
