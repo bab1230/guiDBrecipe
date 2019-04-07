@@ -1,0 +1,9 @@
+ .account-table{
+    width: 60%;
+    align-self: center;
+    justify-self: center;
+    height: 100%;
+    background: pink;
+    margin-left: 20%;
+    display: flex;
+}
