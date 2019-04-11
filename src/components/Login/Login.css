@@ -21,3 +21,10 @@
 .sign-up {
     padding-left: 50px;
 }
+/*:not(.login-form){
+    background-image: url(./food_background.jpg);
+    height: 100%; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}*/
