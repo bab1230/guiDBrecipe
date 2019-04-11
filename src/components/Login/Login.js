@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Login.css';
 import SignUp from '../SignUp/SignUp.js';
-//import { withRouter } from 'react-router-dom';
+import axios from 'axios'
 
 class Login extends Component {
 	constructor(props) {
@@ -14,7 +14,22 @@ class Login extends Component {
 		this.verifyUser = this.verifyUser.bind(this);
 	}
 	verifyUser = async () => {
-		const url = `api/users/verify?Username=${this.state.username}&Password=${this.state.password}`;
+		console.log("hi")
+
+		/*var session_url = 'https://b9bcbed5-1ca5-49fd-92f4-808293a187f0.mock.pstmn.io/api/login';
+		var credentials = btoa(this.props.username + ':' + this.props.password);
+		var basicAuth = 'Basic ' + credentials;
+		axios.post(session_url, {}, {
+			headers: { 'Authorization': + basicAuth }
+		}).then(function (response) {
+			console.log('Authenticated');
+		}).catch(function (error) {
+			console.log('Error on Authentication');
+		});*/
+
+		if (this.state.username === "test" && this.state.password === "1234")
+			this.props.history.push("/home");
+		/*const url = `api/users/verify?Username=${this.state.username}&Password=${this.state.password}`;
 		try {
 			const response = await fetch(url);
 			const body = await response.json();
@@ -26,14 +41,14 @@ class Login extends Component {
 		}
 		catch (e) {
 			return e;
-		}
+		}*/
 	};
 	render() {
 		return (
 			<>
 				<div className="form-horizontal login-form col-md-3 center-login shadow-lg">
-				<h1 className="nobold">Login:</h1>
-				<hr/>
+					<h1 className="nobold">Login:</h1>
+					<hr />
 					<form>
 						<div className="form-group">
 							<label htmlFor="username">Username:</label>
@@ -49,9 +64,9 @@ class Login extends Component {
 								{console.log(this.state.username, this.state.password)}
 							</input>
 						</div>
-						<button className="btn btn-primary w-100 mb-2" onClick={this.verifyUser}>Log In</button>
+						<button type="button" className="btn btn-primary w-100 mb-2" onClick={this.verifyUser}>Log In</button>
 					</form>
-					<SignUp className="center-sign"/>
+					<SignUp className="center-sign" />
 				</div>
 			</>
 		);

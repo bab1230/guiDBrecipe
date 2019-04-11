@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Login from "../components/Login/Login.js";
 import './App.css';
 import Home from '../components/HomePage/Home.jsx'
-//import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class App extends Component {
 	constructor(props) {
@@ -21,8 +21,13 @@ class App extends Component {
 	};
 
 	render() {
-		return(
-			<Home/>
+		return (
+			<div className="app-routes">
+				<Switch>
+					<Route path="/home" exact component={Home} />
+					<Route path="/login" component={Login} />
+				</Switch>
+			</div>
 			//<Login />
 
 			/*<ThemeProvider theme={theme}>
