@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import Login from "./components/Login/Login.js";
+import Login from "../components/Login/Login.js";
 import './App.css';
+import Home from '../components/HomePage/Home.jsx'
+//import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class App extends Component {
 	constructor(props) {
@@ -21,7 +22,21 @@ class App extends Component {
 
 	render() {
 		return(
-			<Login />
+			<Home/>
+			//<Login />
+
+			/*<ThemeProvider theme={theme}>
+        <div>
+          <Router>
+          <Header />
+            <Switch>
+              <Route exact path="/" component={List} />
+              <Route path="/currency/:id" component={Detail} />
+              <Route component={NotFound} />
+            </Switch>
+          </Router>
+        </div>
+      </ThemeProvider>*/
 		);
 		/*let login = <Login updateLoginState={this.loginState} />
 		return (

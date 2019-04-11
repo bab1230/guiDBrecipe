@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Login.css';
-import SignUp from '../SignUp/SignUp.js'
+import SignUp from '../SignUp/SignUp.js';
+//import { withRouter } from 'react-router-dom';
 
 class Login extends Component {
 	constructor(props) {
@@ -20,6 +21,8 @@ class Login extends Component {
 
 			if (response.status !== 200) throw Error(body.message);
 			if (body.resp.resp.auth === true) this.props.updateLoginState(true);
+			//let path = `../HomePage/Home`;
+    		//this.props.history.push(path);
 		}
 		catch (e) {
 			return e;
@@ -50,10 +53,9 @@ class Login extends Component {
 					</form>
 					<SignUp className="center-sign"/>
 				</div>
-				
 			</>
 		);
 	}
 }
-
 export default Login;
+//export default withRouter(Login);
