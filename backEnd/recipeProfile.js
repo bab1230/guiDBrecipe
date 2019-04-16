@@ -13,13 +13,16 @@ module.exports = db.sequelize.define(
 		recipe_name: {
 			type: Sequelize.STRING
 		},
-		cooking_instruction: {
+		how_to_cook: {
 			type: Sequelize.STRING
 		},
-		recipe_type: {
+		cuisine_type: {
 			type: Sequelize.STRING
 		},
-		recipe_date: {
+		image: {
+			type: Sequelize.STRING
+		}
+		feature_date: {
 			type: Sequelize.STRING
 		}
 	},
