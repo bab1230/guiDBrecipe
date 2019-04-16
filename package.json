@@ -16,6 +16,7 @@
     "mongoose": "^5.4.20",
     "morgan": "^1.9.1",
     "mysql": "^2.16.0",
+    "mysql2": "^1.6.5",
     "passport": "^0.4.0",
     "popper.js": "^1.14.7",
     "react": "^16.8.5",
@@ -23,7 +24,8 @@
     "react-dom": "^16.8.5",
     "react-native": "^0.59.4",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.8"
+    "react-scripts": "2.1.8",
+    "sequelize": "^5.6.0"
   },
   "scripts": {
     "start": "react-scripts start",

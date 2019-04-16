@@ -22,9 +22,6 @@ module.exports = db.sequelize.define(
 		image: {
 			type: Sequelize.STRING
 		}
-		feature_date: {
-			type: Sequelize.STRING
-		}
 	},
 	{
 		timestamps: false
