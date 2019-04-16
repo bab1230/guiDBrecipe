@@ -24,8 +24,8 @@ class App extends Component {
 		return (
 			<div className="app-routes">
 				<Switch>
+					<Route path="/" exact component={Login} />
 					<Route path="/home" exact component={Home} />
-					<Route path="/login" component={Login} />
 				</Switch>
 			</div>
 			//<Login />
