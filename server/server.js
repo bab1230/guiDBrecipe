@@ -15,13 +15,17 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(session({
+var sess = {
+  user_id: -1,
   user_name: "",
 	secret: 'secret',
 	resave: true,
 	saveUninitialized: true,
 	cookie  : { maxAge  :  86400 * 1000}
-}));
+}
+
+// console.log(sess.user_id)
+app.use(session(sess));
 
 //------------------------------------ Connection to MySQL ------------------------------------
 
@@ -53,23 +57,31 @@ app.post('/users/register', (req, res) => {
 
 //------------------------------------ Login ------------------------------------
 app.post('/users/login', (req, res) => {
-    req.session.user_name = req.body.user_name
+    var user_nameTemp = req.body.user_name
     var user_password = req.body.user_password
-    if (req.session.user_name && user_password) {
-            connection.query('SELECT * FROM users WHERE user_name = ? AND user_password = ?',
-                            [req.session.user_name, user_password], function(error, results, fields) {
-                      if (results.length === 1) {
-                          console.log("Login Success!");
-                          req.session.loggedin = true;
-                        } else {
-                          res.send('Incorrect Username and/or Password!');
-                          req.session.loggedin = false;
-                        }
-                      res.end();
-                      });
-    } else {
-        res.send('Please enter Username and Password!');
-        res.end();
+    if (req.session.loggedin)
+    {
+      res.status(200).send('You are logged in as ' + sess.user_name);
+    }
+    else {
+          if (user_nameTemp && user_password) {
+                  connection.query('SELECT * FROM users WHERE user_name = ? AND user_password = ?',
+                                  [user_nameTemp, user_password], function(error, results, fields) {
+                            if (results.length === 1) {
+                                sess.user_id = results[0].user_id;
+                                console.log("Login Success!");
+                                sess.user_name = req.body.user_name;
+                                req.session.loggedin = true;
+                              } else {
+                                res.send('Incorrect Username and/or Password!');
+                                req.session.loggedin = false;
+                              }
+                            res.end();
+                            });
+          } else {
+              res.send('Please enter Username and Password!');
+              res.end();
+          }
     }
 })
 
@@ -89,22 +101,14 @@ app.get('/users/logout', function (req, res) {
 //------------------------------------ User Favorite ------------------------------------
 //Response sends back an array of recipe_ID in favorites
 app.get('/users/favorite', (req, res) => {
-  var user_id = req.body.user_id;
-  connection.query('SELECT * FROM users JOIN favorites JOIN recipes ON users.user_id = favorites.user_id AND recipes.recipe_id = favorites.recipe_id WHERE users.user_id = ?', [user_id], function(error, results, fields) {
+  console.log("User ID is ", sess.user_id);
+  connection.query('SELECT * FROM users JOIN favorites JOIN recipes ON users.user_id = favorites.user_id AND recipes.recipe_id = favorites.recipe_id WHERE users.user_id = ?', [sess.user_id], function(error, results, fields) {
             // res.send([results[0].user_id, results[0].user_name, results[0].recipe_id, results[1].recipe_id, results[2].recipe_id]);
-            let recipe_name = []
-            let recipeHow_to_cook = []
             let responseToFrontend = {}
-            for(let i = 0; i < results.length; i++){
-                recipeID.push(results[i].recipe_name)
-                recipeHow_to_cook.push(results[i].how_to_cook)
+            for(var i = 0; i < results.length; i++){
+                responseToFrontend[results[i].recipe_name] = results[i].how_to_cook;
             }
-
-            for (var i = 0; i < recipeID.length; i++) {
-                responseToFrontend[recipe_name[i]] = recipeHow_to_cook[i]
-            }
-
-            res.send(responseToFrontend);
+            res.send(responseToFrontend);//This is an object
       });
 })
 
