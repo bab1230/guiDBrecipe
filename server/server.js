@@ -90,13 +90,21 @@ app.get('/users/logout', function (req, res) {
 //Response sends back an array of recipe_ID in favorites
 app.get('/users/favorite', (req, res) => {
   var user_id = req.body.user_id;
-  connection.query('SELECT * FROM users JOIN favorites ON users.user_id = favorites.user_id WHERE users.user_id = ?', [user_id], function(error, results, fields) {
+  connection.query('SELECT * FROM users JOIN favorites JOIN recipes ON users.user_id = favorites.user_id AND recipes.recipe_id = favorites.recipe_id WHERE users.user_id = ?', [user_id], function(error, results, fields) {
             // res.send([results[0].user_id, results[0].user_name, results[0].recipe_id, results[1].recipe_id, results[2].recipe_id]);
-            let recipeID = []
+            let recipe_name = []
+            let recipeHow_to_cook = []
+            let responseToFrontend = {}
             for(let i = 0; i < results.length; i++){
-                recipeID.push(results[i].recipe_id)
+                recipeID.push(results[i].recipe_name)
+                recipeHow_to_cook.push(results[i].how_to_cook)
             }
-            res.send(recipeID);
+
+            for (var i = 0; i < recipeID.length; i++) {
+                responseToFrontend[recipe_name[i]] = recipeHow_to_cook[i]
+            }
+
+            res.send(responseToFrontend);
       });
 })
 
