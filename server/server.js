@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+var cors = require('cors');
 var mysql = require('mysql');
 const jwt = require("jsonwebtoken")
 const cookieParser = require('cookie-parser');
@@ -15,10 +16,11 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
+  user_name: "",
 	secret: 'secret',
 	resave: true,
 	saveUninitialized: true,
-	cookie  : { maxAge  :  86400 * 1000)}
+	cookie  : { maxAge  :  86400 * 1000}
 }));
 
 //------------------------------------ Connection to MySQL ------------------------------------
@@ -51,15 +53,17 @@ app.post('/users/register', (req, res) => {
 
 //------------------------------------ Login ------------------------------------
 app.post('/users/login', (req, res) => {
-    var user_name = req.body.user_name
+    req.session.user_name = req.body.user_name
     var user_password = req.body.user_password
-    if (user_name && user_password) {
+    if (req.session.user_name && user_password) {
             connection.query('SELECT * FROM users WHERE user_name = ? AND user_password = ?',
-                            [user_name, user_password], function(error, results, fields) {
+                            [req.session.user_name, user_password], function(error, results, fields) {
                       if (results.length === 1) {
-                          console.log("Login Success!")
+                          console.log("Login Success!");
+                          req.session.loggedin = true;
                         } else {
                           res.send('Incorrect Username and/or Password!');
+                          req.session.loggedin = false;
                         }
                       res.end();
                       });
@@ -83,12 +87,17 @@ app.get('/users/logout', function (req, res) {
 
 
 //------------------------------------ User Favorite ------------------------------------
+//Response sends back an array of recipe_ID in favorites
 app.get('/users/favorite', (req, res) => {
-  connection.query('SELECT * FROM users NATURAL JOIN favorites ON users.user_id = favorites.user_id WHERE user_id = ?',
-                    [req.body.user_id], function(error, results, fields) {
-            res.send(results);
-            res.end();
-            });
+  var user_id = req.body.user_id;
+  connection.query('SELECT * FROM users JOIN favorites ON users.user_id = favorites.user_id WHERE users.user_id = ?', [user_id], function(error, results, fields) {
+            // res.send([results[0].user_id, results[0].user_name, results[0].recipe_id, results[1].recipe_id, results[2].recipe_id]);
+            let recipeID = []
+            for(let i = 0; i < results.length; i++){
+                recipeID.push(results[i].recipe_id)
+            }
+            res.send(recipeID);
+      });
 })
 
 
