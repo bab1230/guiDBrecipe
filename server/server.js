@@ -7,6 +7,8 @@ const cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var app = express();
+var random = require('random')
+
 
 process.env.SECRET_KEY = 'secret'
 const port = process.env.PORT || 4000;
@@ -40,7 +42,7 @@ var connection = mysql.createPool({
 
 //------------------------------------ Register ------------------------------------
 app.post('/users/register', (req, res) => {
-    const userData = [req.body.user_id,
+    const userData = [random.int(1000000, 100000000000),
                     req.body.first_name,
                     req.body.last_name,
                     req.body.user_name,
@@ -108,7 +110,7 @@ app.get('/users/favorite', (req, res) => {
             for(var i = 0; i < results.length; i++){
                 responseToFrontend[results[i].recipe_name] = results[i].how_to_cook;
             }
-            res.send(responseToFrontend);//This is an object
+            res.status(200).send(responseToFrontend);//This is an object
       });
 })
 
