@@ -18,15 +18,12 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 var sess = {
-  // user_id: -1,
-  // user_name: "",
 	secret: 'secret',
 	resave: true,
 	saveUninitialized: true,
 	cookie  : { maxAge  :  86400 * 1000}
 }
 
-// console.log(sess.user_id)
 app.use(session(sess));
 
 //------------------------------------ Connection to MySQL ------------------------------------
@@ -102,14 +99,15 @@ app.get('/users/logout', function (req, res) {
 
 //------------------------------------ User Favorite ------------------------------------
 //Response sends back an array of recipe_ID in favorites
+//Account favorite recipes
 app.get('/users/favorite', (req, res) => {
   if (!req.session.loggedin){
     res.status(404).send("You are not authorized in here.");
   }
   else{
         console.log("User ID is ", req.session.user_id);
-        connection.query('SELECT * FROM users JOIN favorites JOIN recipes ON users.user_id = favorites.user_id AND recipes.recipe_id = favorites.recipe_id WHERE users.user_id = ?', [req.session.user_id], function(error, results, fields) {
-                  // res.send([results[0].user_id, results[0].user_name, results[0].recipe_id, results[1].recipe_id, results[2].recipe_id]);
+        connection.query('SELECT * FROM users JOIN favorites JOIN recipes ON users.user_id = favorites.user_id AND recipes.recipe_id = favorites.recipe_id WHERE users.user_id = ?',
+                        [req.session.user_id], function(error, results, fields) {
                   let responseToFrontend = {}
                   for(var i = 0; i < results.length; i++){
                       responseToFrontend[results[i].recipe_name] = results[i].how_to_cook;
@@ -118,6 +116,19 @@ app.get('/users/favorite', (req, res) => {
             });
     }
 })
+
+//
+
+
+
+
+
+
+
+
+
+
+
 
 
 app.listen(port, () => {
