@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export class favoriteRepository {
-    url = "/";
+    url = "http://ec2-18-222-255-36.us-east-2.compute.amazonaws.com:5000/all_recipes";
     config = {
         headers: {
             Authorization: 'Me'
