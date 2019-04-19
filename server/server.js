@@ -117,8 +117,35 @@ app.get('/users/favorite', (req, res) => {
     }
 })
 
-//
+//Delete recipes from favorite
+app.post('/users/favorite/delete', (req, res) => {
+  if (!req.session.loggedin){
+    res.status(404).send("You are not authorized in here.");
+  }
+  else{
+    var recipeID = req.body.recipe_id;
+        console.log("User ID is ", req.session.user_id);
+        connection.query('DELETE FROM favorites WHERE user_id = ? AND recipe_id = ?',
+                        [req.session.user_id, recipeID], function(error, results, fields) {
+                  res.status(200).send("Delete successful");//This is an object
+            });
+    }
+)}
 
+//Add recipes to favorite
+app.post('/users/favorite/add', (req, res) => {
+  if (!req.session.loggedin){
+    res.status(404).send("You are not authorized in here.");
+  }
+  else{
+    var recipeID = req.body.recipe_id;
+        console.log("User ID is ", req.session.user_id);
+        connection.query('INSERT INTO favorites VALUES (?, ?)',
+                        [req.session.user_id, recipeID], function(error, results, fields) {
+                  res.status(200).send("Add successful");//This is an object
+            });
+    }
+)}
 
 
 
