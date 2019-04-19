@@ -22,7 +22,7 @@ connection.connect(function (error)
   }
 });
 
-app.get('/jkjk',function(req,res){
+app.get('/all_recipes',function(req,res){
   //about mysql query
   connection.query("SELECT * FROM recipes;",function (error,rows,fields) {
     //call back function
