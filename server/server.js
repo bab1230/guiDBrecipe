@@ -71,6 +71,7 @@ app.post('/users/login', (req, res) => {
                                 console.log("Login Success!");
                                 req.session.user_name = req.body.user_name;
                                 req.session.loggedin = true;
+																res.status(200).send('Login Seccess!')
                               } else {
                                 res.send('Incorrect Username and/or Password!');
                                 req.session.loggedin = false;
@@ -130,7 +131,7 @@ app.post('/users/favorite/delete', (req, res) => {
                   res.status(200).send("Delete successful");//This is an object
             });
     }
-)}
+})
 
 //Add recipes to favorite
 app.post('/users/favorite/add', (req, res) => {
@@ -145,18 +146,31 @@ app.post('/users/favorite/add', (req, res) => {
                   res.status(200).send("Add successful");//This is an object
             });
     }
-)}
+})
 
 
+//------------------------------------ Pantry ingredients ------------------------------------
+//Add
+app.get('/users/pantry', (req, res) => {
+  if (!req.session.loggedin){
+    res.status(404).send("You are not authorized in here.");
+  }
+  else{
+    var inStock = {};
+        console.log("User ID is ", req.session.user_id);
+        connection.query('SELECT * FROM inventory JOIN ingredient_all ON inventory.ingredient_id = ingredient_all.ingredient_id WHERE inventory.user_id = ?',
+                        [req.session.user_id], function(error, results, fields) {
+                  // for (var i = 0; i < results.length; i++) {
+                  //   results[i]
+                  // }
+                  res.status(200).send(results);//This is an object
+            });
+    }
+})
 
 
-
-
-
-
-
-
-
+//------------------------------------ Pantry ingredients ------------------------------------
+//Delete
 
 app.listen(port, () => {
     console.log("Server is running on port: " + port)
