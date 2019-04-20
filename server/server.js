@@ -26,7 +26,7 @@ var sess = {
 
 app.use(session(sess));
 
-//------------------------------------ Connection to MySQL ------------------------------------
+//------------------------------------------------------------------------ Connection to MySQL ------------------------------------------------------------------------
 
 var connection = mysql.createPool({
     connectionLimit : process.env.mysql_connection_pool_Limit, // default:10
@@ -37,7 +37,7 @@ var connection = mysql.createPool({
     database: 'dbteam'
 });
 
-//------------------------------------ Register ------------------------------------
+//------------------------------------------------------------------------ Register ------------------------------------------------------------------------
 app.post('/users/register', (req, res) => {
     const userData = [random.int(1000000, 100000000000),
                     req.body.first_name,
@@ -71,7 +71,7 @@ app.post('/users/login', (req, res) => {
                                 console.log("Login Success!");
                                 req.session.user_name = req.body.user_name;
                                 req.session.loggedin = true;
-																res.status(200).send('Login Seccess!')
+																res.send('Login Success!')
                               } else {
                                 res.send('Incorrect Username and/or Password!');
                                 req.session.loggedin = false;
@@ -85,7 +85,7 @@ app.post('/users/login', (req, res) => {
     }
 })
 
-//------------------------------------ Logout ------------------------------------
+//------------------------------------------------------------------------ Logout -----------------------------------------------------------------------
 
 app.get('/users/logout', function (req, res) {
   if (req.session.loggedin){
@@ -98,7 +98,7 @@ app.get('/users/logout', function (req, res) {
 });
 
 
-//------------------------------------ User Favorite ------------------------------------
+//------------------------------------------------------------------------ User Favorite ------------------------------------------------------------------------
 //Response sends back an array of recipe_ID in favorites
 //Account favorite recipes
 app.get('/users/favorite', (req, res) => {
@@ -143,34 +143,136 @@ app.post('/users/favorite/add', (req, res) => {
         console.log("User ID is ", req.session.user_id);
         connection.query('INSERT INTO favorites VALUES (?, ?)',
                         [req.session.user_id, recipeID], function(error, results, fields) {
-                  res.status(200).send("Add successful");//This is an object
+                  res.status(200).send("Add successful");//Add success
             });
     }
 })
 
 
-//------------------------------------ Pantry ingredients ------------------------------------
-//Add
+//------------------------------------------------------------------------ Pantry ingredients ------------------------------------------------------------------------
+//Get all inventory of users
 app.get('/users/pantry', (req, res) => {
   if (!req.session.loggedin){
     res.status(404).send("You are not authorized in here.");
   }
   else{
-    var inStock = {};
-        console.log("User ID is ", req.session.user_id);
-        connection.query('SELECT * FROM inventory JOIN ingredient_all ON inventory.ingredient_id = ingredient_all.ingredient_id WHERE inventory.user_id = ?',
-                        [req.session.user_id], function(error, results, fields) {
-                  // for (var i = 0; i < results.length; i++) {
-                  //   results[i]
-                  // }
-                  res.status(200).send(results);//This is an object
-            });
+		var inStock = {}
+					connection.query('SELECT inventory.ingredient_name, inventory.amount, inventory.unit FROM users JOIN inventory ON users.user_id = inventory.user_id',
+											 function(error, results, fields) {
+														if(error) throw error
+														else{
+															// for(var i = 0; i < results.length; i++){
+						                  //     inStock[results[i].recipe_name] = results[i].how_to_cook
+						                  // }
+						                  res.status(200).send(results);//This is an array
+														}
+													}
+											})
+					}
     }
 })
 
 
-//------------------------------------ Pantry ingredients ------------------------------------
-//Delete
+
+
+//Add inventory
+app.post('/users/pantry/add', (req, res) => {
+  if (!req.session.loggedin){
+    res.status(404).send("You are not authorized in here.");
+  }
+  else{
+					var ingre_id_from_all = -1;
+					//Get existing ingredient id from ingredient_all table
+					connection.query('SELECT ingredient_id FROM ingredient_all WHERE ingredient_name = ? LIMIT 1',
+											[req.body.ingredient_name], function(error, results, fields) {
+												if(error) throw error
+												else{
+													ingre_id_from_all = results[0].ingredient_id
+												}
+											})
+					if(ingre_id_from_all != -1)	{//If ingredient exists in ingredient_all table
+												user_add_inventory = [req.session.user_id, ingre_id_from_all, req.body.amount, req.body.unit]
+										        console.log("User ID is ", req.session.user_id , " adds ingredient");
+										        connection.query('INSERT INTO inventory (user_id, ingredient_id, amount, unit) VALUES (?, ?, ?, ?)',
+										                        user_add_inventory, function(error, results, fields) {
+										                  res.status(200).send('Add Success');//Add success
+										            });
+										}
+					else{//If ingredient does not exist in ingredient_all table
+						connection.query('INSERT INTO ingredient_all (ingredient_name) VALUES (?)'),
+												[req.body.ingredient_name], function(error, results, fields) {
+													if(error) throw error
+												}
+
+						//Get new ingredient id
+						connection.query('SELECT ingredient_id FROM ingredient_all ORDER BY ingredient_id DESC LIMIT 1',
+												function(error, results, fields) {
+													if(error) throw error
+													else{
+														ingre_id_from_all = results[0].ingredient_id
+													}
+												})
+						//Insert into inventory
+						user_add_inventory = [req.session.user_id, ingre_id_from_all, req.body.amount, req.body.unit]
+						console.log("User ID is ", req.session.user_id , " adds ingredient");
+						connection.query('INSERT INTO inventory (user_id, ingredient_id, amount, unit) VALUES (?, ?, ?, ?)',
+														user_add_inventory, function(error, results, fields) {
+											res.status(200).send('Add Success');//Add success
+								});
+					}
+    }
+})
+
+
+//Delete inventory
+app.post('/users/pantry/delete', (req, res) => {
+  if (!req.session.loggedin){
+    res.status(404).send("You are not authorized in here.");
+  }
+  else{
+					connection.query('DELETE FROM inventory WHERE user_id = ? AND ingredient_name = ?',
+											[req.session.user_id, req.body.ingredient_name], function(error, results, fields) {
+												if(error) throw error
+												else{
+													res.status(200).send('Delete Success');//Delete success
+												}
+											})
+					}
+    }
+})
+
+
+
+//Update inventory ------ IN PROGRESS
+app.post('/users/pantry/update', (req, res) => {
+  if (!req.session.loggedin){
+    res.status(404).send("You are not authorized in here.");
+  }
+  else{
+					var ingre_id_from_all = -1;
+					//Get existing ingredient id from ingredient_all table
+					connection.query('SELECT ingredient_all.ingredient_name FROM inventory JOIN ingredient_all ON inventory.ingredient_id = ingredient_all.ingredient_id WHERE ingredient_name = ? LIMIT 1',
+											[req.body.ingredient_name], function(error, results, fields) {
+												if(error) throw error
+												else{
+													ingre_id_from_all = results[0].ingredient_id
+												}
+											})
+
+					//Update inventory using ingredient_id
+					//UPDATE `table_name` SET `column_name` = `new_value' [WHERE condition];
+					connection.query('UPDATE inventory SET amount = ? AND unit = ? WHERE user_id = ? AND ingredient_id = ?',
+											[req.body.amount, req.body.unit, req.session.user_id, ingre_id_from_all], function(error, results, fields) {
+												if(error) throw error
+												else{
+													res.status(200).send("Update success")//Update success
+												}
+											})
+					}s
+})
+
+//------------------------------------------------------------------------ Cookware ------------------------------------------------------------------------
+
 
 app.listen(port, () => {
     console.log("Server is running on port: " + port)
