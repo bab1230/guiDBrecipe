@@ -185,7 +185,7 @@ app.post('/users/pantry/add', (req, res) => {
 											[req.body.ingredient_name], function(error, results, fields) {
 												if(error) throw error
 												else{
-													ingre_id_from_all = results[0].ingredient_id
+													if(results.length > 0){ ingre_id_from_all = results[0].ingredient_id }
 												}
 											})
 					if(ingre_id_from_all != -1)	{//If ingredient exists in ingredient_all table
@@ -207,7 +207,7 @@ app.post('/users/pantry/add', (req, res) => {
 												function(error, results, fields) {
 													if(error) throw error
 													else{
-														ingre_id_from_all = results[0].ingredient_id
+														if(results.length > 0){ ingre_id_from_all = results[0].ingredient_id }
 													}
 												})
 						//Insert into inventory
@@ -252,7 +252,7 @@ app.post('/users/pantry/update', (req, res) => {
 											[req.body.ingredient_name], function(error, results, fields) {
 												if(error) throw error
 												else{
-													ingre_id_from_all = results[0].ingredient_id
+													if(results.length > 0){ ingre_id_from_all = results[0].ingredient_id }
 												}
 											})
 
@@ -269,6 +269,77 @@ app.post('/users/pantry/update', (req, res) => {
 })
 
 //------------------------------------------------------------------------ Cookware ------------------------------------------------------------------------
+//Get all available cookware of a particular user
+app.get('/users/cookware', (req, res) => {
+  if (!req.session.loggedin){
+    res.status(404).send("You are not authorized in here.");
+  }
+  else{
+					connection.query('SELECT cookware_id, cookware_name FROM cookware WHERE user_id = ?',
+											[req.session.user_id], function(error, results, fields) {
+												if(error) throw error
+												else{
+													res.status(200).send(results)
+												}
+											})
+					}
+})
+
+
+//Add cookware
+app.post('/users/cookware/add', (req, res) => {
+	if (!req.session.loggedin){
+		res.status(404).send("You are not authorized in here.");
+	}
+	else{
+						var cookware_exist = false;
+
+						//Check for cookware existence in table
+						connection.query('SELECT * FROM cookware LIMIT 1', function(error, results, fields) => {
+										if (error) { throw error }
+										else{
+											if(results.length > 0){ cookware_exist = true }
+										}
+						})
+
+						//If cookware exists
+						if(cookware_exist){
+									res.status(200).send("Cookware is in your inventory")
+						}
+						else{	//If cookware does not exist
+						cookware_insert = [req.session.users_id,
+															random.int(1000000, 100000000000),
+															req.body.cookware_name]
+
+						connection.query('INSERT INTO cookware (user_id, cookware_id, cookware_name) VALUES (?, ?, ?)',
+														cookware_insert, function(error, results, fields) => {
+															if (error) { throw error }
+															else{
+																res.status(200).send('Add Success')//Add Success
+															}
+														})
+
+						}
+	}
+})
+
+
+//Delete cookware
+app.post('/users/cookware/delete', (req, res) => {
+  if (!req.session.loggedin){
+    res.status(404).send("You are not authorized in here.");
+  }
+  else{
+					connection.query('DELETE FROM cookware WHERE user_id = ? AND cookware_name = ?',
+											[req.session.user_id, req.body.cookware_name], function(error, results, fields) {
+												if(error) throw error
+												else{
+													res.status(200).send('Delete Success');//Delete success
+												}
+											})
+					}
+})
+
 
 
 app.listen(port, () => {
