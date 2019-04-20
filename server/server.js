@@ -159,17 +159,15 @@ app.get('/users/pantry', (req, res) => {
 		var inStock = {}
 					connection.query('SELECT inventory.ingredient_name, inventory.amount, inventory.unit FROM users JOIN inventory ON users.user_id = inventory.user_id',
 											 function(error, results, fields) {
-														if(error) throw error
+														if(error) { throw error }
 														else{
 															// for(var i = 0; i < results.length; i++){
 						                  //     inStock[results[i].recipe_name] = results[i].how_to_cook
 						                  // }
 						                  res.status(200).send(results);//This is an array
 														}
-													}
-											})
+													})
 					}
-    }
 })
 
 
@@ -238,7 +236,6 @@ app.post('/users/pantry/delete', (req, res) => {
 												}
 											})
 					}
-    }
 })
 
 
@@ -268,7 +265,7 @@ app.post('/users/pantry/update', (req, res) => {
 													res.status(200).send("Update success")//Update success
 												}
 											})
-					}s
+					}
 })
 
 //------------------------------------------------------------------------ Cookware ------------------------------------------------------------------------
