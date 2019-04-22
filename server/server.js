@@ -54,7 +54,7 @@ app.post('/users/register', (req, res) => {
                 })
 })
 
-//------------------------------------ Login ------------------------------------
+//------------------------------------------------------------------------ Login ------------------------------------------------------------------------
 app.post('/users/login', (req, res) => {
     var user_nameTemp = req.body.user_name
     var user_password = req.body.user_password
@@ -71,15 +71,15 @@ app.post('/users/login', (req, res) => {
                                 console.log("Login Success!");
                                 req.session.user_name = req.body.user_name;
                                 req.session.loggedin = true;
-																res.send('Login Success!')
+																res..status(200).send('Login Success!')
                               } else {
-                                res.send('Incorrect Username and/or Password!');
+                                res.status(400).send('Incorrect Username and/or Password!');
                                 req.session.loggedin = false;
                               }
                             res.end();
                             });
           } else {
-              res.send('Please enter Username and Password!');
+              res.status(400).send('Please enter Username and Password!');
               res.end();
           }
     }
