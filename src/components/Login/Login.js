@@ -26,12 +26,13 @@ class Login extends Component {
 		}).then(res => {
 			if (res){
 				this.props.history.push('/home')
+				this.props.update(true);
 			}
 			localStorage.setItem('token', res.data)
-			console.log(res);
+			//console.log(res);
 			return res.data
 		}).catch(err => {
-			alert(URL);
+			alert(err);
 		})
 
 		/*var session_url = 'https://b9bcbed5-1ca5-49fd-92f4-808293a187f0.mock.pstmn.io/api/login';
