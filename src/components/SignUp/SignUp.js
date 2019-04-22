@@ -10,7 +10,8 @@ class SignUp extends Component {
         super(props);
         this.state = {
             show: false,
-            email: '',
+            firstname: '',
+            lastname: '',
             username: '',
             password: '',
             confirmPassword: ''
@@ -36,8 +37,8 @@ class SignUp extends Component {
             e.preventDefault();
             let URL = 'http://ec2-18-222-255-36.us-east-2.compute.amazonaws.com:4000/users/register';
             axios.post(URL, {
-                first_name: 'jonh',
-                last_name: 'smit',
+                first_name: this.state.firstname,
+                last_name: this.state.lastname,
                 user_name: this.state.username,
                 user_password: this.state.password
             }).then(res => {
@@ -54,7 +55,7 @@ class SignUp extends Component {
             <>
                 <Button variant="link" onClick={this.handleShow}>
                     Sign Up
-        </Button>
+                </Button>
 
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
@@ -62,14 +63,22 @@ class SignUp extends Component {
                     </Modal.Header>
                     <Modal.Body>
                         <form>
-                            <div className="form-group">
-                                <label htmlFor="email">Email: </label>
-                                <input id="email" className="form-control" type="text" onChange={(event) =>
-                                    this.setState({ email: event.target.value })}>
-                                </input>
+                            <div className="row">
+                                <div className="form-group col-6">
+                                    <label htmlFor="firstname">First Name: </label>
+                                    <input id="firstname" className="form-control" type="text" onChange={(event) =>
+                                        this.setState({ firstname: event.target.value })}>
+                                    </input>
+                                </div>
+                                <div className="form-group col-6">
+                                    <label htmlFor="lastname">Last Name: </label>
+                                    <input id="lastname" className="form-control" type="text" onChange={(event) =>
+                                        this.setState({ lastname: event.target.value })}>
+                                    </input>
+                                </div>
                             </div>
                             <div className="form-group">
-                                <label htmlFor="email">Username: </label>
+                                <label htmlFor="username">Username: </label>
                                 <input id="username" className="form-control" type="text" onChange={(event) =>
                                     this.setState({ username: event.target.value })}>
                                 </input>
