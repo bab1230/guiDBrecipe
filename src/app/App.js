@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Login from "../components/Login/Login.js";
 import './App.css';
 import Home from '../components/HomePage/Home.jsx'
+import Navigation from '../components/Navigation/Navigation.jsx'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 class App extends Component {
@@ -23,8 +24,9 @@ class App extends Component {
 	render() {
 		return (
 			<div className="app-routes">
+			  {this.state.loginState && <Navigation />}
 				<Switch>
-					<Route path="/" exact component={Login} />
+					<Route path="/" exact render={(props) => <Login {...props} update={this.updateLoginState} />}/>
 					<Route path="/home" exact component={Home} />
 				</Switch>
 			</div>
