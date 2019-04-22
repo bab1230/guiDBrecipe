@@ -6,7 +6,6 @@ export const FavoriteList = (props) => (
     <Table striped bordered hover size="sm">
         <thead>
             <tr>
-                <th>ID#</th>
                 <th>Name</th>
                 <th>Type</th>
             </tr>

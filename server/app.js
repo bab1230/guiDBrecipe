@@ -22,7 +22,6 @@ var connection = mysql.createConnection({
 });
 
 
-
 app.get('/Database_Concept', (req, res) =>{
     connection.query('SELECT * FROM users', (error, Database_Concept) => {
     if (error) {
