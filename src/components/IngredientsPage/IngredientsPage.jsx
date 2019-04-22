@@ -2,11 +2,6 @@ import React from 'react';
 import ingredient from './Ingredient.js';
 
 class IngredientsPage extends React.Component {
-  constructor() {
-    super();
-    this.state = { someKey: 'someValue' };
-  }
-
   
 
   state = {
@@ -16,15 +11,13 @@ class IngredientsPage extends React.Component {
 
   }
 
-  AccountList = () => (
+  IngredientList = () => (
     <div>
         <table className="table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Employee</th>
-                    <th>Department</th>
+                    <th>Ingredient</th>
+                    <th>Quantity</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,8 +26,6 @@ class IngredientsPage extends React.Component {
                         <tr key={i}>
                             <td>{a.name}</td>
                             <td>{a.quantity}</td>
-                            <td>{a.isEmployee ? "yes": "no"}</td>
-                            <td>{a.departmentId}</td>
                         </tr>
                         )
                 }
@@ -46,7 +37,10 @@ class IngredientsPage extends React.Component {
   
 
   render() {
+
+    return(
     <>
+      <IngredientList />
       <form onSubmit={() => this.onSubmit()}>
         <div className="form-group">
           <label htmlFor="ingredient-name">Name</label>
@@ -80,6 +74,7 @@ class IngredientsPage extends React.Component {
         </button>
       </div>
     </>
+    );
 
   }
 
