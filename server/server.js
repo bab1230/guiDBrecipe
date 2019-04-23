@@ -43,7 +43,7 @@ var connection = mysql.createPool({
 
 //------------------------------------------------------------------------ Register ------------------------------------------------------------------------
 app.post('/users/register', (req, res) => {
-    const userData = [random.int(1000000, 100000000000),
+    const userData = [random.int(1000, 100000),
                     req.body.first_name,
                     req.body.last_name,
                     req.body.user_name,
