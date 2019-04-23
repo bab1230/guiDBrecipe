@@ -53,6 +53,7 @@ app.post('/users/register', (req, res) => {
                   if (err) throw err
                   else{
                     console.log("user ", req.body.user_name, "created")
+										res.status(200).send("Created a user")
                   }
                 })
 })
