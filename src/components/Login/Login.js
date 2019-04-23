@@ -34,33 +34,6 @@ class Login extends Component {
 		}).catch(err => {
 			alert(err);
 		})
-
-		/*var session_url = 'https://b9bcbed5-1ca5-49fd-92f4-808293a187f0.mock.pstmn.io/api/login';
-		var credentials = btoa(this.props.username + ':' + this.props.password);
-		var basicAuth = 'Basic ' + credentials;
-		axios.post(session_url, {}, {
-			headers: { 'Authorization': + basicAuth }
-		}).then(function (response) {
-			console.log('Authenticated');
-		}).catch(function (error) {
-			console.log('Error on Authentication');
-		});*/
-
-		//if (this.state.username === "test" && this.state.password === "1234")
-		//	this.props.history.push("/home");
-		/*const url = `api/users/verify?Username=${this.state.username}&Password=${this.state.password}`;
-		try {
-			const response = await fetch(url);
-			const body = await response.json();
-
-			if (response.status !== 200) throw Error(body.message);
-			if (body.resp.resp.auth === true) this.props.updateLoginState(true);
-			//let path = `../HomePage/Home`;
-    		//this.props.history.push(path);
-		}
-		catch (e) {
-			return e;
-		}*/
 	};
 	render() {
 		return (
