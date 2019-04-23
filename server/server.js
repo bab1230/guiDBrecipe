@@ -120,6 +120,22 @@ app.get('/users/favorite', (req, res) => {
     }
 })
 
+//------------------------------------All Recipes ------------------------------------
+app.get('/all_recipes',function(req,res){
+  //about mysql query
+  connection.query("SELECT * FROM recipes;",function (error,rows,fields) {
+    //call back function
+    if(!!error)
+    {
+      console.log("Error in query: SELECT * FROM users");
+    }else {
+      console.log("Success in query: SELECT * FROM users");
+      //console.log(rows);
+      res.send(rows)
+      //console.log(rows);
+    }
+  });
+})
 
 app.listen(port, () => {
     console.log("Server is running on port: " + port)
