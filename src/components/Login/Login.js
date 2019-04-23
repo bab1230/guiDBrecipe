@@ -13,8 +13,27 @@ class Login extends Component {
 		};
 		this.verifyUser = this.verifyUser.bind(this);
 	}
-	verifyUser = async () => {
-		console.log("hi")
+	verifyUser = async (e) => {
+		e.preventDefault();
+		let URL = 'http://ec2-18-222-255-36.us-east-2.compute.amazonaws.com:4000/users/login';
+		const user = {
+			username: this.state.username,
+			password: this.state.password
+		}
+		axios.post(URL, {
+			user_name: user.username,
+			user_password: user.password
+		}).then(res => {
+			if (res){
+				this.props.history.push('/home')
+				this.props.update(true);
+			}
+			localStorage.setItem('token', res.data)
+			//console.log(res);
+			return res.data
+		}).catch(err => {
+			alert(err);
+		})
 
 		/*var session_url = 'https://b9bcbed5-1ca5-49fd-92f4-808293a187f0.mock.pstmn.io/api/login';
 		var credentials = btoa(this.props.username + ':' + this.props.password);
@@ -27,8 +46,8 @@ class Login extends Component {
 			console.log('Error on Authentication');
 		});*/
 
-		if (this.state.username === "test" && this.state.password === "1234")
-			this.props.history.push("/home");
+		//if (this.state.username === "test" && this.state.password === "1234")
+		//	this.props.history.push("/home");
 		/*const url = `api/users/verify?Username=${this.state.username}&Password=${this.state.password}`;
 		try {
 			const response = await fetch(url);
@@ -66,7 +85,7 @@ class Login extends Component {
 						</div>
 						<button type="button" className="btn btn-primary w-100 mb-2" onClick={this.verifyUser}>Log In</button>
 					</form>
-					<SignUp className="center-sign" />
+					<SignUp history={this.history} className="center-sign" />
 				</div>
 			</>
 		);
