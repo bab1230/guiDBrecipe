@@ -4,3 +4,4 @@ export class ingredient {
         this.quantity = quantity;
     }
 }
+export default ingredient
