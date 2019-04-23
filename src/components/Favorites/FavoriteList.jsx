@@ -1,6 +1,6 @@
 import React from 'react';
 import { Table, Popover, Card, OverlayTrigger } from 'react-bootstrap';
-import { Link } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const popover=(
     <Popover id="popover-basic">

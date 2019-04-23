@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, Form, FormControl, Button, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, Form, FormControl, Button, NavDropdown, NavItem } from 'react-bootstrap';
+import { Link, NavLink } from 'react-router-dom';
+
 class Navigation extends Component {
 
     render() {
@@ -17,7 +19,7 @@ class Navigation extends Component {
                         </NavDropdown>
                         <Nav.Link href="#home">Home</Nav.Link>
                         <Nav.Link href="#features">Ingredients</Nav.Link>
-                        <Nav.Link href="#pricing">Favorites</Nav.Link>
+                        <Nav.Link as={NavLink} to="/favorite">Favorites</Nav.Link>
                     </Nav>
                     <Form inline>
                         <FormControl type="text" placeholder="Search" className="mr-sm-2" />
