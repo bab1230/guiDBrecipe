@@ -37,7 +37,7 @@ class IngredientsPage extends React.Component {
   }
 
   onSubmit() {
-    if (this.state.currentname !== "" && this.state.currentquantity !== 0) {
+    if (this.state.currentname != "" && this.state.currentquantity != 0) {
       this.state.ingredients.push(new ingredient(this.state.currentname, this.state.currentquantity));
       this.setState({
         currentname: "",

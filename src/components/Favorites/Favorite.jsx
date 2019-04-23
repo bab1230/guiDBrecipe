@@ -1,11 +1,11 @@
 import React from 'react';
 import { FavoriteList } from './FavoriteList';
-import { favoriteRepository } from '../../api/favoriteRepository';
+import { FavoriteRepository } from '../../api';
 import { Link } from 'react-router-dom';
 import './Favorite.css';
 
 export class Favorite extends React.Component{
-    FavoriteRepository = new favoriteRepository();
+    FavoriteRepository = new FavoriteRepository;
 
     state={
         favorites: []
