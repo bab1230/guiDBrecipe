@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, Form, FormControl, Button, NavDropdown } from 'react-bootstrap';
 import Account from '../Account/Account';
+import { Navbar, Nav, Form, FormControl, Button, NavDropdown } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
 class Navigation extends Component {
     state = {
         showAccount: false
@@ -23,7 +24,7 @@ class Navigation extends Component {
                         </NavDropdown>
                         <Nav.Link href="#home">Home</Nav.Link>
                         <Nav.Link href="#features">Ingredients</Nav.Link>
-                        <Nav.Link href="#pricing">Favorites</Nav.Link>
+                        <Nav.Link as={NavLink} to="/favorite">Favorites</Nav.Link>
                     </Nav>
                     <Form inline>
                         <FormControl type="text" placeholder="Search" className="mr-sm-2" />
