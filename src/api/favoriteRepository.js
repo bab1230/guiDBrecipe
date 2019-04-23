@@ -48,3 +48,4 @@ export class favoriteRepository {
         });
     }
 }
+export default favoriteRepository;

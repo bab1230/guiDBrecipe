@@ -4,7 +4,8 @@ import './App.css';
 import Home from '../components/HomePage/Home.jsx';
 import Navigation from '../components/Navigation/Navigation.jsx';
 import IngredientPage from "../components/IngredientsPage/IngredientsPage.jsx"
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Route, Switch } from 'react-router-dom';
+import Favorite from "../components/Favorites/Favorite.jsx"
 
 class App extends Component {
 	constructor(props) {
@@ -30,6 +31,7 @@ class App extends Component {
 					<Route path="/" exact render={(props) => <Login {...props} update={this.updateLoginState} />}/>
 					<Route path="/home" exact component={Home} />
 					<Route path="/ingredient" exact component={IngredientPage} />
+					<Route path="/favorite" exact component={Favorite}/>
 				</Switch>
 			</div>
 			//<Login />
