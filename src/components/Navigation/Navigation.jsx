@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, Form, FormControl, Button, NavDropdown } from 'react-bootstrap';
+import Account from '../Account/Account';
 class Navigation extends Component {
-
+    state = {
+        showAccount: false
+    }
+    toggleAccount(){
+        this.setState({showAccount: !this.state.showAccount});
+    }
     render() {
         return (
             <>
@@ -9,7 +15,7 @@ class Navigation extends Component {
                     <Navbar.Brand><h3>Recipeazy</h3></Navbar.Brand>
                     <Nav className="mr-auto">
                         <NavDropdown className="flow-right" id="dropdown-menu-align-right" title="Account">
-                            <NavDropdown.Item>Account</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => this.toggleAccount()}>Account</NavDropdown.Item>
                             <NavDropdown.Item>My Ingredients</NavDropdown.Item>
                             <NavDropdown.Item>My Favorites</NavDropdown.Item>
                             <NavDropdown.Divider />
@@ -24,6 +30,7 @@ class Navigation extends Component {
                         <Button variant="outline-info">Search</Button>
                     </Form>
                 </Navbar>
+                <Account show={this.state.showAccount} close={() => this.toggleAccount()}/>
             </>
         );
     }

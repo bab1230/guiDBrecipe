@@ -29,7 +29,7 @@ class Login extends Component {
 				this.props.update(true);
 			}
 			localStorage.setItem('token', res.data)
-			//console.log(res);
+			console.log(res);
 			return res.data
 		}).catch(err => {
 			alert(err);

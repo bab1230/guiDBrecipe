@@ -24,7 +24,7 @@ class App extends Component {
 	render() {
 		return (
 			<div className="app-routes">
-			  {this.state.loginState && <Navigation />}
+				{this.state.loginState && <Navigation />}
 				<Switch>
 					<Route path="/" exact render={(props) => <Login {...props} update={this.updateLoginState} />}/>
 					<Route path="/home" exact component={Home} />

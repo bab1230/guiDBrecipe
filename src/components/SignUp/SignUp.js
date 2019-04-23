@@ -26,14 +26,15 @@ class SignUp extends Component {
     handleClose() {
         this.setState({
             show: false,
-            email: '',
+            firstname: '',
+            lastname: '',
             username: '',
             password: '',
             confirmPassword: ''
         });
     }
     signUp(e) {
-        if (this.state.password === this.state.confirmPassword && this.state.email && this.state.username && this.state.password) {
+        if (this.state.password === this.state.confirmPassword && this.state.firstname && this.state.lastname && this.state.username && this.state.password) {
             e.preventDefault();
             let URL = 'http://ec2-18-222-255-36.us-east-2.compute.amazonaws.com:4000/users/register';
             axios.post(URL, {
@@ -44,7 +45,7 @@ class SignUp extends Component {
             }).then(res => {
                 console.log(res);
             }).catch(err => {
-                alert(URL);
+                alert(err);
             })
             this.handleClose();
         }
