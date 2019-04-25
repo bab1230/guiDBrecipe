@@ -43,7 +43,6 @@ var connection = mysql.createPool({
 
 //------------------------------------------------------------------------ Register ------------------------------------------------------------------------
 app.post('/users/register', (req, res) => {
-		res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4000');
     const userData = [random.int(1000, 100000),
                     req.body.first_name,
                     req.body.last_name,
@@ -63,12 +62,11 @@ app.post('/users/register', (req, res) => {
 app.post('/users/login', (req, res) => {
     var user_nameTemp = req.body.user_name
     var user_password = req.body.user_password
-		res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4000');
-    if (req.session.loggedin)
-    {
-      res.status(200).send('You are logged in as ' +  req.session.user_name);
-    }
-    else {
+    // if (req.session.loggedin)
+    // {
+    //   res.status(200).send('You are logged in as ' +  req.session.user_name);
+    // }
+    // else {
           if (user_nameTemp && user_password) {
                   connection.query('SELECT * FROM users WHERE user_name = ? AND user_password = ?',
                                   [user_nameTemp, user_password], function(error, results, fields) {
@@ -88,7 +86,7 @@ app.post('/users/login', (req, res) => {
               res.status(400).send('Please enter Username and Password!');
               res.end();
           }
-    }
+    // }
 })
 
 //------------------------------------------------------------------------ Logout -----------------------------------------------------------------------
