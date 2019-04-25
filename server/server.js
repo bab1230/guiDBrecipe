@@ -71,7 +71,7 @@ app.post('/users/login', (req, res) => {
                   connection.query('SELECT * FROM users WHERE user_name = ? AND user_password = ?',
                                   [user_nameTemp, user_password], function(error, results, fields) {
                             if (results.length === 1) {
-																var user_id_res =  results[0].user_id;
+																var user_id_res =  toString(results[0].user_id);
                                 req.session.user_id = results[0].user_id;
                                 console.log("Login Success!");
                                 req.session.user_name = req.body.user_name;
