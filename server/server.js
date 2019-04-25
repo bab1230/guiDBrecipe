@@ -71,12 +71,12 @@ app.post('/users/login', (req, res) => {
                   connection.query('SELECT * FROM users WHERE user_name = ? AND user_password = ?',
                                   [user_nameTemp, user_password], function(error, results, fields) {
                             if (results.length === 1) {
+																var user_id_res =  results[0].user_id;
                                 req.session.user_id = results[0].user_id;
                                 console.log("Login Success!");
                                 req.session.user_name = req.body.user_name;
                                 req.session.loggedin = true;
-																// res.status(200).send(req.session.user_id)
-																res.status(200).send('req.session.user_id')
+																res.status(200).send(user_id_res)
                               } else {
                                 res.status(400).send('Incorrect Username and/or Password!');
                                 req.session.loggedin = false;
