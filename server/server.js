@@ -75,7 +75,8 @@ app.post('/users/login', (req, res) => {
                                 console.log("Login Success!");
                                 req.session.user_name = req.body.user_name;
                                 req.session.loggedin = true;
-																res.status(200).send(req.session.user_id)
+																// res.status(200).send(req.session.user_id)
+																res.status(200).send('req.session.user_id')
                               } else {
                                 res.status(400).send('Incorrect Username and/or Password!');
                                 req.session.loggedin = false;
