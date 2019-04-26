@@ -39,7 +39,7 @@ app.get('/all_recipes',function(req,res){
 })
 
 app.get('/favorites', function(req, res){
-  var user_id = 53;
+  var user_id = 1;
   connection.query('SELECT r.recipe_id, recipe_name, cuisine_type, how_to_cook, image FROM favorites f JOIN recipes r ON r.recipe_id = f.recipe_id WHERE user_id = ' + user_id, function(error, rows, fields){
     if (!!error){
         console.log('Error with GET favorties query!')
@@ -51,7 +51,7 @@ app.get('/favorites', function(req, res){
 })
 
 app.post('/favorites', function(req, res){
-  var user_id = 53;
+  var user_id = 1;
   var recipe_id = 5;
   connection.query('INSERT INTO favorites VALUES(' + user_id + ',' + recipe_id + ')', function(error, rows, fields){
     if (!!error){
@@ -65,7 +65,7 @@ app.post('/favorites', function(req, res){
 })
 
 app.get('/ingredients', function(req, res){
-  var user_id = 53;
+  var user_id = 1;
   connection.query('SELECT ingredient_id, ingredient_name, quantity, unit FROM inventory i JOIN ingredient_all a ON i.ingredient_id = a.ingredient_id WHERE i.user_id =' + user_id, function(error, rows, fields){
     if (!!error){
         console.log('Error with GET ingredients query!')
@@ -77,7 +77,7 @@ app.get('/ingredients', function(req, res){
 })
 
 app.get('/cookware', function(req, res){
-  var user_id = 53;
+  var user_id = 1;
   connection.query('SELECT cookware_id, cookware_name FROM cookware WHERE user_id =' + user_id, function(error, rows, fields){
     if (!!error){
         console.log('Error with GET cookware query!')
