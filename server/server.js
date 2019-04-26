@@ -172,29 +172,18 @@ app.get('/users/pantry', (req, res) => {
   }
   else{
 		var inStock = {}
-					connection.query('SELECT inventory.ingredient_name, inventory.amount, inventory.unit FROM users JOIN inventory ON users.user_id = inventory.user_id',
+					connection.query('SELECT ingredient_id, ingredient_name, quantity, unit FROM inventory i JOIN ingredient_all a ON i.ingredient_id = a.ingredient_id WHERE i.user_id =' + req.body.user_id,
 											 function(error, results, fields) {
-														if(error) { throw error }
+														if(error) { 
+															console.log('Error with GET ingredients query!');
+															throw error 
+														}
 														else{
-															// for(var i = 0; i < results.length; i++){
-						                  //     inStock[results[i].recipe_name] = results[i].how_to_cook
-						                  // }
+															console.log('GET ingredients query success!');
 						                  res.status(200).send(results);//This is an array
 														}
 													})
 					}
-})
-
-app.get('/ingredients', function(req, res){
-  var user_id = 1;
-  connection.query('SELECT ingredient_id, ingredient_name, quantity, unit FROM inventory i JOIN ingredient_all a ON i.ingredient_id = a.ingredient_id WHERE i.user_id =' + user_id, function(error, rows, fields){
-    if (!!error){
-        console.log('Error with GET ingredients query!')
-    } else {
-        console.log('GET ingredients query success!');
-        res.send(rows)
-    }
-  })
 })
 
 
