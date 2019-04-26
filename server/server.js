@@ -147,7 +147,7 @@ app.post('/users/favorite/add', (req, res) => {
 //Get all inventory of users
 app.get('/users/pantry', (req, res) => {
 		var inStock = {}
-					connection.query('SELECT ingredient_id, ingredient_name, quantity, unit FROM inventory i JOIN ingredient_all a ON i.ingredient_id = a.ingredient_id WHERE i.user_id =' + req.body.user_id,
+					connection.query('SELECT i.ingredient_id, ingredient_name, amount, unit FROM inventory i JOIN ingredient_all a ON i.ingredient_id = a.ingredient_id WHERE i.user_id =' + req.body.user_id,
 											 function(error, results, fields) {
 														if(error) {
 															console.log('Error with GET ingredients query!');
