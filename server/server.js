@@ -104,16 +104,12 @@ app.get('/users/logout', function (req, res) {
 
 //Info
 app.get('/users/info', function(req, res) {
-	if (!req.session.loggedin){
-		res.status(404).send("You are not authorized in here.");
-	}
-	else{
-				console.log("User ID is ", req.body.user_id);
+	var id_of_user = req.body.user_id;
+		console.log("User ID is ", id_of_user);
 				connection.query('SELECT user_id, first_name, last_name, user_name FROM users WHERE users.user_id = ?',
-												[req.body.user_id], function(error, results, fields) {
+												[id_of_user], function(error, results, fields) {
 									res.status(200).send(results);//This is an object
 						});
-		}
 })
 
 //------------------------------------------------------------------------ User Favorite ------------------------------------------------------------------------
