@@ -98,7 +98,7 @@ app.get('/users/logout', function (req, res) {
 
 //Info
 app.get('/users/info', function(req, res) {
-	var id_of_user = req.query.user_id;
+	var id_of_user = req.body.user_id;
 		console.log("User ID is ", id_of_user);
 				connection.query('SELECT user_id, first_name, last_name, user_name FROM users WHERE users.user_id = ?',
 												[id_of_user], function(error, results, fields) {
