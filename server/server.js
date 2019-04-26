@@ -43,13 +43,12 @@ var connection = mysql.createPool({
 
 //------------------------------------------------------------------------ Register ------------------------------------------------------------------------
 app.post('/users/register', (req, res) => {
-    const userData = [random.int(1000, 100000),
-                    req.body.first_name,
+    const userData = [req.body.first_name,
                     req.body.last_name,
                     req.body.user_name,
                     req.body.user_password]
 
-    connection.query('INSERT INTO users (user_id, first_name, last_name, user_name, user_password) VALUES (?, ?, ?, ?, ?)',
+    connection.query('INSERT INTO users (first_name, last_name, user_name, user_password) VALUES (?, ?, ?, ?)',
                     userData, function(err, result) {
                   if (err) throw err
                   else{
@@ -62,11 +61,11 @@ app.post('/users/register', (req, res) => {
 app.post('/users/login', (req, res) => {
     var user_nameTemp = req.body.user_name
     var user_password = req.body.user_password
-    // if (req.session.loggedin)
-    // {
-    //   res.status(200).send('You are logged in as ' +  req.session.user_name);
-    // }
-    // else {
+    if (req.session.loggedin)
+    {
+      res.status(200).send('You are logged in as ' +  req.session.user_name);
+    }
+    else {
           if (user_nameTemp && user_password) {
                   connection.query('SELECT * FROM users WHERE user_name = ? AND user_password = ?',
                                   [user_nameTemp, user_password], function(error, results, fields) {
@@ -88,7 +87,7 @@ app.post('/users/login', (req, res) => {
               res.status(400).send('Please enter Username and Password!');
               res.end();
           }
-    // }
+    }
 })
 
 //------------------------------------------------------------------------ Logout -----------------------------------------------------------------------
