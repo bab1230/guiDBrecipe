@@ -98,7 +98,7 @@ app.get('/users/logout', function (req, res) {
 
 //Info
 app.get('/users/info', function(req, res) {
-	console.log(req.query.user_id)
+	console.log(parseInt(req.query.user_id, 10))
 	var id_of_user = parseInt(req.query.user_id, 10);
 		console.log("User ID is ", id_of_user);
 				connection.query('SELECT user_id, first_name, last_name, user_name FROM users WHERE users.user_id = ?',
@@ -111,10 +111,9 @@ app.get('/users/info', function(req, res) {
 //Response sends back an array of recipe_ID in favorites
 //Account favorite recipes
 app.get('/users/favorite', (req, res) => {
-        console.log("User ID is ", req.body.user_id);
-				console.log(req.cookies.user_sid);
+        console.log("User ID is ", parseInt(req.query.user_id, 10));
         connection.query('SELECT * FROM users JOIN favorites JOIN recipes ON users.user_id = favorites.user_id AND recipes.recipe_id = favorites.recipe_id WHERE users.user_id = ?',
-                        [req.body.user_id], function(error, results, fields) {
+                        [parseInt(req.query.user_id, 10)], function(error, results, fields) {
                   let responseToFrontend = {}
                   for(var i = 0; i < results.length; i++){
                       responseToFrontend[results[i].recipe_name] = results[i].how_to_cook;
@@ -148,7 +147,7 @@ app.post('/users/favorite/add', (req, res) => {
 //Get all inventory of users
 app.get('/users/pantry', (req, res) => {
 		var inStock = {}
-					connection.query('SELECT ingredient_id, ingredient_name, quantity, unit FROM inventory i JOIN ingredient_all a ON i.ingredient_id = a.ingredient_id WHERE i.user_id =' + req.body.user_id,
+					connection.query('SELECT ingredient_id, ingredient_name, quantity, unit FROM inventory i JOIN ingredient_all a ON i.ingredient_id = a.ingredient_id WHERE i.user_id =' + parseInt(req.query.user_id, 10),
 											 function(error, results, fields) {
 														if(error) {
 															console.log('Error with GET ingredients query!');
@@ -176,7 +175,7 @@ app.post('/users/pantry/add', (req, res) => {
 												}
 											})
 					if(ingre_id_from_all != -1)	{//If ingredient exists in ingredient_all table
-												user_add_inventory = [req.body.user_id, ingre_id_from_all, req.body.amount, req.body.unit]
+												user_add_inventory = [req.body.user_id, 10, ingre_id_from_all, req.body.amount, req.body.unit]
 										        console.log("User ID is ", req.body.user_id , " adds ingredient");
 										        connection.query('INSERT INTO inventory (user_id, ingredient_id, amount, unit) VALUES (?, ?, ?, ?)',
 										                        user_add_inventory, function(error, results, fields) {
@@ -248,7 +247,7 @@ app.post('/users/pantry/update', (req, res) => {
 //Get all available cookware of a particular user
 app.get('/users/cookware', (req, res) => {
 					connection.query('SELECT cookware_id, cookware_name FROM cookware WHERE user_id = ?',
-											[req.body.user_id], function(error, results, fields) {
+											[req.query.user_id], function(error, results, fields) {
 												if(error) throw error
 												else{
 													res.status(200).send(results)
