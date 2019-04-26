@@ -98,7 +98,8 @@ app.get('/users/logout', function (req, res) {
 
 //Info
 app.get('/users/info', function(req, res) {
-	var id_of_user = req.body.user_id;
+	console.log(req.query.user_id)
+	var id_of_user = parseInt(req.query.user_id, 10);
 		console.log("User ID is ", id_of_user);
 				connection.query('SELECT user_id, first_name, last_name, user_name FROM users WHERE users.user_id = ?',
 												[id_of_user], function(error, results, fields) {
@@ -148,7 +149,7 @@ app.post('/users/favorite/add', (req, res) => {
 app.get('/users/pantry', (req, res) => {
 
 		var inStock = {}
-					connection.query('SELECT i.ingredient_id, ingredient_name, amount, unit FROM inventory i JOIN ingredient_all a ON i.ingredient_id = a.ingredient_id WHERE i.user_id =' + req.body.user_id,
+					connection.query('SELECT ingredient_id, ingredient_name, quantity, unit FROM inventory i JOIN ingredient_all a ON i.ingredient_id = a.ingredient_id WHERE i.user_id =' + req.body.user_id,
 											 function(error, results, fields) {
 														if(error) {
 															console.log('Error with GET ingredients query!');
