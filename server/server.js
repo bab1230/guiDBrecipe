@@ -61,11 +61,6 @@ app.post('/users/register', (req, res) => {
 app.post('/users/login', (req, res) => {
     var user_nameTemp = req.body.user_name
     var user_password = req.body.user_password
-    if (req.session.loggedin)
-    {
-      res.status(200).send('You are logged in as ' +  req.session.user_name);
-    }
-    else {
           if (user_nameTemp && user_password) {
                   connection.query('SELECT * FROM users WHERE user_name = ? AND user_password = ?',
                                   [user_nameTemp, user_password], function(error, results, fields) {
@@ -87,7 +82,6 @@ app.post('/users/login', (req, res) => {
               res.status(400).send('Please enter Username and Password!');
               res.end();
           }
-    }
 })
 
 //------------------------------------------------------------------------ Logout -----------------------------------------------------------------------
@@ -116,10 +110,6 @@ app.get('/users/info', function(req, res) {
 //Response sends back an array of recipe_ID in favorites
 //Account favorite recipes
 app.get('/users/favorite', (req, res) => {
-  if (!req.session.loggedin){
-    res.status(404).send("You are not authorized in here.");
-  }
-  else{
         console.log("User ID is ", req.body.user_id);
 				console.log(req.cookies.user_sid);
         connection.query('SELECT * FROM users JOIN favorites JOIN recipes ON users.user_id = favorites.user_id AND recipes.recipe_id = favorites.recipe_id WHERE users.user_id = ?',
@@ -130,60 +120,44 @@ app.get('/users/favorite', (req, res) => {
                   }
 									res.status(200).send(responseToFrontend);//This is an object
             });
-    }
 })
 
 //Delete recipes from favorite
 app.post('/users/favorite/delete', (req, res) => {
-  if (!req.session.loggedin){
-    res.status(404).send("You are not authorized in here.");
-  }
-  else{
     var recipeID = req.body.recipe_id;
         console.log("User ID is ", req.body.user_id);
         connection.query('DELETE FROM favorites WHERE user_id = ? AND recipe_id = ?',
                         [req.body.user_id, recipeID], function(error, results, fields) {
                   res.status(200).send("Delete successful");//This is an object
             });
-    }
 })
 
 //Add recipes to favorite
 app.post('/users/favorite/add', (req, res) => {
-  if (!req.session.loggedin){
-    res.status(404).send("You are not authorized in here.");
-  }
-  else{
     var recipeID = req.body.recipe_id;
         console.log("User ID is ", req.body.user_id);
         connection.query('INSERT INTO favorites VALUES (?, ?)',
                         [req.body.user_id, recipeID], function(error, results, fields) {
                   res.status(200).send("Add successful");//Add success
             });
-    }
 })
 
 
 //------------------------------------------------------------------------ Pantry ingredients ------------------------------------------------------------------------
 //Get all inventory of users
 app.get('/users/pantry', (req, res) => {
-  if (!req.session.loggedin){
-    res.status(404).send("You are not authorized in here.");
-  }
-  else{
 		var inStock = {}
 					connection.query('SELECT ingredient_id, ingredient_name, quantity, unit FROM inventory i JOIN ingredient_all a ON i.ingredient_id = a.ingredient_id WHERE i.user_id =' + req.body.user_id,
 											 function(error, results, fields) {
-														if(error) { 
+														if(error) {
 															console.log('Error with GET ingredients query!');
-															throw error 
+															throw error
 														}
 														else{
 															console.log('GET ingredients query success!');
 						                  res.status(200).send(results);//This is an array
 														}
 													})
-					}
 })
 
 
@@ -191,10 +165,6 @@ app.get('/users/pantry', (req, res) => {
 
 //Add inventory
 app.post('/users/pantry/add', (req, res) => {
-  if (!req.session.loggedin){
-    res.status(404).send("You are not authorized in here.");
-  }
-  else{
 					var ingre_id_from_all = -1;
 					//Get existing ingredient id from ingredient_all table
 					connection.query('SELECT ingredient_id FROM ingredient_all WHERE ingredient_name = ? LIMIT 1',
@@ -234,16 +204,11 @@ app.post('/users/pantry/add', (req, res) => {
 											res.status(200).send('Add Success');//Add success
 								});
 					}
-    }
 })
 
 
 //Delete inventory
 app.post('/users/pantry/delete', (req, res) => {
-  if (!req.session.loggedin){
-    res.status(404).send("You are not authorized in here.");
-  }
-  else{
 					connection.query('DELETE FROM inventory WHERE user_id = ? AND ingredient_name = ?',
 											[req.body.user_id, req.body.ingredient_name], function(error, results, fields) {
 												if(error) throw error
@@ -251,17 +216,12 @@ app.post('/users/pantry/delete', (req, res) => {
 													res.status(200).send('Delete Success');//Delete success
 												}
 											})
-					}
 })
 
 
 
 //Update inventory ------ IN PROGRESS
 app.post('/users/pantry/update', (req, res) => {
-  if (!req.session.loggedin){
-    res.status(404).send("You are not authorized in here.");
-  }
-  else{
 					var ingre_id_from_all = -1;
 					//Get existing ingredient id from ingredient_all table
 					connection.query('SELECT ingredient_all.ingredient_name FROM inventory JOIN ingredient_all ON inventory.ingredient_id = ingredient_all.ingredient_id WHERE ingredient_name = ? LIMIT 1',
@@ -281,16 +241,11 @@ app.post('/users/pantry/update', (req, res) => {
 													res.status(200).send("Update success")//Update success
 												}
 											})
-					}
 })
 
 //------------------------------------------------------------------------ Cookware ------------------------------------------------------------------------
 //Get all available cookware of a particular user
 app.get('/users/cookware', (req, res) => {
-  if (!req.session.loggedin){
-    res.status(404).send("You are not authorized in here.");
-  }
-  else{
 					connection.query('SELECT cookware_id, cookware_name FROM cookware WHERE user_id = ?',
 											[req.body.user_id], function(error, results, fields) {
 												if(error) throw error
@@ -298,16 +253,11 @@ app.get('/users/cookware', (req, res) => {
 													res.status(200).send(results)
 												}
 											})
-					}
 })
 
 
 //Add cookware
 app.post('/users/cookware/add', (req, res) => {
-	if (!req.session.loggedin){
-		res.status(404).send("You are not authorized in here.");
-	}
-	else{
 						var cookware_exist = false;
 
 						//Check for cookware existence in table
@@ -336,16 +286,11 @@ app.post('/users/cookware/add', (req, res) => {
 														})
 
 						}
-	}
 })
 
 
 //Delete cookware
 app.post('/users/cookware/delete', (req, res) => {
-  if (!req.session.loggedin){
-    res.status(404).send("You are not authorized in here.");
-  }
-  else{
 					connection.query('DELETE FROM cookware WHERE user_id = ? AND cookware_name = ?',
 											[req.body.user_id, req.body.cookware_name], function(error, results, fields) {
 												if(error) throw error
@@ -353,7 +298,6 @@ app.post('/users/cookware/delete', (req, res) => {
 													res.status(200).send('Delete Success');//Delete success
 												}
 											})
-					}
 })
 
 //------------------------------------ All Recipes ------------------------------------
