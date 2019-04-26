@@ -146,6 +146,7 @@ app.post('/users/favorite/add', (req, res) => {
 //------------------------------------------------------------------------ Pantry ingredients ------------------------------------------------------------------------
 //Get all inventory of users
 app.get('/users/pantry', (req, res) => {
+
 		var inStock = {}
 					connection.query('SELECT ingredient_id, ingredient_name, quantity, unit FROM inventory i JOIN ingredient_all a ON i.ingredient_id = a.ingredient_id WHERE i.user_id =' + parseInt(req.query.user_id, 10),
 											 function(error, results, fields) {
