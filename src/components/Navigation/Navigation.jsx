@@ -13,7 +13,7 @@ class Navigation extends Component {
         return (
             <>
                 <Navbar bg="dark" variant="dark" style={{ margin: 20 }}>
-                    <Nav.Link as={NavLink} to="/home"><h3>Recipeazy</h3></Nav.Link>
+                    <Nav.Link as={NavLink} to="/home" style={{color: 'white', textDecoration: 'none'}}><h3>Recipeazy</h3></Nav.Link>
                     <Nav className="mr-auto">
                         <NavDropdown className="flow-right" id="dropdown-menu-align-right" title="Account">
                             <NavDropdown.Item onClick={() => this.toggleAccount()}>Account</NavDropdown.Item>
