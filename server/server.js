@@ -190,6 +190,18 @@ app.get('/users/pantry', (req, res) => {
 					}
 })
 
+app.get('/ingredients', function(req, res){
+  var user_id = 1;
+  connection.query('SELECT ingredient_id, ingredient_name, quantity, unit FROM inventory i JOIN ingredient_all a ON i.ingredient_id = a.ingredient_id WHERE i.user_id =' + user_id, function(error, rows, fields){
+    if (!!error){
+        console.log('Error with GET ingredients query!')
+    } else {
+        console.log('GET ingredients query success!');
+        res.send(rows)
+    }
+  })
+})
+
 
 
 
