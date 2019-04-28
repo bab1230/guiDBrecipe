@@ -2,7 +2,11 @@ import React from 'react';
 import ingredient from './Ingredient.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { IngredientsRepo } from './../../api/ingredientsRepo';
+
 class IngredientsPage extends React.Component {
+
+  ingredientsRepo = new IngredientsRepo();
 
 
   state = {
@@ -56,8 +60,13 @@ class IngredientsPage extends React.Component {
 
   onDelete(name) {
     var index = this.state.ingredients.map(e => e.name).indexOf(name);
-    
-    this.setState({ingredients: this.state.ingredients.splice(this.index, 1)});
+
+    this.setState({ ingredients: this.state.ingredients.splice(this.index, 1) });
+  }
+
+  onSave() {
+    this.ingredientsRepo.updateIngredients(this.state.ingredients);
+    this.componentDidMount();
   }
 
 
@@ -106,7 +115,7 @@ class IngredientsPage extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ someKey: 'otherValue' });
+    this.setState({ ingedients: () => this.ingredientsRepo.getIngredients() });
   }
 }
 
