@@ -2,15 +2,22 @@ import React from 'react';
 import ingredient from './Ingredient.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
-import { IngredientsRepo } from './../../api/ingredientsRepo';
+import IngredientsRepo from './../../api/ingredientsRepo';
 
 class IngredientsPage extends React.Component {
 
-  ingredientsRepo = new IngredientsRepo();
+  ingredientsRepo = new IngredientsRepo;
+
 
 
   state = {
-    ingredients: [new ingredient("Chicken", 2)],
+    ingredients: [
+      {
+        ingredient_name: "salt",
+        amount: "1",
+        unit: "pile"
+      }
+    ],
     currentname: "",
     currentquantity: 0,
 
@@ -31,8 +38,8 @@ class IngredientsPage extends React.Component {
             {
               this.state.ingredients.map((a, i) =>
                 <tr key={i}>
-                  <td>{a.name}</td>
-                  <td>{a.quantity}</td>
+                  <td>{a.ingredient_name}</td>
+                  <td>{a.amount} {a.unit}</td>
                   <td>
                     <button className="btn btn-sm btn-danger"
                       onClick={e => this.onDelete(a.name)}>
@@ -50,7 +57,7 @@ class IngredientsPage extends React.Component {
 
   onSubmit() {
     if (this.state.currentname !== "" && this.state.currentquantity !== 0) {
-      this.state.ingredients.push(new ingredient(this.state.currentname, this.state.currentquantity));
+      // this.state.ingredients.push(new ingredient(this.state.currentname, this.state.currentquantity));
       this.setState({
         currentname: "",
         currentquantity: 0
@@ -60,6 +67,7 @@ class IngredientsPage extends React.Component {
 
   onDelete(name) {
     var index = this.state.ingredients.map(e => e.name).indexOf(name);
+    console.log(index)
 
     this.setState({ ingredients: this.state.ingredients.splice(this.index, 1) });
   }
@@ -115,7 +123,9 @@ class IngredientsPage extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ ingedients: () => this.ingredientsRepo.getIngredients() });
+    let ingredients = this.ingredientsRepo.getIngredients();
+    console.log(ingredients);
+    this.setState({ ingredients });
   }
 }
 
