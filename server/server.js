@@ -112,7 +112,7 @@ app.get('/users/info', function(req, res) {
 //------------------------------------------------------------------------ Update Account -----------------------------------------------------------------------
 
 app.post('/users/info/update', function(req, res) {
-	console.log(parseInt(req.qeury.user_id, 10));//Change to body if needed
+	console.log(parseInt(req.query.user_id, 10));//Change to body if needed
 	var id_of_user = parseInt(req.query.user_id, 10);//Change to body if needed
 	user_firstname_update = req.body.first_name_update;
 	user_lastname_update = req.body.last_name_update;
