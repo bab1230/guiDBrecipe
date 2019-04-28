@@ -96,8 +96,10 @@ app.get('/users/logout', function (req, res) {
   }
 });
 
-//Info
+//------------------------------------------------------------------------ Info -----------------------------------------------------------------------
+
 app.get('/users/info', function(req, res) {
+
 	console.log(parseInt(req.query.user_id, 10))
 	var id_of_user = parseInt(req.query.user_id, 10);
 		console.log("User ID is ", id_of_user);
@@ -106,6 +108,66 @@ app.get('/users/info', function(req, res) {
 									res.status(200).send(results);//This is an object
 						});
 })
+
+//------------------------------------------------------------------------ Update Account -----------------------------------------------------------------------
+
+app.post('/users/info/update', function(req, res) {
+	console.log(parseInt(req.qeury.user_id, 10));//Change to body if needed
+	var id_of_user = parseInt(req.query.user_id, 10);//Change to body if needed
+	user_firstname_update = req.body.first_name_update;
+	user_lastname_update = req.body.last_name_update;
+	user_password_update = req.body.password_update;
+
+	//UPDATE users SET user_password = 'test' WHERE user_id = 33771;
+	//Update first_name
+	//Update last_name
+	//Update password
+	if(user_firstname_update && user_lastname_update && user_password_update){//all three
+		connection.query('UPDATE users SET first_name = ? , last_name = ? , user_password = ? WHERE user_id = ?',
+										[user_firstname_update, user_lastname_update, user_password_update, id_of_user], function(error, results, fields) {
+							res.status(200).send('Update successful');//This is an object
+				});
+	}
+	else if(user_lastname_update && user_password_update){//lastname and password
+		connection.query('UPDATE users SET last_name = ? , user_password = ? WHERE user_id = ?',
+										[user_lastname_update, user_password_update, id_of_user], function(error, results, fields) {
+							res.status(200).send('Update successful');//This is an object
+				});
+	}
+	else if(user_firstname_update && user_lastname_update){//firstname and lastname
+		connection.query('UPDATE users SET first_name = ?, last_name = ? WHERE user_id = ?',
+										[user_firstname_update, user_lastname_update, id_of_user], function(error, results, fields) {
+							res.status(200).send('Update successful');//This is an object
+				});
+	}
+	else if(user_firstname_update && user_password_update){//firstname and password
+		connection.query('UPDATE users SET first_name = ? , user_password = ? WHERE user_id = ?',
+										[user_firstname_update, user_password_update, id_of_user], function(error, results, fields) {
+							res.status(200).send('Update successful');//This is an object
+				});
+	}
+
+	else if(user_firstname_update) {//firstname
+		connection.query('UPDATE users SET first_name = ? WHERE user_id = ?',
+										[user_firstname_update, id_of_user], function(error, results, fields) {
+							res.status(200).send('Update successful');//This is an object
+				});
+	}
+	else if(user_lastname_update){//last name
+		connection.query('UPDATE users SET last_name = ? WHERE user_id = ?',
+										[user_lastname_update, id_of_user], function(error, results, fields) {
+							res.status(200).send('Update successful');//This is an object
+				});
+	}
+	else if(user_password_update){//password
+		connection.query('UPDATE users SET user_password = ? WHERE user_id = ?',
+										[user_password_update, id_of_user], function(error, results, fields) {
+							res.status(200).send('Update successful');//This is an object
+				});
+	}
+
+})
+
 
 //------------------------------------------------------------------------ User Favorite ------------------------------------------------------------------------
 //Response sends back an array of recipe_ID in favorites
