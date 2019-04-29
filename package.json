@@ -35,8 +35,8 @@
     "sequelize": "^5.6.0"
   },
   "scripts": {
-    "start": "set PORT=80 && PORT=80 react-scripts start || react-scripts start",
-    "build": "set PORT=80 && PORT=80 react-scripts build || react-scripts build",
+    "start": "react-scripts start || react-scripts start",
+    "build": "react-scripts build || react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
