@@ -126,7 +126,7 @@ app.post('/users/info/update', function(req, res) {
 
 	//----------------------------------------------------- 4 -----------------------------------------------------
 	if(user_firstname_update && user_lastname_update && user_password_update && user_name_update){//all three
-		connection.query('UPDATE users SET user_name_update = ? , first_name = ? , last_name = ? , user_password = ? WHERE user_id = ?',
+		connection.query('UPDATE users SET user_name = ? , first_name = ? , last_name = ? , user_password = ? WHERE user_id = ?',
 										[user_name_update, user_firstname_update, user_lastname_update, user_password_update, id_of_user], function(error, results, fields) {
 							res.status(200).send('Update successful');//This is an object
 				});
@@ -135,19 +135,19 @@ app.post('/users/info/update', function(req, res) {
 
 	//----------------------------------------------------- 3 -----------------------------------------------------
 	else if(user_lastname_update && user_password_update && user_name_update){//all three
-			connection.query('UPDATE users SET user_name_update = ? , last_name = ? , user_password = ? WHERE user_id = ?',
+			connection.query('UPDATE users SET user_name = ? , last_name = ? , user_password = ? WHERE user_id = ?',
 											[user_name_update, user_lastname_update, user_password_update, id_of_user], function(error, results, fields) {
 								res.status(200).send('Update successful');//This is an object
 					});
 	}
 	else if(user_firstname_update && user_password_update && user_name_update){//all three
-			connection.query('UPDATE users SET user_name_update = ? , first_name = ?, user_password = ? WHERE user_id = ?',
+			connection.query('UPDATE users SET user_name = ? , first_name = ?, user_password = ? WHERE user_id = ?',
 											[user_name_update, user_firstname_update, user_password_update, id_of_user], function(error, results, fields) {
 								res.status(200).send('Update successful');//This is an object
 					});
 	}
 	else if(user_firstname_update && user_lastname_update && user_name_update){//all three
-			connection.query('UPDATE users SET user_name_update = ? , first_name = ? , last_name = ? WHERE user_id = ?',
+			connection.query('UPDATE users SET user_name = ? , first_name = ? , last_name = ? WHERE user_id = ?',
 											[user_name_update, user_firstname_update, user_lastname_update, id_of_user], function(error, results, fields) {
 								res.status(200).send('Update successful');//This is an object
 					});
