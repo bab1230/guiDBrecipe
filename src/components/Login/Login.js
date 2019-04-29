@@ -37,7 +37,7 @@ class Login extends Component {
 	};
 	render() {
 		return (
-			<>
+			<div>
 				<div className="form-horizontal login-form col-md-3 center-login shadow-lg">
 					<h1 className="nobold">Login:</h1>
 					<hr />
@@ -60,7 +60,7 @@ class Login extends Component {
 					</form>
 					<SignUp history={this.history} className="center-sign" />
 				</div>
-			</>
+			</div>
 		);
 	}
 }
