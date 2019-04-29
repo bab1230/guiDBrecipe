@@ -18,7 +18,15 @@ class IngredientsRepo extends React.Component {
 
   deleteIngredient(userid, data){
     return new Promise((resolve, reject) => {
-      axios.post(`${this.url}/users/pantry/delete`, this.config, data)
+      axios.post(`${this.url}/users/pantry/delete`, {params: {user_id:userid}} , data)
+          .then(resp => resolve(resp.data))
+          .catch(resp => alert(resp));
+  });
+  }
+
+  updateIngredients(userid, data){
+    return new Promise((resolve, reject) => {
+      axios.post(`${this.url}/users/pantry/update`, {params: {user_id:userid}}, data)
           .then(resp => resolve(resp.data))
           .catch(resp => alert(resp));
   });
