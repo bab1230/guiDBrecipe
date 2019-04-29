@@ -380,6 +380,25 @@ app.get('/all_recipes',function(req,res){
   });
 })
 
+
+//------------------------------------ All Ratings ------------------------------------
+
+app.get('/rating',function(req,res){
+	//about mysql query
+	connection.query("SELECT * FROM ratings;",function (error,rows,fields) {
+		//call back function
+		if(!!error)
+		{
+			console.log("Error in query: SELECT * FROM ratings");
+		}else {
+			console.log("Success in query: SELECT * FROM ratings");
+			//console.log(rows);
+			res.send(rows)
+			//console.log(rows);
+		}
+	});
+})
+
 app.listen(port, () => {
     console.log("Server is running on port: " + port)
 })
