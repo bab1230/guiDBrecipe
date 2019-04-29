@@ -211,7 +211,7 @@ app.get('/users/pantry', (req, res) => {
 
 		var inStock = {}
 					connection.query('SELECT i.ingredient_id, ingredient_name, amount, unit FROM inventory i JOIN ingredient_all a ON i.ingredient_id = a.ingredient_id WHERE i.user_id = ?' ,
-					[parseInt(req.body.user_id, 10)], function(error, results, fields) {
+					[parseInt(req.query.user_id, 10)], function(error, results, fields) {
 														if(error) {
 															console.log('Error with GET ingredients query!');
 															throw error
