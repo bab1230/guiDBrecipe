@@ -9,19 +9,31 @@ class IngredientsPage extends React.Component {
   ingredientsRepo = new IngredientsRepo;
 
 
-
   state = {
     ingredients: [
       {
-        ingredient_name: "salt",
-        amount: "1",
-        unit: "pile"
+        ingredient_name: "",
+        amount: "",
+        unit: ""
       }
     ],
     currentname: "",
     currentquantity: 0,
-
+    currentunit: ""
   }
+
+  amountunits = [
+    "cup",
+    "qt",
+    "gal",
+    "fl. oz",
+    "pt",
+    "tbsp",
+    "tsp",
+    "drop",
+    "dash",
+
+  ]
 
   RenderIngredientList() {
     return (
@@ -39,7 +51,7 @@ class IngredientsPage extends React.Component {
               this.state.ingredients.map((a, i) =>
                 <tr key={i}>
                   <td>{a.ingredient_name}</td>
-                  <td>{a.amount} {a.unit}</td>
+                  <td>{a.amount} {a.unit}{(a.amount > 1 && a.unit != 0) ? "s" : ""}</td>
                   <td>
                     <button className="btn btn-sm btn-danger"
                       onClick={e => this.onDelete(a.name)}>
@@ -57,19 +69,22 @@ class IngredientsPage extends React.Component {
 
   onSubmit() {
     if (this.state.currentname !== "" && this.state.currentquantity !== 0) {
-      // this.state.ingredients.push(new ingredient(this.state.currentname, this.state.currentquantity));
+      this.state.ingredients.push(new ingredient(this.state.currentname, this.state.currentquantity, this.state.currentunit));
       this.setState({
         currentname: "",
-        currentquantity: 0
+        currentquantity: 0,
+        currentunit: "",
       });
     }
   }
 
   onDelete(name) {
-    var index = this.state.ingredients.map(e => e.name).indexOf(name);
-    console.log(index)
-
-    this.setState({ ingredients: this.state.ingredients.splice(this.index, 1) });
+    let index = this.state.ingredients.map(e => e.name).indexOf(name);
+    let newstate = this.state.ingredients;
+    newstate.splice(index, 1);
+    console.log(newstate);
+    this.setState({ ingredients: newstate});
+    console.log(this.state.ingredients);
   }
 
   onSave() {
@@ -110,6 +125,22 @@ class IngredientsPage extends React.Component {
               </select>
             </div>
 
+            <div className="form-group mr-2">
+              <label htmlFor="unit">Unit</label>
+              <select
+                id="unit"
+                name="unit"
+                className="form-control ml-3"
+                value={this.state.currentunit}
+                onChange={e => this.setState({ currentunit: e.target.value })} >
+                <option></option>
+                {
+                  this.amountunits.map((q, i) => <option key={i} value={q}>{q}</option>)
+                }
+              </select>
+            </div>
+
+
           </form>
 
           <button style={{ marginTop: "1rem" }} onClick={e => this.onSubmit()} className="btn btn-primary">
@@ -122,9 +153,8 @@ class IngredientsPage extends React.Component {
 
   }
 
-  componentDidMount() {
-    let ingredients = this.ingredientsRepo.getIngredients();
-    console.log(ingredients);
+  async componentDidMount() {
+    let ingredients = await this.ingredientsRepo.getIngredients(1);
     this.setState({ ingredients });
   }
 }

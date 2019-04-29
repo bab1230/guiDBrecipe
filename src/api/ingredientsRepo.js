@@ -5,24 +5,20 @@ class IngredientsRepo extends React.Component {
 
   url = "http://ec2-18-222-255-36.us-east-2.compute.amazonaws.com:4000";
 
-    body = {
-      user_id: "1"
-    }
     
     
-  getIngredients() {
+  getIngredients(userid) {
     return new Promise((resolve, reject) => {
-      axios.get(`${this.url}/users/pantry`, {
-        user_id: '1'
-      })
+      return axios.get(this.url + "/users/pantry/", {params: {user_id:userid}})
           .then(resp => resolve(resp.data))
           .catch(resp => alert(resp));
     });
+    
   }
 
-  deleteIngredient(data){
+  deleteIngredient(userid, data){
     return new Promise((resolve, reject) => {
-      axios.post(`${this.url}/users/pantry/delete`, data)
+      axios.post(`${this.url}/users/pantry/delete`, this.config, data)
           .then(resp => resolve(resp.data))
           .catch(resp => alert(resp));
   });
