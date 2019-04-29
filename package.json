@@ -29,7 +29,7 @@
     "react": "^16.8.5",
     "react-bootstrap": "^1.0.0-beta.6",
     "react-dom": "^16.8.5",
-    "react-native": "^0.59.4",
+    "react-native": "^0.59.6",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "sequelize": "^5.6.0"
