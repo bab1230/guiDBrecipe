@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Login.css';
 import SignUp from '../SignUp/SignUp.js';
-import axios from 'axios'
+import UserRepository from '../../api/userRepository';
 
 class Login extends Component {
 	constructor(props) {
@@ -13,23 +13,19 @@ class Login extends Component {
 		};
 		this.verifyUser = this.verifyUser.bind(this);
 	}
+	userRepository = new UserRepository();
 	verifyUser = async (e) => {
 		e.preventDefault();
-		let URL = 'http://ec2-18-222-255-36.us-east-2.compute.amazonaws.com:4000/users/login';
-		const user = {
-			username: this.state.username,
-			password: this.state.password
+		const USER = {
+			user_name: this.state.username,
+			user_password: this.state.password
 		}
-		axios.post(URL, {
-			user_name: user.username,
-			user_password: user.password
-		}).then(res => {
+		this.userRepository.login(USER).then(res => {
 			if (res){
 				this.props.history.push('/home')
 				this.props.update(true);
 			}
-			localStorage.setItem('token', res.data)
-			console.log(res);
+			localStorage.setItem('token', res)
 			return res.data
 		}).catch(err => {
 			alert(err);

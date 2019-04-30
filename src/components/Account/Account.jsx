@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { Row, Button, Form, Modal, Col } from 'react-bootstrap'
 import axios from 'axios'
 import './Account.css';
+import UserRepository from '../../api/userRepository';
 
 class Account extends Component {
+	userRepository = new UserRepository();
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -21,27 +23,21 @@ class Account extends Component {
 		});
 	}
 	componentDidMount() {
-		let URL = 'http://ec2-18-222-255-36.us-east-2.compute.amazonaws.com:4000/users/info'
 		let id = localStorage.getItem('token');
-		axios.get(URL, {
-			params: {
-				user_id: id
-		  }
-		}).then(res => {
-			this.setState({firstname: res.data[0].first_name, lastname: res.data[0].last_name, username: res.data[0].user_name})
-			console.log(res, id)
-		}).catch(e => console.log(e))
+		this.userRepository.getUser(id).then(res => {
+			this.setState({firstname: res[0].first_name, lastname: res[0].last_name, username: res[0].user_name})
+		}).catch(err => alert(err))
 	}
 	updateInfo(){
 		let id = localStorage.getItem('token');
-		let URL = 'http://ec2-18-222-255-36.us-east-2.compute.amazonaws.com:4000/users/info/update'
-
-		axios.post(URL, {
+		const USER = {
 			first_name_update: this.state.firstname,
-			last_name_update: this.state.lastname
-		}, {params :{
-			user_id: id
-		}}).then(res => console.log(res)).catch(err => alert(err))
+			last_name_update: this.state.lastname,
+			user_name_update: this.state.username
+		}
+		this.userRepository.updateUser(USER, +id)
+			.then(res => console.log(res))
+			.catch(err => alert(err))
 	}
 	handleChange(event) {
 		this.setState({[event.target.name]: event.target.value})
@@ -51,11 +47,25 @@ class Account extends Component {
 
 		const NoEdit = (props) => {
 			return (
-				<div className="text-center">
-					Username: {this.state.username}<br /><br />
-					First Name: {this.state.firstname}<br /><br />
-					Last Name: {this.state.lastname}<br /><br />
+				<div>
+					<div className="row">
+						<span className="col-3">Username: </span><span className="col-9"><b>{this.state.username}</b></span>
+					</div>
+					<br />
+					<div className="row">
+						<span className="col-3">First Name: </span><span className="col-9"><b>{this.state.firstname}</b></span>
+					</div>
+					<br />
+					<div className="row">
+						<span className="col-3">Last Name: </span><span className="col-9"><b>{this.state.lastname}</b></span>
+					</div>
 				</div>
+				
+				/*<div className="text-center">
+					Username: <b style={{fontSize: "2em"}}>{this.state.username}</b><br /><br />
+					First Name: <b style={{fontSize: "2em"}}>{this.state.firstname}</b><br /><br />
+					Last Name: <b style={{fontSize: "2em"}}>{this.state.lastname}</b><br /><br />
+				</div>*/
 			);
 		}
 		const EditInfo = (props) => {
