@@ -4,7 +4,7 @@ import './App.css';
 import Home from '../components/HomePage/Home.jsx';
 import Navigation from '../components/Navigation/Navigation.jsx';
 import IngredientPage from "../components/IngredientsPage/IngredientsPage.jsx"
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import Favorite from '../components/Favorites/Favorite.jsx';
 import RecipeDetails from '../components/RecipePage/RecipeDetails.jsx';
 
@@ -13,7 +13,7 @@ class App extends Component {
 		super(props);
 
 		this.state = {
-			loginState: false
+			loginState: !!localStorage.getItem('token')
 		}
 		this.updateLoginState = this.updateLoginState.bind(this);
 	}
@@ -32,6 +32,8 @@ class App extends Component {
 	};
 
 	render() {
+		if(localStorage.getItem('token'))
+			return <Redirect to="/" />
 		return (
 			<div className="app-routes">
 				{this.state.loginState && <Navigation logout={this.updateLoginState}/>}
@@ -40,7 +42,7 @@ class App extends Component {
 					{this.state.loginState && <Route path="/ingredient" exact component={IngredientPage} />}
 					{this.state.loginState && <Route path="/favorite" exact component={Favorite}/>}
 					{this.state.loginState && <Route path="/recipes/:recipe_id" exact component={RecipeDetails}/>}
-					<Route path="/" render={(props) => <Login {...props} login={this.updateLoginState} />}/>
+					<Route path="/" render={(props) => <Login {...props} isLoggedIn={this.state.loginState} login={this.updateLoginState} />}/>
 				</Switch>
 			</div>
 		);

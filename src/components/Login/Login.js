@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Login.css';
 import SignUp from '../SignUp/SignUp.js';
 import UserRepository from '../../api/userRepository';
+import { Redirect } from 'react-router-dom';
 
 class Login extends Component {
 	constructor(props) {
@@ -32,6 +33,9 @@ class Login extends Component {
 		})
 	};
 	render() {
+		if(localStorage.getItem('token')) {
+			return <Redirect to="/home" />;
+		}
 		return (
 			<div>
 				<div className="form-horizontal login-form col-md-3 center-login shadow-lg">
@@ -49,7 +53,8 @@ class Login extends Component {
 							<label htmlFor="password">Password:</label>
 							<input id="password" className="form-control" type="password" onChange={(event) =>
 								this.setState({ password: event.target.value })}>
-								{console.log(this.state.username, this.state.password)}
+								{//console.log(this.state.username, this.state.password)
+								}
 							</input>
 						</div>
 						<button type="button" className="btn btn-primary w-100 mb-2" onClick={this.verifyUser}>Log In</button>
