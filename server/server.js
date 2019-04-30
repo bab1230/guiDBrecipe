@@ -296,7 +296,7 @@ app.post('/users/pantry/add', (req, res) => {
 												}
 											})
 					if(ingre_id_from_all != -1)	{//If ingredient exists in ingredient_all table
-												user_add_inventory = [req.body.user_id, 10, ingre_id_from_all, req.body.amount, req.body.unit]
+												user_add_inventory = [req.body.user_id, ingre_id_from_all, req.body.amount, req.body.unit]
 										        console.log("User ID is ", req.body.user_id , " adds ingredient");
 										        connection.query('INSERT INTO inventory (user_id, ingredient_id, amount, unit) VALUES (?, ?, ?, ?)',
 										                        user_add_inventory, function(error, results, fields) {
@@ -438,6 +438,43 @@ app.get('/all_recipes',function(req,res){
   });
 })
 
+app.get('/recipe', function(req,res){
+	connection.query("SELECT r.recipe_id, recipe_name, how_to_cook, cuisine_type, image, i.ingredient_id, ingredient_name, amount unit, notes FROM recipes r JOIN ingredient_recipe i ON r.recipe_id = i.recipe_id JOIN ingredient_all a ON i.ingredient_id = a.ingredient_id where r.recipe_id = " + req.query.recipe_id,
+				function(error,rows,fields){
+		if(!!error){
+			console.log("Error in query: GET search");
+		} else {
+			console.log("Success in query: GET search");
+			res.send(rows);
+		}
+	});
+})
+
+
+//-------------------------------- Searching ------------------------------------
+app.get('/searchByType', function(req,res){
+	connection.query("SELECT recipe_id, recipe_name, how_to_cook, rating_taste FROM recipes r JOIN ratings s ON r.recipe_id = s.rating_id WHERE cuisine_type LIKE '%" + req.query.cuisine_type + "%'", function(error,rows,fields){
+		if(!!error){
+			console.log("Error in query: GET searchByType");
+		} else {
+			console.log("Success in query: GET searchByType");
+			res.send(rows);
+		}
+	});
+})
+
+
+app.get('/searchByName', function(req,res){
+	connection.query("SELECT recipe_id, recipe_name, how_to_cook, rating_taste FROM recipes r JOIN ratings s ON r.recipe_id = s.rating_id WHERE recipe_name LIKE '%" + req.query.recipe_name + "%'", function(error,rows,fields){
+		if(!!error){
+			console.log("Error in query: GET searchByName");
+			console.log(rows);
+		} else {
+			console.log("Success in query: GET searchByName");
+			res.send(rows);
+		}
+	});
+})
 
 //------------------------------------ All Ratings ------------------------------------
 
@@ -448,7 +485,7 @@ app.get('/rating',function(req,res){
 		if(!!error)
 		{
 			console.log("Error in query: SELECT * FROM ratings");
-		}else {
+		} else {
 			console.log("Success in query: SELECT * FROM ratings");
 			//console.log(rows);
 			res.send(rows)
@@ -457,6 +494,8 @@ app.get('/rating',function(req,res){
 	});
 })
 
+
+//---------------------------------------------------------------------------------
 app.listen(port, () => {
-    console.log("Server is running on port: " + port)
+	console.log("Server is running on port: " + port)
 })
