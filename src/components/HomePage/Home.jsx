@@ -50,7 +50,7 @@ export class Home extends React.Component {
                     <Carousel className="col-4 align-items-center" style={{ maxHeight: "700px", maxWidth: "700px"}}>
                     {
                         this.state.recipes.map((a, i) => (
-                            <Carousel.Item style={{}}>
+                            <Carousel.Item key={i}>
                                 <Link to={`/recipe/${a.recipe_id}`}  >
                                 <img 
                                     className="rounded trim d-block w-100"
