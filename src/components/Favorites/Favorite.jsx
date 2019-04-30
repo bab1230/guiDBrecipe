@@ -24,10 +24,6 @@ export class Favorite extends React.Component{
     render(){
         return(
             <>
-                <Link to="/new" className="btn btn-success float-right">
-                    <i className="fa fa-edit"></i>
-                    Add to Favorites
-                </Link>
                 {!!this.state.favorites.length &&
                 <FavoriteList favorites={this.state.favorites} onDelete={x => this.onDelete(x)}/>}
             </>

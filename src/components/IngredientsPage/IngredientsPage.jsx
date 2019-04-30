@@ -1,7 +1,7 @@
 import React from 'react';
 import ingredient from './Ingredient.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import IngredientsRepo from './../../api/ingredientsRepo';
 
 class IngredientsPage extends React.Component {
