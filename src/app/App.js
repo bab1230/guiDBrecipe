@@ -4,7 +4,7 @@ import './App.css';
 import Home from '../components/HomePage/Home.jsx';
 import Navigation from '../components/Navigation/Navigation.jsx';
 import IngredientPage from "../components/IngredientsPage/IngredientsPage.jsx"
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Favorite from '../components/Favorites/Favorite.jsx';
 import RecipeDetails from '../components/RecipePage/RecipeDetails.jsx';
 
@@ -32,8 +32,6 @@ class App extends Component {
 	};
 
 	render() {
-		if(localStorage.getItem('token'))
-			return <Redirect to="/" />
 		return (
 			<div className="app-routes">
 				{this.state.loginState && <Navigation logout={this.updateLoginState}/>}
