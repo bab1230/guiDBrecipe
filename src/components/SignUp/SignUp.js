@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal'
-import axios from 'axios'
 import './SignUp.css';
+import UserRepository from '../../api/userRepository';
 
 class SignUp extends Component {
 
@@ -20,6 +20,7 @@ class SignUp extends Component {
         this.handleClose = this.handleClose.bind(this);
         this.signUp = this.signUp.bind(this);
     }
+    userRepository = new UserRepository();
     handleShow() {
         this.setState({ show: true });
     }
@@ -36,13 +37,13 @@ class SignUp extends Component {
     signUp(e) {
         if (this.state.password === this.state.confirmPassword && this.state.firstname && this.state.lastname && this.state.username && this.state.password) {
             e.preventDefault();
-            let URL = 'http://ec2-18-222-255-36.us-east-2.compute.amazonaws.com:4000/users/register';
-            axios.post(URL, {
+            const NEW_USER = {
                 first_name: this.state.firstname,
                 last_name: this.state.lastname,
                 user_name: this.state.username,
                 user_password: this.state.password
-            }).then(res => {
+            }
+            this.userRepository.signUp(NEW_USER).then(res => {
                 console.log(res);
             }).catch(err => {
                 alert(err);
@@ -101,10 +102,10 @@ class SignUp extends Component {
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.handleClose}>
                             Close
-                </Button>
+                        </Button>
                         <Button variant="primary" onClick={this.signUp}>
                             Sign Up
-                </Button>
+                        </Button>
                     </Modal.Footer>
                 </Modal>
             </>
