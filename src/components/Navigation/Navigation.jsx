@@ -22,7 +22,7 @@ class Navigation extends Component {
                                 <NavDropdown.Item>My Ingredients</NavDropdown.Item>
                                 <NavDropdown.Item>My Favorites</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item>Logout</NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => {localStorage.removeItem('token'); this.props.logout()}}>Logout</NavDropdown.Item>
                             </NavDropdown>
                             <Nav.Link as={NavLink} to="/home">Home</Nav.Link>
                             <Nav.Link as={NavLink} to="/ingredient">Ingredients</Nav.Link>

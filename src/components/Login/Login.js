@@ -22,10 +22,10 @@ class Login extends Component {
 		}
 		this.userRepository.login(USER).then(res => {
 			if (res){
+				localStorage.setItem('token', res)
+				this.props.login();
 				this.props.history.push('/home')
-				this.props.update(true);
 			}
-			localStorage.setItem('token', res)
 			return res.data
 		}).catch(err => {
 			alert(err);
