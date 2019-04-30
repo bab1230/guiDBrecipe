@@ -439,7 +439,7 @@ app.get('/all_recipes',function(req,res){
 })
 
 app.get('/recipe', function(req,res){
-	connection.query("SELECT r.recipe_id, recipe_name, how_to_cook, cuisine_type, image FROM recipes r WHERE r.recipe_id = " + req.query.recipe_id,
+	connection.query("SELECT r.recipe_id, recipe_name, how_to_cook, cuisine_type, image, rating_taste, rating_diff FROM recipes r JOIN ratings s ON r.recipe_id = s.rating_id WHERE r.recipe_id = " + req.query.recipe_id,
 				function(error,rows,fields){
 		if(!!error){
 			console.log("Error in query: GET search");
