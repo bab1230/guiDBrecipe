@@ -48,7 +48,7 @@ export class Home extends React.Component {
                     {
                         this.state.recipes.map((a, i) => (
                             <Carousel.Item key={i}>
-                                <Link to={`/recipe/${a.recipe_id}`}  >
+                                <Link to={`/recipes/${a.recipe_id}`}  >
                                 <img 
                                     className="rounded trim d-block w-100"
                                     src={a.image}
