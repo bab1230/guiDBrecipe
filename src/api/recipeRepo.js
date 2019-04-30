@@ -13,7 +13,7 @@ export class recipeRepo {
 
     getRecipe(recipe_id) {
         return new Promise((resolve, reject) => {
-            axios.get(`${this.url}/${recipe_id}`, this.config)
+            axios.get(`${this.url}/${recipe_id}`, {params: { recipe_id: 1 }})
                 .then(resp => resolve(resp.data))
                 .catch(resp => alert(resp));
         });

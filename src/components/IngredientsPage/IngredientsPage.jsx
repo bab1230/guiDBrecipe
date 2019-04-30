@@ -98,7 +98,7 @@ class IngredientsPage extends React.Component {
       <div className="ml-3 mr-3 mt-3">
         {this.RenderIngredientList()}
         <div className="mt-5 w-100 d-flex flex-column align-items-center">
-          <form className=" form-inline " onSubmit={() => this.onSubmit()}>
+          <form className="input-form form-inline" onSubmit={() => this.onSubmit()}>
             <div className="form-group font-weight-bold">
               <label htmlFor="ingredient-name" className="mr-2">Name</label>
               <input type="text"

@@ -10,3 +10,10 @@
     height:500px;
     margin: auto;
   }*/
+
+.trim {
+  max-height: 60%;
+  max-width: 80%;
+  margin-left: 10%;
+  overflow: hidden;
+}
