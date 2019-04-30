@@ -36,7 +36,7 @@ export class RecipeDetails extends React.Component{
             <>
             <Container style={{marginBottom:20}}>
             {this.renderJumbo()}
-            <ReviewList ratings={this.state.ratings}/>
+            {/* <ReviewList ratings={this.state.ratings}/> */}
             <ReviewForm onNewRating={a=>this.onNewRating(a)}/>
             </Container>
             </>
@@ -56,6 +56,10 @@ export class RecipeDetails extends React.Component{
             </>
         )
     }
+
+    // async componentDidMount() {
+    //     recipe = await 
+    // }
 }
 
 export default RecipeDetails;

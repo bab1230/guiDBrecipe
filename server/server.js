@@ -439,7 +439,19 @@ app.get('/all_recipes',function(req,res){
 })
 
 app.get('/recipe', function(req,res){
-	connection.query("SELECT r.recipe_id, recipe_name, how_to_cook, cuisine_type, image, i.ingredient_id, ingredient_name, amount unit, notes FROM recipes r JOIN ingredient_recipe i ON r.recipe_id = i.recipe_id JOIN ingredient_all a ON i.ingredient_id = a.ingredient_id where r.recipe_id = " + req.query.recipe_id,
+	connection.query("SELECT r.recipe_id, recipe_name, how_to_cook, cuisine_type, image FROM recipes r WHERE r.recipe_id = " + req.query.recipe_id,
+				function(error,rows,fields){
+		if(!!error){
+			console.log("Error in query: GET search");
+		} else {
+			console.log("Success in query: GET search");
+			res.send(rows);
+		}
+	});
+})
+
+app.get('/recipe/ingredients', function(req,res){
+	connection.query("SELECT recipe_id, i.ingredient_id, ingredient_name, amount, unit, notes FROM ingredient_recipe i JOIN ingredient_all a ON i.ingredient_id = a.ingredient_id WHERE recipe_id = " + req.query.recipe_id,
 				function(error,rows,fields){
 		if(!!error){
 			console.log("Error in query: GET search");
