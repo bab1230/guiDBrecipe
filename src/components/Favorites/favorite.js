@@ -5,3 +5,4 @@ export class Favorite{
         this.type=type
     }
 }
+export default Favorite;
