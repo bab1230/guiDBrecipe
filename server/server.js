@@ -464,8 +464,8 @@ app.get('/recipe/ingredients', function(req,res){
 
 
 //-------------------------------- Searching ------------------------------------
-app.get('/searchByType', function(req,res){
-	connection.query("SELECT recipe_id, recipe_name, how_to_cook, rating_taste FROM recipes r JOIN ratings s ON r.recipe_id = s.rating_id WHERE cuisine_type LIKE '%" + req.query.cuisine_type + "%'", function(error,rows,fields){
+app.get('/search', function(req,res){
+	connection.query("SELECT recipe_id, recipe_name, how_to_cook, rating_taste FROM recipes r JOIN ratings s ON r.recipe_id = s.rating_id WHERE cuisine_type LIKE '%" + req.query.recipe_name + "%' OR recipe_name LIKE '%" + req.query.recipe_name + "%'", function(error,rows,fields){
 		if(!!error){
 			console.log("Error in query: GET searchByType");
 		} else {
@@ -475,18 +475,6 @@ app.get('/searchByType', function(req,res){
 	});
 })
 
-
-app.get('/searchByName', function(req,res){
-	connection.query("SELECT recipe_id, recipe_name, how_to_cook, rating_taste FROM recipes r JOIN ratings s ON r.recipe_id = s.rating_id WHERE recipe_name LIKE '%" + req.query.recipe_name + "%'", function(error,rows,fields){
-		if(!!error){
-			console.log("Error in query: GET searchByName");
-			console.log(rows);
-		} else {
-			console.log("Success in query: GET searchByName");
-			res.send(rows);
-		}
-	});
-})
 
 //------------------------------------ All Ratings ------------------------------------
 
