@@ -19,8 +19,6 @@ class Navigation extends Component {
                         <Nav className="mr-auto">
                             <NavDropdown className="flow-right" id="dropdown-menu-align-right" title="Account">
                                 <NavDropdown.Item onClick={() => this.toggleAccount()}>Account</NavDropdown.Item>
-                                <NavDropdown.Item>My Ingredients</NavDropdown.Item>
-                                <NavDropdown.Item>My Favorites</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item onClick={() => {localStorage.removeItem('token'); this.props.logout()}}>Logout</NavDropdown.Item>
                             </NavDropdown>
