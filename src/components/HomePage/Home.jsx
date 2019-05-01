@@ -50,7 +50,7 @@ export class Home extends React.Component {
                     <Carousel className="phone-trending fix-carousel" style={{ maxHeight: "700px", maxWidth: "700px"}}>
                     {
                         this.state.recipes.map((a, i) => (
-                            <Carousel.Item key={i}>
+                            /*<Carousel.Item key={i}>
                                 <Link to={`/recipes/${a.recipe_id}`}  >
                                     <Card className="border-0 ">
                                         <Card.Img src={a.image}/>
@@ -59,8 +59,8 @@ export class Home extends React.Component {
                                         <h3 style={{color: "white", fontWeight: "bold", textShadow: "black 0px 0px 10px"}}>{a.recipe_name}</h3>
                                     </Carousel.Caption>
                                 </Link>
-                            </Carousel.Item>
-                            /*<Carousel.Item key={i}>
+                            </Carousel.Item>*/
+                            <Carousel.Item key={i}>
                                 <Link to={`/recipes/${a.recipe_id}`}  >
                                     <img 
                                         className="rounded trim d-block"
@@ -70,7 +70,7 @@ export class Home extends React.Component {
                                         <h3 style={{color: "white", fontWeight: "bold", textShadow: "black 0px 0px 10px"}}>{a.recipe_name}</h3>
                                     </Carousel.Caption>
                                 </Link>
-                            </Carousel.Item>*/
+                            </Carousel.Item>
                         ))
                     }
                     </Carousel>
