@@ -11,12 +11,15 @@ export class RecipeDetails extends React.Component{
     favoriteRepository=new favoriteRepository();
 
     state={
-        recipe_id: 0,
-        recipe_name: '',
-        how_to_cook: '',
-        cuisine_type: '',
-        image: '',
-        featured_date: '',
+
+        recipe: {
+            recipe_id: 0,
+            recipe_name: '',
+            how_to_cook: '',
+            cuisine_type: '',
+            image: '',
+        },
+        
         ratings: [],
         rating: 0
     };
@@ -28,6 +31,8 @@ export class RecipeDetails extends React.Component{
         });
       }
 
+    
+    
     render(){
         if(this.state.redirect) {
             return <Redirect to={this.state.redirect} />
@@ -42,14 +47,15 @@ export class RecipeDetails extends React.Component{
             </>
         );
     }
+
     renderJumbo(){
         return(
             <>
             <Jumbotron bg="dark">
-                <img src = { this.state.image } align="center" alt="Product Pic"/>
-                <h1>{this.state.recipe_name}</h1>
-                <h3><Badge variant="primary">{this.state.cuisine_type}</Badge></h3>
-                <h6>{this.state.how_to_cook}</h6>
+                <img src = { this.state.recipe.image } height="1000px" align="center" alt="Product Pic"/>
+                <h1>{this.state.recipe.recipe_name}</h1>
+                <h3><Badge variant="primary">{this.state.recipe.cuisine_type}</Badge></h3>
+                <h6>{this.state.recipe.how_to_cook}</h6>
                 <div style={{clear:'left'}}/>
                 <Col md={{offset:10}}><Link className="btn btn-warning" style={{margin:10}} onClick={() => this.favoriteRepository.addFavorite(this.state)}>Favorite</Link></Col>
             </Jumbotron>;
@@ -57,9 +63,11 @@ export class RecipeDetails extends React.Component{
         )
     }
 
-    // async componentDidMount() {
-    //     recipe = await 
-    // }
+    async componentDidMount() {
+        let recipe = await this.recipeRepo.getRecipe(this.props.match.params.recipe_id)
+        this.setState ({ recipe: recipe[0] });
+
+    }
 }
 
 export default RecipeDetails;

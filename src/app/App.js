@@ -13,63 +13,37 @@ class App extends Component {
 		super(props);
 
 		this.state = {
-			loginState: false
+			loginState: !!localStorage.getItem('token')
 		}
 		this.updateLoginState = this.updateLoginState.bind(this);
 	}
 
 	updateLoginState = (bool) => {
-		this.setState({
-			loginState: bool
-		});
+		if(localStorage.getItem('token')){
+			this.setState({
+					loginState: true
+			});
+		}
+		else{
+			this.setState({
+				loginState: false
+			});
+		}
 	};
 
 	render() {
 		return (
 			<div className="app-routes">
-				{this.state.loginState && <Navigation />}
+				{this.state.loginState && <Navigation logout={this.updateLoginState}/>}
 				<Switch>
-					<Route path="/" exact render={(props) => <Login {...props} update={this.updateLoginState} />}/>
-					<Route path="/home" exact component={Home} />
-					<Route path="/ingredient" exact component={IngredientPage} />
-					<Route path="/favorite" exact component={Favorite}/>
-					<Route path="/recipes/:recipe_id" exact component={RecipeDetails}/>
+					{this.state.loginState && <Route path="/home" exact component={Home} />}
+					{this.state.loginState && <Route path="/ingredient" exact component={IngredientPage} />}
+					{this.state.loginState && <Route path="/favorite" exact component={Favorite}/>}
+					{this.state.loginState && <Route path="/recipes/:recipe_id" exact component={RecipeDetails}/>}
+					<Route path="/" render={(props) => <Login {...props} isLoggedIn={this.state.loginState} login={this.updateLoginState} />}/>
 				</Switch>
 			</div>
-			//<Login />
-
-			/*<ThemeProvider theme={theme}>
-        <div>
-          <Router>
-          <Header />
-            <Switch>
-              <Route exact path="/" component={List} />
-              <Route path="/currency/:id" component={Detail} />
-              <Route component={NotFound} />
-            </Switch>
-          </Router>
-        </div>
-      </ThemeProvider>*/
 		);
-		/*let login = <Login updateLoginState={this.loginState} />
-		return (
-			<div className="App">
-			  <header className="App-header">
-				<img src={logo} className="App-logo" alt="logo" />
-				<p>
-				  Edit <code>src/App.js</code> and save to reload.
-				</p>
-				<a
-				  className="App-link"
-				  href="https://reactjs.org"
-				  target="_blank"
-				  rel="noopener noreferrer"
-				>
-				  Learn React
-				</a>
-			  </header>
-			</div>
-		);*/
 	}
 }
 
