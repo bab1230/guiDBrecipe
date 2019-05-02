@@ -247,10 +247,10 @@ app.get('/users/favorite', (req, res) => {
 
 //Delete recipes from favorite
 app.post('/users/favorite/delete', (req, res) => {
-    var recipeID = req.body.recipe_id;
+    var recipeID = parseInt(req.body.recipe_id, 10);
         console.log("User ID is ", req.query.user_id);
         connection.query('DELETE FROM favorites WHERE user_id = ? AND recipe_id = ?',
-                        [req.query.user_id, recipeID], function(error, results, fields) {
+                        [parseInt(req.query.user_id, 10), recipeID], function(error, results, fields) {
 									if(error) {throw error;}
 									else{
                   res.status(200).send("Delete successful");}//This is an object
@@ -259,10 +259,10 @@ app.post('/users/favorite/delete', (req, res) => {
 
 //Add recipes to favorite
 app.post('/users/favorite/add', (req, res) => {
-    var recipeID = req.body.recipe_id;
+	var recipeID = parseInt(req.body.recipe_id, 10);
         console.log("User ID is ", req.query.user_id);
         connection.query('INSERT INTO favorites VALUES (?, ?)',
-                        [req.query.user_id, recipeID], function(error, results, fields) {
+                      [parseInt(req.query.user_id, 10), recipeID], function(error, results, fields) {
 									if(error) {throw error;}
 									else{
 									res.status(200).send("Add successful");}//This is an object

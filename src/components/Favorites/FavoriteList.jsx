@@ -1,11 +1,9 @@
 import React from 'react';
-import { Table, Popover, Card, OverlayTrigger, Col } from 'react-bootstrap';
+import { Table, Popover, Card, OverlayTrigger, Col, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-/*
-    
-*/
+
 const popover=(
     <Popover id="popover-basic">
         <Card>
@@ -24,6 +22,7 @@ const popover=(
     </Popover>
 );
 export const FavoriteList = (props) => (
+    <Container>
     <Table striped bordered hover size="sm">
         <thead>
             <tr>
@@ -41,6 +40,7 @@ export const FavoriteList = (props) => (
                                 <OverlayTrigger trigger="hover" placement="right" overlay={popover}>
                                     {a.name}
                                 </OverlayTrigger>*/>
+                                {a.name}
                             </Link>
                         </td>
                         <td>{ a.type }</td>
@@ -55,5 +55,6 @@ export const FavoriteList = (props) => (
             }
         </tbody>
     </Table>
+    </Container>
 );
 export default FavoriteList;

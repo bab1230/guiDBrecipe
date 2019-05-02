@@ -25,14 +25,19 @@ export class Favorite extends React.Component{
         return(
             <>
                 {!!this.state.favorites.length &&
-                <FavoriteList favorites={this.state.favorites} onDelete={x => this.onDelete(x)}/>}
+                <FavoriteList favorites={this.state.favorites} onDelete={x => this.onDelete(x)} userID={localStorage.getItem('token')}/>}
             </>
         )
     }
 
-    componentDidMount(){
+    async componentDidMount(){
+        //favorites=await
         this.FavoriteRepository.getFavorites()
         .then(favorites => this.setState({favorites}));
+    }
+    async componentDidMount(){
+        let favorites = await this.FavoriteRepository.getFavorite();
+        this.setState({ favorites });
     }
 }
 

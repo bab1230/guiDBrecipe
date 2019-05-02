@@ -5,6 +5,7 @@ import { Rating  } from './rating';
 import { ReviewForm } from './reviewForm';
 import { recipeRepo } from '../../api/recipeRepo';
 import { favoriteRepository } from '../../api/favoriteRepository';
+import { FavoriteList } from '../Favorites/FavoriteList';
 
 import './RecipeDetails.css'
 
