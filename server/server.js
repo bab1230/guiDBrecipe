@@ -247,10 +247,10 @@ app.get('/users/favorite', (req, res) => {
 
 //Delete recipes from favorite
 app.post('/users/favorite/delete', (req, res) => {
-    var recipeID = req.body.recipe_id;
+    var recipeID = parseInt(req.body.recipe_id, 10);
         console.log("User ID is ", req.query.user_id);
         connection.query('DELETE FROM favorites WHERE user_id = ? AND recipe_id = ?',
-                        [req.query.user_id, recipeID], function(error, results, fields) {
+                        [parseInt(req.query.user_id, 10), recipeID], function(error, results, fields) {
 									if(error) {throw error;}
 									else{
                   res.status(200).send("Delete successful");}//This is an object
@@ -259,10 +259,10 @@ app.post('/users/favorite/delete', (req, res) => {
 
 //Add recipes to favorite
 app.post('/users/favorite/add', (req, res) => {
-    var recipeID = req.body.recipe_id;
+	var recipeID = parseInt(req.body.recipe_id, 10);
         console.log("User ID is ", req.query.user_id);
         connection.query('INSERT INTO favorites VALUES (?, ?)',
-                        [req.query.user_id, recipeID], function(error, results, fields) {
+                      [parseInt(req.query.user_id, 10), recipeID], function(error, results, fields) {
 									if(error) {throw error;}
 									else{
 									res.status(200).send("Add successful");}//This is an object
@@ -303,8 +303,8 @@ app.post('/users/pantry/add', (req, res) => {
 												}
 											})
 					if(ingre_id_from_all != -1)	{//If ingredient exists in ingredient_all table
-												user_add_inventory = [req.query.user_id, ingre_id_from_all, req.body.amount, req.body.unit]
-										        console.log("User ID is ", req.query.user_id , " adds ingredient");
+												user_add_inventory = [parseInt(req.query.user_id, 10), ingre_id_from_all, req.body.amount, req.body.unit]
+										        console.log("User ID is " + parseInt(req.query.user_id, 10) + " adds ingredient");
 										        connection.query('INSERT INTO inventory (user_id, ingredient_id, amount, unit) VALUES (?, ?, ?, ?)',
 										                        user_add_inventory, function(error, results, fields) {
 										                  res.status(200).send('Add Success');//Add success
@@ -339,12 +339,12 @@ app.post('/users/pantry/add', (req, res) => {
 app.post('/users/pantry/delete', (req, res) => {
 	var ingre_id = 0;
 	var ingre_name = req.body.ingredient_name;
-	connection.query('SELECT * FROM ingredient_all WHERE ingredient_all.ingre_name = ? LIMIT 1' , [ingre_name], function(error, results, fields) {
+	connection.query('SELECT * FROM ingredient_all WHERE ingredient_all.ingredient_name = ? LIMIT 1' , [ingre_name], function(error, results, fields) {
 		if(error) throw error
 		else{
 			if(results.length > 0){ ingre_id = results[0].ingredient_id;}
 		}
-	})
+	});
 
 					connection.query('DELETE FROM inventory WHERE user_id = ? AND ingredient_id = ?',
 											[req.query.user_id, ingre_id], function(error, results, fields) {
@@ -352,7 +352,7 @@ app.post('/users/pantry/delete', (req, res) => {
 												else{
 													res.status(200).send('Delete Success');//Delete success
 												}
-											})
+											});
 })
 
 
@@ -455,6 +455,7 @@ app.get('/all_recipes',function(req,res){
   });
 })
 
+
 app.get('/recipe', function(req,res){
 	connection.query("SELECT r.recipe_id, recipe_name, how_to_cook, cuisine_type, image, rating_taste, rating_diff FROM recipes r JOIN ratings s ON r.recipe_id = s.rating_id WHERE r.recipe_id = " + req.query.recipe_id,
 				function(error,rows,fields){
@@ -482,16 +483,33 @@ app.get('/recipe/ingredients', function(req,res){
 
 //-------------------------------- Searching ------------------------------------
 app.get('/search', function(req,res){
-	connection.query("SELECT recipe_id, recipe_name, how_to_cook, rating_taste FROM recipes r JOIN ratings s ON r.recipe_id = s.rating_id WHERE cuisine_type LIKE '%" + req.query.recipe_name + "%' OR recipe_name LIKE '%" + req.query.recipe_name + "%'", function(error,rows,fields){
-		if(!!error){
+	connection.query("SELECT recipes.recipe_id, recipe_name, how_to_cook, rating_taste FROM recipes JOIN ratings ON recipes.recipe_id = ratings.recipe_id WHERE recipes.cuisine_type LIKE ? OR recipes.recipe_name LIKE ?",
+	[req.query.recipe_name, req.query.recipe_name], function(error,rows,fields){
+		if(error){
 			console.log("Error in query: GET searchByType");
 		} else {
 			console.log("Success in query: GET searchByType");
-			res.send(rows);
+			res.status(200).send(rows);
 		}
 	});
 })
 
+
+//------------------------------------ Add Rating ------------------------------------
+app.post('/rating/add', function(req, res) {
+	var recipeID = parseInt(req.body.recipe_id, 10);
+	var rating_diff = parseInt(req.body.rating_diff, 10);
+	var rating_taste = parseInt(req.body.rating_taste, 10);
+	rating_insert = [recipeID, rating_taste, rating_diff];
+	connection.query("INSERT INTO ratings (recipe_id, rating_taste, rating_diff) VALUES (?, ? , ?)", rating_insert,
+ 							function(error, results, fields) {
+								if(error) throw error
+								else{
+									console.log('Insert Rating Success');
+									res.status(200).send('Insert Rating Success');//INSERT success
+								}
+							})
+})
 
 //------------------------------------ All Ratings ------------------------------------
 
