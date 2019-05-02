@@ -249,8 +249,8 @@ app.get('/users/favorite', (req, res) => {
 app.post('/users/favorite/delete', (req, res) => {
     var recipeID = parseInt(req.body.recipe_id, 10);
         console.log("User ID is ", req.query.user_id);
-        connection.query('DELETE FROM favorites WHERE user_id = ? AND recipe_id = ?',
-                        [parseInt(req.query.user_id, 10), recipeID], function(error, results, fields) {
+				connection.query('DELETE FROM favorites WHERE user_id = ' + req.query.user_id + ' AND recipe_id = ' + recipe_id,
+				 function(error, results, fields) {
 									if(error) {throw error;}
 									else{
                   res.status(200).send("Delete successful");}//This is an object
@@ -471,6 +471,8 @@ app.get('/all_recipes',function(req,res){
 })
 
 
+<<<<<<< HEAD
+=======
 
 //Newly added
 //------------------------------------ All favourites ------------------------------------
@@ -493,6 +495,7 @@ app.get('/all_recipes',function(req,res){
 
 //
 
+>>>>>>> 361c5b0357eebcedb8c8d2e195f935b39d69cd51
 app.get('/recipe', function(req,res){
 	connection.query("SELECT r.recipe_id, recipe_name, how_to_cook, cuisine_type, image, rating_taste, rating_diff FROM recipes r JOIN ratings s ON r.recipe_id = s.rating_id WHERE r.recipe_id = " + req.query.recipe_id,
 				function(error,rows,fields){
@@ -504,7 +507,6 @@ app.get('/recipe', function(req,res){
 		}
 	});
 })
-
 
 app.get('/recipe/ingredients', function(req,res){
 	connection.query("SELECT recipe_id, i.ingredient_id, ingredient_name, amount, unit, notes FROM ingredient_recipe i JOIN ingredient_all a ON i.ingredient_id = a.ingredient_id WHERE recipe_id = " + req.query.recipe_id,
