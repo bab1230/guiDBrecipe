@@ -1,4 +1,3 @@
-import React from 'react';
 import axios from 'axios';
 
 class UserRepository {
@@ -8,7 +7,7 @@ class UserRepository {
         return new Promise((resolve, reject) => {
             return axios.post(this.URL + '/users/login', user)
                 .then(resp => resolve(resp.data))
-                .catch(resp => alert(resp));
+                .catch(resp => reject(resp));
         })
     }
 
@@ -16,7 +15,7 @@ class UserRepository {
         return new Promise((resolve, reject) => {
             return axios.post(this.URL + '/users/register', newUser)
                 .then(resp => resolve(resp.data))
-                .catch(resp => alert(resp));
+                .catch(resp => reject(resp));
         })
     }
 
@@ -25,7 +24,7 @@ class UserRepository {
             return axios.post(this.URL + '/users/info/update', user, {params :{
                 user_id: userId
             }}).then(resp => resolve(resp.data))
-                .catch(resp => alert(resp));
+                .catch(resp => reject(resp));
         })
     }
     getUser(userId) {
@@ -35,7 +34,7 @@ class UserRepository {
                     user_id: userId
                 }
             }).then(resp => resolve(resp.data))
-                .catch(resp => alert(resp));
+                .catch(resp => reject(resp));
         })
     }
 }

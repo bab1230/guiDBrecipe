@@ -5,18 +5,18 @@ import { Link } from 'react-router-dom';
 import './Favorite.css';
 
 export class Favorite extends React.Component{
-    FavoriteRepository = new favoriteRepository;
+    favoriteRepository = new favoriteRepository;
 
     state={
         favorites: []
     };
 
-    onDelete(favoriteId){
+    onDelete(recipeid){
         if(window.confirm("Are you sure?")){
-            this.FavoriteRepository.deleteFavorite(favoriteId)
+            this.favoriteRepository.deleteFavorite(recipeid)
                 .then(() => {
                     this.setState(state => ({
-                        favorites: state.favorites.filter(x => x.id !== favoriteId)
+                        favorites: state.favorites.filter(x => x.id !== recipeid)
                     }))
                 });
         }
@@ -30,9 +30,10 @@ export class Favorite extends React.Component{
         )
     }
 
-    componentDidMount(){
-        this.FavoriteRepository.getFavorites()
-        .then(favorites => this.setState({favorites}));
+    async componentDidMount(){
+        let favorites = await this.favoriteRepository.getFavorites()
+
+        this.setState({favorites});
     }
 }
 

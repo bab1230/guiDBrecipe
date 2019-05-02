@@ -2,25 +2,46 @@
     border-radius: 4px;
     background-color: white;
 }
-.center-login {
-    position: absolute;
-    z-index: 15;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, 50%);
-}
-.center-sign {
-    position: relative;
-    top: 50%;
-    left:50%;
-    transform: translate(-50%, 50%);
-}
+
 .nobold {
     font-weight: normal;
 }
 .sign-up {
     padding-left: 50px;
 }
+img.bg {
+    min-height: 100%;
+    min-width: 1024px;
+  
+    width: 100%;
+    height: auto;
+  
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  .login {
+    background: url("./background.jpg") no-repeat; 
+    background-size: cover;
+    min-width: 100vw;
+    min-height: 100vh;
+  }
+  @media screen and (min-width: 768px) {
+    .center-login {
+        position: absolute;
+        z-index: 15;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 50%);
+    }
+    .center-sign {
+        position: relative;
+        top: 50%;
+        left:50%;
+        transform: translate(-50%, 50%);
+    }
+  }
 /*:not(.login-form){
     background-image: url(./food_background.jpg);
     height: 100%; 

@@ -17,3 +17,19 @@
   margin-left: 10%;
   overflow: hidden;
 }
+
+@media screen and (max-width: 750px){
+  .hide-card {
+    display: none;
+  }
+  .fix-carousel {
+    left: 50%;
+    transform: translate(-50%);
+  }
+  .fix-image {
+    width: 500%
+  }
+  .phone-trending{
+    width: 70vw
+  }
+}
