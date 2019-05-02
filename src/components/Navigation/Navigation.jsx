@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import Account from '../Account/Account';
 import { Navbar, Nav, Form, FormControl, Button, NavDropdown, Row } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 class Navigation extends Component {
     state = {
-        showAccount: false
+        showAccount: false,
+        logout: false
     }
     toggleAccount(){
         this.setState({showAccount: !this.state.showAccount});
@@ -29,7 +30,7 @@ class Navigation extends Component {
                     </Navbar.Collapse>
                     <Form inline >
                         <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                        <Button variant="outline-info">Search</Button>
+                        <Button className="float-right" variant="outline-info">Search</Button>
                     </Form>
                 </Navbar>
                 <Account show={this.state.showAccount} close={() => this.toggleAccount()}/>

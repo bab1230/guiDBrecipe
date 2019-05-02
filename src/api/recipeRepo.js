@@ -30,9 +30,9 @@ export class recipeRepo {
     }
 
 
-    addReview(recipe_id, review) {
+    addReview(recipe_id, taste_rating, diff_rating) {
         return new Promise((resolve, reject) => {
-            axios.post(`${this.url}/${recipe_id}`, review, this.config)
+            axios.post(`${this.url}/rating/add`, { body:{ recipe_id: recipe_id, rating_diff: diff_rating, rating_taste: taste_rating } })
                 .then(resp => resolve(resp.data))
                 .catch(resp => alert(resp));
         });
