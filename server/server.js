@@ -52,7 +52,8 @@ app.post('/users/register', (req, res) => {
                     userData, function(err, result) {
                   if (err) throw err
                   else{
-                    console.log("user ", req.body.user_name, "created")
+										console.log("user ", req.body.user_name, "created")
+										res.status(200).send("user ", req.body.user_name, "created")
                   }
                 })
 })
