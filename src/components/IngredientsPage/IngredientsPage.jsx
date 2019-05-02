@@ -160,7 +160,7 @@ class IngredientsPage extends React.Component {
   }
 
   async componentDidMount() {
-    let ingredients = await this.ingredientsRepo.getIngredients(1);
+    let ingredients = await this.ingredientsRepo.getIngredients(localStorage.getItem('token'));
     this.setState({ ingredients });
   }
 }
