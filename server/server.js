@@ -474,21 +474,21 @@ app.get('/all_recipes',function(req,res){
 
 //Newly added
 //------------------------------------ All favourites ------------------------------------
-app.get('/all_favourites',function(req,res){
-	//about mysql query
-	connection.query("SELECT * FROM favourites;",function (error,rows,fields) {
-		//call back function
-		if(!!error)
-		{
-			console.log("Error in query: SELECT * FROM favourites");
-		}else {
-			console.log("Success in query: SELECT * FROM favourites");
-			//console.log(rows);
-			res.send(rows)
-			//console.log(rows);
-		}
-	});
-})
+//app.get('/all_favourites',function(req,res){
+//	//about mysql query
+//	connection.query("SELECT * FROM favourites;",function (error,rows,fields) {
+//		//call back function
+//		if(!!error)
+//		{
+//			console.log("Error in query: SELECT * FROM favourites");
+//		}else {
+//			console.log("Success in query: SELECT * FROM favourites");
+//			//console.log(rows);
+//			res.send(rows)
+//			//console.log(rows);
+//		}
+//	});
+//})
 
 
 //
