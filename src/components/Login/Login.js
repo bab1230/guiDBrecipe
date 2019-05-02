@@ -27,10 +27,10 @@ class Login extends Component {
 				localStorage.setItem('token', res)
 				this.props.login();
 				this.props.history.push('/home')
-			}
+			} 
 			return res.data
 		}).catch(err => {
-			alert(err);
+			alert(err)
 		})
 	};
 	render() {
@@ -58,8 +58,6 @@ class Login extends Component {
 								<label htmlFor="password">Password:</label>
 								<input id="password" className="form-control" type="password" onChange={(event) =>
 									this.setState({ password: event.target.value })}>
-									{//console.log(this.state.username, this.state.password)
-									}
 								</input>
 							</div>
 							<button type="button" className="btn btn-primary w-100 mb-2" onClick={this.verifyUser}>Log In</button>

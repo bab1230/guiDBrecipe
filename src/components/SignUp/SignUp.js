@@ -44,7 +44,7 @@ class SignUp extends Component {
                 user_password: this.state.password
             }
             this.userRepository.signUp(NEW_USER).then(res => {
-                console.log(res);
+                
             }).catch(err => {
                 alert(err);
             })

@@ -12,14 +12,18 @@ class Navigation extends Component {
     toggleAccount(){
         this.setState({showAccount: !this.state.showAccount});
     }
+    search() {
+        this.setState({search: true});
+    }
     componentDidUpdate() {
         if(this.state.search)
             this.setState({search: false})
     }
     render() {
         if(this.state.search) {
-            console.log(this.state.searchValue)
-            return <Redirect to={`/search/${this.state.searchValue}`}/>
+            return <Redirect to={{
+                pathname: `/search/${this.state.searchValue}`,
+                state: {search: this.state.searchValue}}}/>
         }
         return (
             <>
@@ -31,21 +35,22 @@ class Navigation extends Component {
                             <NavDropdown className="flow-right" id="dropdown-menu-align-right" title="Account">
                                 <NavDropdown.Item onClick={() => this.toggleAccount()}>Account</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item onClick={() => {localStorage.removeItem('token'); this.props.logout()}}>Logout</NavDropdown.Item>
+                                <NavDropdown.Item style={{backgroundColor: 'white', color: 'black'}}as={NavLink} to="/"onClick={() => {localStorage.removeItem('token'); this.props.logout()}}>Logout</NavDropdown.Item>
                             </NavDropdown>
                             <Nav.Link as={NavLink} to="/home">Home</Nav.Link>
                             <Nav.Link as={NavLink} to="/ingredient">Ingredients</Nav.Link>
                             <Nav.Link as={NavLink} to="/favorite">Favorites</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
-                    <Form inline >
+                    <Form inline onSubmit={() => this.search()}>
                         <FormControl 
                             type="text" 
                             placeholder="Search" 
                             className="mr-sm-2" 
                             onChange={(event) =>
-								this.setState({ searchValue: event.target.value })}/>
-                        <Button className="float-right" variant="outline-info" onClick={() => {this.setState({search: true})}}>Search</Button>
+								this.setState({ searchValue: event.target.value })}
+                            />
+                        <Button className="float-right" variant="outline-info" onClick={() => {this.search()}}>Search</Button>
                     </Form>
                 </Navbar>
                 <Account show={this.state.showAccount} close={() => this.toggleAccount()}/>
