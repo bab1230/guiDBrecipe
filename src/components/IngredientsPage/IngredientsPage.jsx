@@ -68,24 +68,23 @@ class IngredientsPage extends React.Component {
     );
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.state.currentname !== "" && this.state.currentquantity !== 0) {
-      this.ingredientsRepo.addIngredient(new ingredient(this.state.currentname, this.state.currentquantity, this.state.currentunit));
+      await this.ingredientsRepo.addIngredient(new ingredient(this.state.currentname, this.state.currentquantity, this.state.currentunit));
       this.setState({
         currentname: "",
         currentquantity: 0,
         currentunit: "",
       });
-      this.componentDidMount();
     }
+    this.componentDidMount();
   }
 
-  onDelete(name) {
+  async onDelete(name) {
     let index = this.state.ingredients.map(e => e.name).indexOf(name);
     let newstate = this.state.ingredients;
-    newstate.splice(index, 1);
-    this.setState({ ingredients: newstate});
-    this.ingredientsRepo.deleteIngredient();
+    await this.ingredientsRepo.deleteIngredient(this.state.ingredients[index]);
+    this.componentDidMount();
   }
 
 

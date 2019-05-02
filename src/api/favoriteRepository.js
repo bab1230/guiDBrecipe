@@ -26,6 +26,7 @@ export class favoriteRepository {
                 .catch(resp => alert(resp));
         });
     }
+    // localStorage.getItem('token')
 }
 
 export default favoriteRepository;
