@@ -145,9 +145,6 @@ class IngredientsPage extends React.Component {
           <button style={{ marginTop: "1rem" }} onClick={e => this.onSubmit()} className="btn btn-primary">
             Add
           </button>
-          <button style={{ marginTop: "1rem" }} onClick={e => this.onSave()} className="btn btn-warning">
-            Save
-          </button>
           </div>
         </div>
 
@@ -157,7 +154,7 @@ class IngredientsPage extends React.Component {
   }
 
   async componentDidMount() {
-    let ingredients = await this.ingredientsRepo.getIngredients(localStorage.getItem('token'));
+    let ingredients = await this.ingredientsRepo.getIngredients();
     this.setState({ ingredients });
   }
 }
