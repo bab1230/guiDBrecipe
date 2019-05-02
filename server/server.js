@@ -515,7 +515,7 @@ app.post('/rating/add', function(req, res) {
 
 app.get('/rating',function(req,res){
 	//about mysql query
-	connection.query("SELECT * FROM ratings;",function (error,rows,fields) {
+	connection.query("SELECT ratings.rating_diff, ratings.rating_taste FROM ratings WHERE recipe_id = ?", req.query.recipe_id ,function (error,rows,fields) {
 		//call back function
 		if(!!error)
 		{
@@ -523,7 +523,16 @@ app.get('/rating',function(req,res){
 		} else {
 			console.log("Success in query: SELECT * FROM ratings");
 			//console.log(rows);
-			res.send(rows)
+			objectJavaScript = {};
+			rating_diff_arr = [];
+			rating_taste_arr = [];
+			for (var i = 0; i < rows.length; i++) {
+				rating_diff_arr.push(rows[i].rating_diff);
+				rating_taste_arr.push(rows[i].rating_taste);
+			}
+			objectJavaScript['rating_diff'] = rating_diff_arr;
+			objectJavaScript['rating_taste'] = rating_taste_arr;
+			res.status(200).send(objectJavaScript);
 			//console.log(rows);
 		}
 	});
