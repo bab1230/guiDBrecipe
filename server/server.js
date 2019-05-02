@@ -471,8 +471,6 @@ app.get('/all_recipes',function(req,res){
 })
 
 
-<<<<<<< HEAD
-=======
 
 //Newly added
 //------------------------------------ All favourites ------------------------------------
@@ -495,7 +493,6 @@ app.get('/all_recipes',function(req,res){
 
 //
 
->>>>>>> 361c5b0357eebcedb8c8d2e195f935b39d69cd51
 app.get('/recipe', function(req,res){
 	connection.query("SELECT r.recipe_id, recipe_name, how_to_cook, cuisine_type, image, rating_taste, rating_diff FROM recipes r JOIN ratings s ON r.recipe_id = s.rating_id WHERE r.recipe_id = " + req.query.recipe_id,
 				function(error,rows,fields){
@@ -523,7 +520,7 @@ app.get('/recipe/ingredients', function(req,res){
 //	[req.query.recipe_name, req.query.recipe_name]
 //-------------------------------- Searching ------------------------------------
 app.get('/search', function(req,res){
-	connection.query("SELECT recipes.recipe_id, recipe_name, how_to_cook, rating_taste FROM recipes JOIN ratings ON recipes.recipe_id = ratings.recipe_id WHERE recipes.cuisine_type LIKE '%" + req.query.recipe_name + "%' OR recipes.recipe_name LIKE '%" + req.query.recipe_name + "%'",
+	connection.query("SELECT recipe_id, recipe_name, how_to_cook FROM recipes WHERE recipes.cuisine_type LIKE '" + req.query.recipe_name + "%' OR recipes.recipe_name LIKE '%" + req.query.recipe_name + "%'",
  	function(error,rows,fields){
 		if(error){
 			console.log("Error in query: GET searchByType");
