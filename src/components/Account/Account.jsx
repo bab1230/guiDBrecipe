@@ -12,6 +12,7 @@ class Account extends Component {
 			firstname: '',
 			lastname: '',
 			username: '',
+			hasEmptyField: false,
 			edit: true
 		}
 		this.handleClose = this.handleClose.bind(this);
@@ -26,18 +27,22 @@ class Account extends Component {
 		let id = localStorage.getItem('token');
 		this.userRepository.getUser(id).then(res => {
 			this.setState({firstname: res[0].first_name, lastname: res[0].last_name, username: res[0].user_name})
-		}).catch(err => alert(err))
+		}).catch(err => console.log(err))
 	}
 	updateInfo(){
-		let id = localStorage.getItem('token');
+		if(this.state.username && this.state.lastname && this.state.firstname) {
+			let id = localStorage.getItem('token');
 		const USER = {
 			first_name_update: this.state.firstname,
 			last_name_update: this.state.lastname,
 			user_name_update: this.state.username
 		}
 		this.userRepository.updateUser(USER, +id)
-			.then(res => console.log(res))
-			.catch(err => alert(err))
+			.then(res => {
+
+			})
+			.catch(err =>console.log(err))
+		}
 	}
 	handleChange(event) {
 		this.setState({[event.target.name]: event.target.value})
@@ -89,6 +94,7 @@ class Account extends Component {
 							<Form.Control name="lastname" type="text" value={this.state.lastname} onChange={this.handleChange.bind(this)}></Form.Control>
 						</Col>
 					</Form.Group>
+					{(!this.state.username || !this.state.lastname || !this.state.firstname) &&<p style={{color: 'red', fontWeight: 'bold'}}>All fields must be filled</p>}
 				</Form>
 			);
 		}

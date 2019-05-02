@@ -11,7 +11,8 @@ class Login extends Component {
 
 		this.state = {
 			username: null,
-			password: null
+			password: null,
+			validLogin: true
 		};
 		this.verifyUser = this.verifyUser.bind(this);
 	}
@@ -30,7 +31,7 @@ class Login extends Component {
 			} 
 			return res.data
 		}).catch(err => {
-			alert(err)
+			this.setState({validLogin: false})
 		})
 	};
 	render() {
@@ -60,6 +61,7 @@ class Login extends Component {
 									this.setState({ password: event.target.value })}>
 								</input>
 							</div>
+							{!this.state.validLogin && <p style={{color: 'red', fontWeight: 'bold'}}>Invalid Username or password</p>}
 							<button type="button" className="btn btn-primary w-100 mb-2" onClick={this.verifyUser}>Log In</button>
 						</form>
 						<SignUp history={this.history} className="center-sign" />

@@ -236,8 +236,8 @@ app.get('/users/favorite', (req, res) => {
         connection.query('SELECT * FROM users JOIN favorites JOIN recipes ON users.user_id = favorites.user_id AND recipes.recipe_id = favorites.recipe_id WHERE users.user_id = ?',
                         [parseInt(req.query.user_id, 10)], function(error, results, fields) {
 									let objectJavaScript = [];
+									let responseToFrontend = {};
                   for(var i = 0; i < results.length; i++){
-											let responseToFrontend = {};
                       responseToFrontend[results[i].recipe_name] = results[i].how_to_cook;
 											// objectJavaScript.push(responseToFrontend);
 									}
@@ -293,45 +293,55 @@ app.get('/users/pantry', (req, res) => {
 
 //Add inventory
 app.post('/users/pantry/add', (req, res) => {
-					var ingre_id_from_all = -1;
+					var ingre_id_from_all = 0;
+					console.log(ingre_id_from_all);
 					//Get existing ingredient id from ingredient_all table
 					connection.query('SELECT ingredient_id FROM ingredient_all WHERE ingredient_name = ? LIMIT 1',
 											[req.body.ingredient_name], function(error, results, fields) {
 												if(error) throw error
 												else{
-													if(results.length > 0){ ingre_id_from_all = results[0].ingredient_id }
-												}
-											})
-					if(ingre_id_from_all != -1)	{//If ingredient exists in ingredient_all table
-												user_add_inventory = [parseInt(req.query.user_id, 10), ingre_id_from_all, req.body.amount, req.body.unit]
-										        console.log("User ID is " + parseInt(req.query.user_id, 10) + " adds ingredient");
-										        connection.query('INSERT INTO inventory (user_id, ingredient_id, amount, unit) VALUES (?, ?, ?, ?)',
-										                        user_add_inventory, function(error, results, fields) {
-										                  res.status(200).send('Add Success');//Add success
-										            });
-										}
-					else{//If ingredient does not exist in ingredient_all table
-						connection.query('INSERT INTO ingredient_all (ingredient_name) VALUES (?)'),
-												[req.body.ingredient_name], function(error, results, fields) {
-													if(error) throw error
+													console.log(req.body.ingredient_name);
+													if(results.length > 0){ ingre_id_from_all =  results[0].ingredient_id, 10;
+													ingre_id_from_all = parseInt(ingre_id_from_all, 10);
+												 	}
 												}
 
-						//Get new ingredient id
-						connection.query('SELECT ingredient_id FROM ingredient_all ORDER BY ingredient_id DESC LIMIT 1',
-												function(error, results, fields) {
-													if(error) throw error
-													else{
-														if(results.length > 0){ ingre_id_from_all = results[0].ingredient_id }
-													}
-												})
-						//Insert into inventory
-						user_add_inventory = [req.query.user_id, ingre_id_from_all, req.body.amount, req.body.unit]
-						console.log("User ID is ", req.query.user_id , " adds ingredient");
-						connection.query('INSERT INTO inventory (user_id, ingredient_id, amount, unit) VALUES (?, ?, ?, ?)',
-														user_add_inventory, function(error, results, fields) {
-											res.status(200).send('Add Success');//Add success
-								});
+												if(ingre_id_from_all != 0)	{//If ingredient exists in ingredient_all table
+																			user_add_inventory = [parseInt(req.query.user_id, 10), ingre_id_from_all, parseInt(req.body.amount, 10), req.body.unit]
+																	        console.log("User ID is " + parseInt(req.query.user_id, 10) + " adds ingredient");
+																	        connection.query('INSERT INTO inventory (user_id, ingredient_id, amount, unit) VALUES (?, ?, ?, ?)',
+																	                         user_add_inventory, function(error, results, fields) {
+																										if(error) {throw error;}
+																										else{
+																	                  res.status(200).send('Add Success');}//Add success
+																	            });
+																	}
+												else{//If ingredient does not exist in ingredient_all table
+													connection.query('INSERT INTO ingredient_all (ingredient_name) VALUES (?)',
+																			[req.body.ingredient_name], function(error, results, fields) {
+																				if(error) {throw error}
+																				else{console.log('added to all');}
+																			})
+
+													//Get new ingredient id
+													connection.query('SELECT ingredient_id FROM ingredient_all ORDER BY ingredient_id DESC LIMIT 1',
+																			function(error, results, fields) {
+																				if(error) throw error
+																				else{
+																					if(results.length > 0){ ingre_id_from_all = results[0].ingredient_id }
+																				}
+																			})
+													//Insert into inventory
+													user_add_inventory = [parseInt(req.query.user_id, 10), parseInt(ingre_id_from_all, 10), parseInt(req.body.amount, 10), req.body.unit]
+													console.log("User ID is ", parseInt(req.query.user_id, 10) , " adds ingredient");
+													connection.query('INSERT INTO inventory (user_id, ingredient_id, amount, unit) VALUES (?, ?, ?, ?)',
+																					user_add_inventory, function(error, results, fields) {
+																						if(error) {throw error;}
+																						else{
+																						res.status(200).send('Add Success');}//Add success
+															});
 					}
+		})
 })
 
 
@@ -500,8 +510,8 @@ app.post('/rating/add', function(req, res) {
 	var recipeID = parseInt(req.body.recipe_id, 10);
 	var rating_diff = parseInt(req.body.rating_diff, 10);
 	var rating_taste = parseInt(req.body.rating_taste, 10);
-	rating_insert = [recipeID, rating_taste, rating_diff];
-	connection.query("INSERT INTO ratings (recipe_id, rating_taste, rating_diff) VALUES (?, ? , ?)", rating_insert,
+	rating_insert = [random.int(100,100000), recipeID, rating_taste, rating_diff];
+	connection.query("INSERT INTO ratings (rating_id, recipe_id, rating_taste, rating_diff) VALUES (?, ?, ? , ?)", rating_insert,
  							function(error, results, fields) {
 								if(error) throw error
 								else{

@@ -21,9 +21,7 @@ class Navigation extends Component {
     }
     render() {
         if(this.state.search) {
-            return <Redirect to={{
-                pathname: `/search/${this.state.searchValue}`,
-                state: {search: this.state.searchValue}}}/>
+            return <Redirect to={`/search/${this.state.searchValue}`}/>
         }
         return (
             <>
