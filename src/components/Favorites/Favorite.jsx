@@ -35,10 +35,6 @@ export class Favorite extends React.Component{
         this.FavoriteRepository.getFavorites()
         .then(favorites => this.setState({favorites}));
     }
-    async componentDidMount(){
-        let favorites = await this.FavoriteRepository.getFavorite();
-        this.setState({ favorites });
-    }
 }
 
 export default Favorite;
