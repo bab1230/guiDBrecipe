@@ -480,11 +480,11 @@ app.get('/recipe/ingredients', function(req,res){
 	});
 })
 
-
+//	[req.query.recipe_name, req.query.recipe_name]
 //-------------------------------- Searching ------------------------------------
 app.get('/search', function(req,res){
-	connection.query("SELECT recipes.recipe_id, recipe_name, how_to_cook, rating_taste FROM recipes JOIN ratings ON recipes.recipe_id = ratings.recipe_id WHERE recipes.cuisine_type LIKE ? OR recipes.recipe_name LIKE ?",
-	[req.query.recipe_name, req.query.recipe_name], function(error,rows,fields){
+	connection.query("SELECT recipes.recipe_id, recipe_name, how_to_cook, rating_taste FROM recipes JOIN ratings ON recipes.recipe_id = ratings.recipe_id WHERE recipes.cuisine_type LIKE '%" + req.query.recipe_name + "%' OR recipes.recipe_name LIKE '%" + req.query.recipe_name + "%'",
+ 	function(error,rows,fields){
 		if(error){
 			console.log("Error in query: GET searchByType");
 		} else {
