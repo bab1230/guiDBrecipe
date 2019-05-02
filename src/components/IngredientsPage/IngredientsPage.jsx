@@ -52,10 +52,10 @@ class IngredientsPage extends React.Component {
               this.state.ingredients.map((a, i) =>
                 <tr key={i}>
                   <td>{a.ingredient_name}</td>
-                  <td>{a.amount} {a.unit}{(a.amount > 1 && a.unit != 0) ? "s" : ""}</td>
+                  <td>{a.amount} {a.unit}{(a.amount > 1 && a.unit !== 0) ? "s" : ""}</td>
                   <td>
                     <button className="btn btn-sm btn-danger"
-                      onClick={e => this.onDelete(a.name)}>
+                      onClick={e => this.onDelete(a.ingredient_name)}>
                       <FontAwesomeIcon icon={faTrash} />
                     </button>
                   </td>
@@ -81,8 +81,7 @@ class IngredientsPage extends React.Component {
   }
 
   async onDelete(name) {
-    let index = this.state.ingredients.map(e => e.name).indexOf(name);
-    let newstate = this.state.ingredients;
+    let index = this.state.ingredients.map(e => e.ingredient_name).indexOf(name);
     await this.ingredientsRepo.deleteIngredient(this.state.ingredients[index]);
     this.componentDidMount();
   }
@@ -148,7 +147,7 @@ class IngredientsPage extends React.Component {
         </div>
 
       </div>
-    );
+    )
 
   }
 

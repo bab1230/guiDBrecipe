@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Row, Button, Form, Modal, Col } from 'react-bootstrap'
-import axios from 'axios'
 import './Account.css';
 import UserRepository from '../../api/userRepository';
 

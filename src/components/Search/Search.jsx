@@ -21,7 +21,7 @@ class Search extends Component {
         }).catch(err => alert(err))
     }
     render() { 
-        if(this.state.recipes.length == 0) {
+        if(this.state.recipes.length === 0) {
             return <Alert variant="info">No recipes found</Alert>
         }
         else
