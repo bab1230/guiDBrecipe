@@ -455,6 +455,7 @@ app.get('/all_recipes',function(req,res){
   });
 })
 
+
 app.get('/recipe', function(req,res){
 	connection.query("SELECT r.recipe_id, recipe_name, how_to_cook, cuisine_type, image, rating_taste, rating_diff FROM recipes r JOIN ratings s ON r.recipe_id = s.rating_id WHERE r.recipe_id = " + req.query.recipe_id,
 				function(error,rows,fields){
@@ -493,15 +494,13 @@ app.get('/search', function(req,res){
 })
 
 
-//------------------------------------ All Ratings ------------------------------------
-
-
+//------------------------------------ Add Rating ------------------------------------
 app.post('/rating/add', function(req, res) {
 	var recipeID = parseInt(req.body.recipe_id, 10);
 	var rating_diff = parseInt(req.body.rating_diff, 10);
 	var rating_taste = parseInt(req.body.rating_taste, 10);
 	rating_insert = [recipeID, rating_taste, rating_diff];
-	connection.query("INSERT INTO ratings (recipe_id, rating_taste, rating_diff) VALUES (?, ? , ?)", rating_insert
+	connection.query("INSERT INTO ratings (recipe_id, rating_taste, rating_diff) VALUES (?, ? , ?)", rating_insert,
  							function(error, results, fields) {
 								if(error) throw error
 								else{
@@ -511,8 +510,7 @@ app.post('/rating/add', function(req, res) {
 							})
 })
 
-
-
+//------------------------------------ All Ratings ------------------------------------
 
 app.get('/rating',function(req,res){
 	//about mysql query
