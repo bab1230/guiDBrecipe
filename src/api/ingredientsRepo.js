@@ -31,7 +31,6 @@ class IngredientsRepo extends React.Component {
           .catch(resp => alert(resp));
   });
   }
-  // localStorage.getItem('token')
 }
 
 export default IngredientsRepo;
