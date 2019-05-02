@@ -52,7 +52,8 @@ app.post('/users/register', (req, res) => {
                     userData, function(err, result) {
                   if (err) throw err
                   else{
-                    console.log("user ", req.body.user_name, "created")
+										console.log("user ", req.body.user_name, "created")
+										res.status(200).send("user ", req.body.user_name, "created")
                   }
                 })
 })
@@ -234,10 +235,12 @@ app.get('/users/favorite', (req, res) => {
         console.log("User ID is ", parseInt(req.query.user_id, 10));
         connection.query('SELECT * FROM users JOIN favorites JOIN recipes ON users.user_id = favorites.user_id AND recipes.recipe_id = favorites.recipe_id WHERE users.user_id = ?',
                         [parseInt(req.query.user_id, 10)], function(error, results, fields) {
-                  let responseToFrontend = {}
+									let objectJavaScript = [];
                   for(var i = 0; i < results.length; i++){
+											let responseToFrontend = {};
                       responseToFrontend[results[i].recipe_name] = results[i].how_to_cook;
-                  }
+											// objectJavaScript.push(responseToFrontend);
+									}
 									res.status(200).send(responseToFrontend);//This is an object
             });
 })
@@ -245,20 +248,24 @@ app.get('/users/favorite', (req, res) => {
 //Delete recipes from favorite
 app.post('/users/favorite/delete', (req, res) => {
     var recipeID = req.body.recipe_id;
-        console.log("User ID is ", req.body.user_id);
+        console.log("User ID is ", req.query.user_id);
         connection.query('DELETE FROM favorites WHERE user_id = ? AND recipe_id = ?',
-                        [req.body.user_id, recipeID], function(error, results, fields) {
-                  res.status(200).send("Delete successful");//This is an object
+                        [req.query.user_id, recipeID], function(error, results, fields) {
+									if(error) {throw error;}
+									else{
+                  res.status(200).send("Delete successful");}//This is an object
             });
 })
 
 //Add recipes to favorite
 app.post('/users/favorite/add', (req, res) => {
     var recipeID = req.body.recipe_id;
-        console.log("User ID is ", req.body.user_id);
+        console.log("User ID is ", req.query.user_id);
         connection.query('INSERT INTO favorites VALUES (?, ?)',
-                        [req.body.user_id, recipeID], function(error, results, fields) {
-                  res.status(200).send("Add successful");//Add success
+                        [req.query.user_id, recipeID], function(error, results, fields) {
+									if(error) {throw error;}
+									else{
+									res.status(200).send("Add successful");}//This is an object
             });
 })
 
@@ -296,8 +303,8 @@ app.post('/users/pantry/add', (req, res) => {
 												}
 											})
 					if(ingre_id_from_all != -1)	{//If ingredient exists in ingredient_all table
-												user_add_inventory = [req.body.user_id, ingre_id_from_all, req.body.amount, req.body.unit]
-										        console.log("User ID is ", req.body.user_id , " adds ingredient");
+												user_add_inventory = [req.query.user_id, ingre_id_from_all, req.body.amount, req.body.unit]
+										        console.log("User ID is ", req.query.user_id , " adds ingredient");
 										        connection.query('INSERT INTO inventory (user_id, ingredient_id, amount, unit) VALUES (?, ?, ?, ?)',
 										                        user_add_inventory, function(error, results, fields) {
 										                  res.status(200).send('Add Success');//Add success
@@ -318,8 +325,8 @@ app.post('/users/pantry/add', (req, res) => {
 													}
 												})
 						//Insert into inventory
-						user_add_inventory = [req.body.user_id, ingre_id_from_all, req.body.amount, req.body.unit]
-						console.log("User ID is ", req.body.user_id , " adds ingredient");
+						user_add_inventory = [req.query.user_id, ingre_id_from_all, req.body.amount, req.body.unit]
+						console.log("User ID is ", req.query.user_id , " adds ingredient");
 						connection.query('INSERT INTO inventory (user_id, ingredient_id, amount, unit) VALUES (?, ?, ?, ?)',
 														user_add_inventory, function(error, results, fields) {
 											res.status(200).send('Add Success');//Add success
@@ -330,8 +337,17 @@ app.post('/users/pantry/add', (req, res) => {
 
 //Delete inventory
 app.post('/users/pantry/delete', (req, res) => {
-					connection.query('DELETE FROM inventory WHERE user_id = ? AND ingredient_name = ?',
-											[req.body.user_id, req.body.ingredient_name], function(error, results, fields) {
+	var ingre_id = 0;
+	var ingre_name = req.body.ingredient_name;
+	connection.query('SELECT * FROM ingredient_all WHERE ingredient_all.ingre_name = ? LIMIT 1' , [ingre_name], function(error, results, fields) {
+		if(error) throw error
+		else{
+			if(results.length > 0){ ingre_id = results[0].ingredient_id;}
+		}
+	})
+
+					connection.query('DELETE FROM inventory WHERE user_id = ? AND ingredient_id = ?',
+											[req.query.user_id, ingre_id], function(error, results, fields) {
 												if(error) throw error
 												else{
 													res.status(200).send('Delete Success');//Delete success
@@ -356,7 +372,7 @@ app.post('/users/pantry/update', (req, res) => {
 					//Update inventory using ingredient_id
 					//UPDATE `table_name` SET `column_name` = `new_value' [WHERE condition];
 					connection.query('UPDATE inventory SET amount = ? AND unit = ? WHERE user_id = ? AND ingredient_id = ?',
-											[req.body.amount, req.body.unit, req.body.user_id, ingre_id_from_all], function(error, results, fields) {
+											[req.body.amount, req.body.unit, req.query.user_id, ingre_id_from_all], function(error, results, fields) {
 												if(error) throw error
 												else{
 													res.status(200).send("Update success")//Update success
@@ -394,8 +410,8 @@ app.post('/users/cookware/add', (req, res) => {
 									res.status(200).send("Cookware is in your inventory")
 						}
 						else{	//If cookware does not exist
-						cookware_insert = [req.session.users_id,
-															random.int(1000000, 100000000000),
+						cookware_insert = [req.query.user_id,
+															random.int(1000, 100000),
 															req.body.cookware_name]
 
 						connection.query('INSERT INTO cookware (user_id, cookware_id, cookware_name) VALUES (?, ?, ?)',
@@ -413,13 +429,14 @@ app.post('/users/cookware/add', (req, res) => {
 //Delete cookware
 app.post('/users/cookware/delete', (req, res) => {
 					connection.query('DELETE FROM cookware WHERE user_id = ? AND cookware_name = ?',
-											[req.body.user_id, req.body.cookware_name], function(error, results, fields) {
+											[req.query.user_id, req.body.cookware_name], function(error, results, fields) {
 												if(error) throw error
 												else{
 													res.status(200).send('Delete Success');//Delete success
 												}
 											})
 })
+
 
 //------------------------------------ All Recipes ------------------------------------
 app.get('/all_recipes',function(req,res){
