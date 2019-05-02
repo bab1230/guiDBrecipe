@@ -483,12 +483,13 @@ app.get('/recipe/ingredients', function(req,res){
 
 //-------------------------------- Searching ------------------------------------
 app.get('/search', function(req,res){
-	connection.query("SELECT recipe_id, recipe_name, how_to_cook, rating_taste FROM recipes r JOIN ratings s ON r.recipe_id = s.rating_id WHERE cuisine_type LIKE '%" + req.query.recipe_name + "%' OR recipe_name LIKE '%" + req.query.recipe_name + "%'", function(error,rows,fields){
-		if(!!error){
+	connection.query("SELECT recipes.recipe_id, recipe_name, how_to_cook, rating_taste FROM recipes JOIN ratings ON recipes.recipe_id = ratings.recipe_id WHERE recipes.cuisine_type LIKE ? OR recipes.recipe_name LIKE ?",
+	[req.query.recipe_name, req.query.recipe_name], function(error,rows,fields){
+		if(error){
 			console.log("Error in query: GET searchByType");
 		} else {
 			console.log("Success in query: GET searchByType");
-			res.send(rows);
+			res.status(200).send(rows);
 		}
 	});
 })
