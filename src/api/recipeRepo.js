@@ -5,7 +5,7 @@ export class recipeRepo {
 
     getRecipes() {
         return new Promise((resolve, reject) => {
-            axios.get(`${this.url}/all_recipes`, this.config)
+            axios.get(`${this.url}/all_recipes`)
                 .then(resp => resolve(resp.data))
                 .catch(resp => alert(resp));
         });
@@ -29,10 +29,18 @@ export class recipeRepo {
         });
     }
 
-
-    addReview(recipe_id, taste_rating, diff_rating) {
+    getRating(recipe_id) {
         return new Promise((resolve, reject) => {
-            axios.post(`${this.url}/rating/add`, { body:{ recipe_id: recipe_id, rating_diff: diff_rating, rating_taste: taste_rating } })
+            axios.get(`${this.url}/rating/${recipe_id}`)
+                .then(resp => resolve(resp.data))
+                .catch(resp => alert(resp));
+        });
+    }
+
+
+    addReview(recipe_id, diff_rating, taste_rating) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${this.url}/rating/add`, { recipe_id: recipe_id, rating_diff: diff_rating, rating_taste: taste_rating })
                 .then(resp => resolve(resp.data))
                 .catch(resp => alert(resp));
         });
