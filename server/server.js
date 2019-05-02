@@ -471,6 +471,28 @@ app.get('/all_recipes',function(req,res){
 })
 
 
+
+//Newly added
+//------------------------------------ All favourites ------------------------------------
+app.get('/all_favourites',function(req,res){
+	//about mysql query
+	connection.query("SELECT * FROM favourites;",function (error,rows,fields) {
+		//call back function
+		if(!!error)
+		{
+			console.log("Error in query: SELECT * FROM favourites");
+		}else {
+			console.log("Success in query: SELECT * FROM favourites");
+			//console.log(rows);
+			res.send(rows)
+			//console.log(rows);
+		}
+	});
+})
+
+
+//
+
 app.get('/recipe', function(req,res){
 	connection.query("SELECT r.recipe_id, recipe_name, how_to_cook, cuisine_type, image, rating_taste, rating_diff FROM recipes r JOIN ratings s ON r.recipe_id = s.rating_id WHERE r.recipe_id = " + req.query.recipe_id,
 				function(error,rows,fields){
@@ -482,6 +504,7 @@ app.get('/recipe', function(req,res){
 		}
 	});
 })
+
 
 app.get('/recipe/ingredients', function(req,res){
 	connection.query("SELECT recipe_id, i.ingredient_id, ingredient_name, amount, unit, notes FROM ingredient_recipe i JOIN ingredient_all a ON i.ingredient_id = a.ingredient_id WHERE recipe_id = " + req.query.recipe_id,
