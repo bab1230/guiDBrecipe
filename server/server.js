@@ -293,45 +293,55 @@ app.get('/users/pantry', (req, res) => {
 
 //Add inventory
 app.post('/users/pantry/add', (req, res) => {
-					var ingre_id_from_all = -1;
+					var ingre_id_from_all = 0;
+					console.log(ingre_id_from_all);
 					//Get existing ingredient id from ingredient_all table
 					connection.query('SELECT ingredient_id FROM ingredient_all WHERE ingredient_name = ? LIMIT 1',
 											[req.body.ingredient_name], function(error, results, fields) {
 												if(error) throw error
 												else{
-													if(results.length > 0){ ingre_id_from_all = results[0].ingredient_id }
-												}
-											})
-					if(ingre_id_from_all != -1)	{//If ingredient exists in ingredient_all table
-												user_add_inventory = [parseInt(req.query.user_id, 10), ingre_id_from_all, req.body.amount, req.body.unit]
-										        console.log("User ID is " + parseInt(req.query.user_id, 10) + " adds ingredient");
-										        connection.query('INSERT INTO inventory (user_id, ingredient_id, amount, unit) VALUES (?, ?, ?, ?)',
-										                        user_add_inventory, function(error, results, fields) {
-										                  res.status(200).send('Add Success');//Add success
-										            });
-										}
-					else{//If ingredient does not exist in ingredient_all table
-						connection.query('INSERT INTO ingredient_all (ingredient_name) VALUES (?)'),
-												[req.body.ingredient_name], function(error, results, fields) {
-													if(error) throw error
+													console.log(req.body.ingredient_name);
+													if(results.length > 0){ ingre_id_from_all =  results[0].ingredient_id, 10;
+													ingre_id_from_all = parseInt(ingre_id_from_all, 10);
+												 	}
 												}
 
-						//Get new ingredient id
-						connection.query('SELECT ingredient_id FROM ingredient_all ORDER BY ingredient_id DESC LIMIT 1',
-												function(error, results, fields) {
-													if(error) throw error
-													else{
-														if(results.length > 0){ ingre_id_from_all = results[0].ingredient_id }
-													}
-												})
-						//Insert into inventory
-						user_add_inventory = [req.query.user_id, ingre_id_from_all, req.body.amount, req.body.unit]
-						console.log("User ID is ", req.query.user_id , " adds ingredient");
-						connection.query('INSERT INTO inventory (user_id, ingredient_id, amount, unit) VALUES (?, ?, ?, ?)',
-														user_add_inventory, function(error, results, fields) {
-											res.status(200).send('Add Success');//Add success
-								});
+												if(ingre_id_from_all != 0)	{//If ingredient exists in ingredient_all table
+																			user_add_inventory = [parseInt(req.query.user_id, 10), ingre_id_from_all, parseInt(req.body.amount, 10), req.body.unit]
+																	        console.log("User ID is " + parseInt(req.query.user_id, 10) + " adds ingredient");
+																	        connection.query('INSERT INTO inventory (user_id, ingredient_id, amount, unit) VALUES (?, ?, ?, ?)',
+																	                         user_add_inventory, function(error, results, fields) {
+																										if(error) {throw error;}
+																										else{
+																	                  res.status(200).send('Add Success');}//Add success
+																	            });
+																	}
+												else{//If ingredient does not exist in ingredient_all table
+													connection.query('INSERT INTO ingredient_all (ingredient_name) VALUES (?)',
+																			[req.body.ingredient_name], function(error, results, fields) {
+																				if(error) {throw error}
+																				else{console.log('added to all');}
+																			})
+
+													//Get new ingredient id
+													connection.query('SELECT ingredient_id FROM ingredient_all ORDER BY ingredient_id DESC LIMIT 1',
+																			function(error, results, fields) {
+																				if(error) throw error
+																				else{
+																					if(results.length > 0){ ingre_id_from_all = results[0].ingredient_id }
+																				}
+																			})
+													//Insert into inventory
+													user_add_inventory = [parseInt(req.query.user_id, 10), parseInt(ingre_id_from_all, 10), parseInt(req.body.amount, 10), req.body.unit]
+													console.log("User ID is ", parseInt(req.query.user_id, 10) , " adds ingredient");
+													connection.query('INSERT INTO inventory (user_id, ingredient_id, amount, unit) VALUES (?, ?, ?, ?)',
+																					user_add_inventory, function(error, results, fields) {
+																						if(error) {throw error;}
+																						else{
+																						res.status(200).send('Add Success');}//Add success
+															});
 					}
+		})
 })
 
 
