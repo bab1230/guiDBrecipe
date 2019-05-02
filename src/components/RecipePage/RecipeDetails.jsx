@@ -5,6 +5,7 @@ import { ReviewForm } from './reviewForm';
 import { ReviewList } from './reviewList';
 import { recipeRepo } from '../../api/recipeRepo';
 import { favoriteRepository } from '../../api/favoriteRepository';
+import { FavoriteList } from '../Favorites/FavoriteList';
 
 export class RecipeDetails extends React.Component{
     recipeRepo=new recipeRepo();
@@ -19,7 +20,7 @@ export class RecipeDetails extends React.Component{
             cuisine_type: '',
             image: '',
         },
-        
+
         ratings: [],
         rating: 0
     };
@@ -66,7 +67,6 @@ export class RecipeDetails extends React.Component{
     async componentDidMount() {
         let recipe = await this.recipeRepo.getRecipe(this.props.match.params.recipe_id)
         this.setState ({ recipe: recipe[0] });
-
     }
 }
 
