@@ -510,8 +510,8 @@ app.post('/rating/add', function(req, res) {
 	var recipeID = parseInt(req.body.recipe_id, 10);
 	var rating_diff = parseInt(req.body.rating_diff, 10);
 	var rating_taste = parseInt(req.body.rating_taste, 10);
-	rating_insert = [recipeID, rating_taste, rating_diff];
-	connection.query("INSERT INTO ratings (recipe_id, rating_taste, rating_diff) VALUES (?, ? , ?)", rating_insert,
+	rating_insert = [random.int(100,100000), recipeID, rating_taste, rating_diff];
+	connection.query("INSERT INTO ratings (rating_id, recipe_id, rating_taste, rating_diff) VALUES (?, ?, ? , ?)", rating_insert,
  							function(error, results, fields) {
 								if(error) throw error
 								else{
