@@ -35,7 +35,7 @@ class Navigation extends Component {
                             <NavDropdown className="flow-right" id="dropdown-menu-align-right" title="Account">
                                 <NavDropdown.Item onClick={() => this.toggleAccount()}>Account</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item onClick={() => {localStorage.removeItem('token'); this.props.logout()}}>Logout</NavDropdown.Item>
+                                <NavDropdown.Item style={{backgroundColor: 'white', color: 'black'}}as={NavLink} to="/"onClick={() => {localStorage.removeItem('token'); this.props.logout()}}>Logout</NavDropdown.Item>
                             </NavDropdown>
                             <Nav.Link as={NavLink} to="/home">Home</Nav.Link>
                             <Nav.Link as={NavLink} to="/ingredient">Ingredients</Nav.Link>
