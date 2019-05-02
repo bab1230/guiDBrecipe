@@ -236,8 +236,8 @@ app.get('/users/favorite', (req, res) => {
         connection.query('SELECT * FROM users JOIN favorites JOIN recipes ON users.user_id = favorites.user_id AND recipes.recipe_id = favorites.recipe_id WHERE users.user_id = ?',
                         [parseInt(req.query.user_id, 10)], function(error, results, fields) {
 									let objectJavaScript = [];
+									let responseToFrontend = {};
                   for(var i = 0; i < results.length; i++){
-											let responseToFrontend = {};
                       responseToFrontend[results[i].recipe_name] = results[i].how_to_cook;
 											// objectJavaScript.push(responseToFrontend);
 									}
