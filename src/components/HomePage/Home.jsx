@@ -16,7 +16,6 @@ export class Home extends React.Component {
         return (
             <>
                 {this.renderCarousel()}
-                {/* {this.renderCard()} */}
                 {this.renderCarouselCard()}
             </>
         );
@@ -34,31 +33,23 @@ export class Home extends React.Component {
                 <h4 style={{ margin: 20 }}>Trending</h4>
                 <div className="d-flex" style={{}} >
                     <div className="hide-card offset-1 col-3">
-                        <Card style={{maxHeight: "700px"}}>
-                            <Card.Img className="rounded" variant="top" src='http://johnlawrimore.com/smu/101.png' />
+                    {
+                        this.state.recipes.slice(9,10).map((b,j)=> (
+                        <Card bg="dark" style={{maxHeight: "700px"}} key={j}>
+                        <Link to={`/recipes/${b.recipe_id}`}  >
+                            <Card.Img className="rounded" variant="top" src={b.image} />
                             <Card.Body>
-                                <Card.Title>Card title</Card.Title>
-                                    <Card.Text>
-                                        This is a wider card with supporting text below as a natural lead-in to
-                                        additional content. This content is a little bit longer.
-                                    </Card.Text>
+                                <Card.Title style={{color: "white", fontWeight: "bold", textShadow: "black 0px 0px 10px"}}>{b.recipe_name}</Card.Title>
                             </Card.Body>
+                        </Link>
                         </Card>
+                        ))
+                    }
                     </div>
                     <div className="col-xl-4 col-md-4 col-xs-12 align-items-center">
                     <Carousel className="phone-trending fix-carousel" style={{ maxHeight: "700px", maxWidth: "700px"}}>
                     {
                         this.state.recipes.map((a, i) => (
-                            /*<Carousel.Item key={i}>
-                                <Link to={`/recipes/${a.recipe_id}`}  >
-                                    <Card className="border-0 ">
-                                        <Card.Img src={a.image}/>
-                                    </Card>
-                                    <Carousel.Caption>
-                                        <h3 style={{color: "white", fontWeight: "bold", textShadow: "black 0px 0px 10px"}}>{a.recipe_name}</h3>
-                                    </Carousel.Caption>
-                                </Link>
-                            </Carousel.Item>*/
                             <Carousel.Item key={i}>
                                 <Link to={`/recipes/${a.recipe_id}`}  >
                                     <img 
@@ -75,170 +66,90 @@ export class Home extends React.Component {
                     </Carousel>
                     </div>
                     <div className="hide-card col-3">
-                        <Card className="" >
-                            <Card.Img className="rounded" variant="top" src='http://johnlawrimore.com/smu/101.png' />
+                    {
+                        this.state.recipes.slice(7,8).map((b,j)=> (
+                        <Card bg="dark" className="" key={j}>
+                        <Link to={`/recipes/${b.recipe_id}`}  >
+                            <Card.Img className="rounded" variant="top" src={b.image} />
                             <Card.Body>
-                                <Card.Title>Card title</Card.Title>
-                                    <Card.Text>
-                                        This is a wider card with supporting text below as a natural lead-in to
-                                        additional content. This content is a little bit longer.
-                                    </Card.Text>
+                                <Card.Title bg="dark" style={{color: "white", fontWeight: "bold", textShadow: "black 0px 0px 10px"}}>{b.recipe_name}</Card.Title>
                             </Card.Body>
+                        </Link>
                         </Card>
+                        ))
+                    }    
                     </div>
                 </div>
             </div>
-        );
-    }
-
-    renderCard() {
-        return (
-            <>
-                <CardDeck style={{ margin: 20 }}>
-                    <Card>
-                        <Card.Img variant="top" src='' />
-                        <Card.Body>
-                            <Card.Title>Card title</Card.Title>
-                            <Card.Text>
-                                This card has supporting text below as a natural lead-in to additional
-                            content.{' '}
-                            </Card.Text>
-                        </Card.Body>
-                    </Card>
-                    <Card>
-                        <Card.Img variant="top" src='' />
-                        <Card.Body>
-                            <Card.Title>Card title</Card.Title>
-                            <Card.Text>
-                                This is a wider card with supporting text below as a natural lead-in to
-                                additional content. This card has even longer content than the first to
-                                show that equal height action.
-                        </Card.Text>
-                        </Card.Body>
-                    </Card>
-                    <Card>
-                        <Card.Img variant="top" src='' />
-                        <Card.Body>
-                            <Card.Title>Card title</Card.Title>
-                            <Card.Text>
-                                This is a wider card with supporting text below as a natural lead-in to
-                                additional content. This card has even longer content than the first to
-                                show that equal height action.
-                        </Card.Text>
-                        </Card.Body>
-                    </Card>
-                </CardDeck>;
-            </>
         );
     }
     renderCarouselCard() {
         return (
             <>
                 <h4 style={{ margin: 20 }}>Favorites</h4>
-                <Carousel style={{ margin: 20 }}>
+                <Carousel className="phone-trending fix-carousel" style={{ maxHeight: "700px", margin: 20}}>
                     <Carousel.Item>
                         <CardDeck>
-                            <Card>
-                                <Card.Img variant="top" src='http://johnlawrimore.com/smu/101.png' />
+                        {
+                            this.state.recipes.slice(0,5).map((a,i)=>(
+                            <Card bg="dark" key={i}>
+                            <Link to={`/recipes/${a.recipe_id}`}  >
+                                <Card.Img variant="top" src={a.image} />
                                 <Card.Body>
-                                    <Card.Title>Card title</Card.Title>
-                                    <Card.Text>
-                                        This is a wider card with supporting text below as a natural lead-in to
-                                        additional content. This content is a little bit longer.
-                                    </Card.Text>
+                                    <Card.Title bg="dark" style={{color: "white", fontWeight: "bold", textShadow: "black 0px 0px 10px"}}>{a.recipe_name}</Card.Title>
                                 </Card.Body>
+                            </Link>
                             </Card>
-                            <Card>
-                                <Card.Img variant="top" src='http://johnlawrimore.com/smu/101.png' />
-                                <Card.Body>
-                                    <Card.Title>Card title</Card.Title>
-                                    <Card.Text>
-                                        This card has supporting text below as a natural lead-in to additional
-                            content.{' '}
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                            <Card>
-                                <Card.Img variant="top" src='http://johnlawrimore.com/smu/101.png' />
-                                <Card.Body>
-                                    <Card.Title>Card title</Card.Title>
-                                    <Card.Text>
-                                        This is a wider card with supporting text below as a natural lead-in to
-                                        additional content. This card has even longer content than the first to
-                                        show that equal height action.
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
+                            ))
+                        }
                         </CardDeck>
                     </Carousel.Item>
                     <Carousel.Item>
                         <CardDeck>
-                            <Card>
-                                <Card.Img variant="top" src='http://johnlawrimore.com/smu/101.png' />
+                        {
+                            this.state.recipes.slice(5,10).map((a,i)=>(
+                            <Card bg="dark" key={i}>
+                            <Link to={`/recipes/${a.recipe_id}`}  >
+                                <Card.Img variant="top" src={a.image} />
                                 <Card.Body>
-                                    <Card.Title>Card title</Card.Title>
-                                    <Card.Text>
-                                        This is a wider card with supporting text below as a natural lead-in to
-                                        additional content. This content is a little bit longer.
-                                    </Card.Text>
+                                    <Card.Title bg="dark" style={{color: "white", fontWeight: "bold", textShadow: "black 0px 0px 10px"}}>{a.recipe_name}</Card.Title>
                                 </Card.Body>
+                            </Link>
                             </Card>
-                            <Card>
-                                <Card.Img variant="top" src='http://johnlawrimore.com/smu/101.png' />
-                                <Card.Body>
-                                    <Card.Title>Card title</Card.Title>
-                                    <Card.Text>
-                                        This card has supporting text below as a natural lead-in to additional
-                            content.{' '}
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                            <Card>
-                                <Card.Img variant="top" src='http://johnlawrimore.com/smu/101.png' />
-                                <Card.Body>
-                                    <Card.Title>Card title</Card.Title>
-                                    <Card.Text>
-                                        This is a wider card with supporting text below as a natural lead-in to
-                                        additional content. This card has even longer content than the first to
-                                        show that equal height action.
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
+                            ))
+                        }
                         </CardDeck>
                     </Carousel.Item>
                     <Carousel.Item>
                         <CardDeck>
-                            <Card>
-                                <Card.Img variant="top" src='http://johnlawrimore.com/smu/101.png' />
+                        {
+                            this.state.recipes.slice(10,15).map((a,i)=>(
+                            <Card bg="dark" key={i}>
+                            <Link to={`/recipes/${a.recipe_id}`}  >
+                                <Card.Img variant="top" src={a.image} />
                                 <Card.Body>
-                                    <Card.Title>Card title</Card.Title>
-                                    <Card.Text>
-                                        This is a wider card with supporting text below as a natural lead-in to
-                                        additional content. This content is a little bit longer.
-                                    </Card.Text>
+                                    <Card.Title bg="dark" style={{color: "white", fontWeight: "bold", textShadow: "black 0px 0px 10px"}}>{a.recipe_name}</Card.Title>
                                 </Card.Body>
+                            </Link>
                             </Card>
-                            <Card>
-                                <Card.Img variant="top" src='http://johnlawrimore.com/smu/101.png' />
+                            ))
+                        }
+                        </CardDeck>
+                    </Carousel.Item>
+                    <Carousel.Item>
+                        <CardDeck>
+                        {
+                            this.state.recipes.slice(15,20).map((a,i)=>(
+                            <Card bg="dark" key={i}>
+                            <Link to={`/recipes/${a.recipe_id}`}  >
+                                <Card.Img variant="top" src={a.image} />
                                 <Card.Body>
-                                    <Card.Title>Card title</Card.Title>
-                                    <Card.Text>
-                                        This card has supporting text below as a natural lead-in to additional
-                            content.{' '}
-                                    </Card.Text>
+                                    <Card.Title bg="dark" style={{color: "white", fontWeight: "bold", textShadow: "black 0px 0px 10px"}}>{a.recipe_name}</Card.Title>
                                 </Card.Body>
+                            </Link>
                             </Card>
-                            <Card>
-                                <Card.Img variant="top" src='http://johnlawrimore.com/smu/101.png' />
-                                <Card.Body>
-                                    <Card.Title>Card title</Card.Title>
-                                    <Card.Text>
-                                        This is a wider card with supporting text below as a natural lead-in to
-                                        additional content. This card has even longer content than the first to
-                                        show that equal height action.
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
+                            ))
+                        }
                         </CardDeck>
                     </Carousel.Item>
                 </Carousel>

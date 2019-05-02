@@ -23,16 +23,17 @@ export class RecipeDetails extends React.Component{
             cuisine_type: '',
             image: '',
             rating_diff: 0,
-            rating_taste: 0
+            rating_taste: 0,
+            // rating_diff: [0,0],
+            // rating_taste: [0,0]
         },
-        rating: 0,
-
+        
         ingredients: [],
         
     };
 
-    onNewRating(rating){
-        this.recipeRepo.addReview(this.state.recipe.recipe_id, rating);
+    onNewRating(rating_diff, rating_taste){
+        this.recipeRepo.addReview(this.state.recipe.recipe_id, rating_diff, rating_taste);
       }
 
     
@@ -45,15 +46,20 @@ export class RecipeDetails extends React.Component{
             <>
             <Container style={{marginBottom:20}}>
             {this.renderJumbo()}
-            <ReviewForm onNewRating={a=>this.onNewRating(a)} />
+            <ReviewForm onNewRating={(a,b)=>this.onNewRating(a, b)} />
             </Container>
             </>
         );
     }
 
-    averageRating() {
-        let sum = this.state.ratings.reduce((a, b) => a + b);
-        return Math.ceil(sum/this.state.ratings.length);
+    averageRatingDiff() {
+        let sum = this.state.recipe.rating_diff.reduce((a, b) => a + b);
+        return Math.ceil(sum/this.state.recipe.rating_diff.length);
+    }
+
+    averageRatingTaste() {
+        let sum = this.state.recipe.rating_taste.reduce((a, b) => a + b);
+        return Math.ceil(sum/this.state.recipe.rating_taste.length);
     }
 
     capitalize = string => string.charAt(0).toUpperCase() + string.slice(1);
@@ -70,31 +76,37 @@ export class RecipeDetails extends React.Component{
                     <h1 className="font-weight-bold" >{this.state.recipe.recipe_name}</h1>
                 </div>
                 <div className="d-flex ratings justify-content-between align-items-center mb-3">
+                    {/* <div className="font-weight-bold">Taste:<Rating value={this.averageRatingTaste()} /></div>
+                    <div className="font-weight-bold">Difficulty:<Rating value={this.averageRatingTaste()} /></div> */}
                     <div className="font-weight-bold">Taste:<Rating value={this.state.recipe.rating_taste} /></div>
                     <div className="font-weight-bold">Difficulty:<Rating value={this.state.recipe.rating_diff} /></div>
                 </div>
                 <div className="d-flex flex-column align-items-center">
                     <h2>Ingredients:</h2>
-                    {/* <div className="w-75"> */}
-                        <ul className="ingredients">
+                        <ul className="ingredients w-75 list-group">
                             {
                                 this.state.ingredients.map((a, i) => (
-                                    <li className="d w-75-flex justify-content-between m-1">
+                                    <li key={i} className="list-group-item d-flex justify-content-between m-1">
                                         <div  className="font-weight-bold">{`${this.capitalize(a.ingredient_name)} ${a.notes === "null" ? "" : "(" + a.notes + ")"}`}</div>
                                         <div>{`${a.amount === "null" ? "" : a.amount} ${a.unit === "null" ? "" : a.unit}${(a.amount > 1 && a.unit !== "null") ? "s" : ""}`}</div>
                                     </li>
                                 ))
                             }
                         </ul>
-                    {/* </div> */}
-                    <h2>Recipe:</h2>
-                    <p>{this.state.recipe.how_to_cook}</p>
+                    <h2 className="mt-2">Recipe:</h2>
+                    <div className="d-flex flex-column text-left">
+                    {
+                        this.state.recipe.how_to_cook.split('\n').map((item, i) => {
+                            return <p key={i}>{item}</p>;
+                        })
+                    }
+                    </div>
                 </div>
                 <div style={{clear:'left'}}/>
                 <Col md={{offset:5}}>
-                    <Link className="btn btn-warning" onClick={() => this.favoriteRepository.addFavorite(this.state.recipe.recipe_id)}>
+                    <button className="btn btn-warning" onClick={() => this.favoriteRepository.addFavorite(this.state.recipe.recipe_id)}>
                         Add to Favorites
-                    </Link>
+                    </button>
                 </Col>
             </Jumbotron>;
             </>
@@ -103,11 +115,10 @@ export class RecipeDetails extends React.Component{
 
     async componentDidMount() {
         let recipe = await this.recipeRepo.getRecipe(this.props.match.params.recipe_id);
-        this.setState ({ recipe: recipe[0] });
+        if (recipe !== undefined) {this.setState ({ recipe: recipe[0] })};
         
         let ingredients = await this.recipeRepo.getRecipeIngredients(this.props.match.params.recipe_id);
-        this.setState ({ingredients});
-
+        if (ingredients !== undefined) {this.setState ({ingredients})};
     }
 }
 

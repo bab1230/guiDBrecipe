@@ -6,7 +6,7 @@ import IngredientsRepo from './../../api/ingredientsRepo';
 
 class IngredientsPage extends React.Component {
 
-  ingredientsRepo = new IngredientsRepo;
+  ingredientsRepo = new IngredientsRepo();
 
 
   state = {
@@ -70,12 +70,13 @@ class IngredientsPage extends React.Component {
 
   onSubmit() {
     if (this.state.currentname !== "" && this.state.currentquantity !== 0) {
-      this.state.ingredients.push(new ingredient(this.state.currentname, this.state.currentquantity, this.state.currentunit));
+      this.ingredientsRepo.addIngredient(new ingredient(this.state.currentname, this.state.currentquantity, this.state.currentunit));
       this.setState({
         currentname: "",
         currentquantity: 0,
         currentunit: "",
       });
+      this.componentDidMount();
     }
   }
 
@@ -84,11 +85,7 @@ class IngredientsPage extends React.Component {
     let newstate = this.state.ingredients;
     newstate.splice(index, 1);
     this.setState({ ingredients: newstate});
-  }
-
-  onSave() {
-    this.ingredientsRepo.updateIngredients(this.state.ingredients);
-    this.componentDidMount();
+    this.ingredientsRepo.deleteIngredient();
   }
 
 
