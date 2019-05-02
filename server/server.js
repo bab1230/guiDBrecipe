@@ -349,20 +349,25 @@ app.post('/users/pantry/add', (req, res) => {
 app.post('/users/pantry/delete', (req, res) => {
 	var ingre_id = 0;
 	var ingre_name = req.body.ingredient_name;
+	console.log(req.body.ingredient_name);
 	connection.query('SELECT * FROM ingredient_all WHERE ingredient_all.ingredient_name = ? LIMIT 1' , [ingre_name], function(error, results, fields) {
 		if(error) throw error
 		else{
-			if(results.length > 0){ ingre_id = results[0].ingredient_id;}
+			if(results.length > 0){ ingre_id = results[0].ingredient_id;
+			console.log(ingre_id);}
 		}
-	});
+		connection.query('DELETE FROM inventory WHERE user_id = ? AND ingredient_id = ?',
+								[parseInt(req.query.user_id, 10), ingre_id], function(error, results, fields) {
+									if(error) throw error
+									else{
+										console.log(req.query.user_id);
+										console.log(ingre_id);
+										res.status(200).send('Delete Success');//Delete success
+									}
+								});
+	})
 
-					connection.query('DELETE FROM inventory WHERE user_id = ? AND ingredient_id = ?',
-											[parseInt(req.query.user_id, 10), parseInt(ingre_id, 10)], function(error, results, fields) {
-												if(error) throw error
-												else{
-													res.status(200).send('Delete Success');//Delete success
-												}
-											});
+
 })
 
 
