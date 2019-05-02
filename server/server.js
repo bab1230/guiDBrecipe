@@ -303,8 +303,8 @@ app.post('/users/pantry/add', (req, res) => {
 												}
 											})
 					if(ingre_id_from_all != -1)	{//If ingredient exists in ingredient_all table
-												user_add_inventory = [req.query.user_id, ingre_id_from_all, req.body.amount, req.body.unit]
-										        console.log("User ID is ", req.query.user_id , " adds ingredient");
+												user_add_inventory = [parseInt(req.query.user_id, 10), ingre_id_from_all, req.body.amount, req.body.unit]
+										        console.log("User ID is " + parseInt(req.query.user_id, 10) + " adds ingredient");
 										        connection.query('INSERT INTO inventory (user_id, ingredient_id, amount, unit) VALUES (?, ?, ?, ?)',
 										                        user_add_inventory, function(error, results, fields) {
 										                  res.status(200).send('Add Success');//Add success
@@ -339,12 +339,12 @@ app.post('/users/pantry/add', (req, res) => {
 app.post('/users/pantry/delete', (req, res) => {
 	var ingre_id = 0;
 	var ingre_name = req.body.ingredient_name;
-	connection.query('SELECT * FROM ingredient_all WHERE ingredient_all.ingre_name = ? LIMIT 1' , [ingre_name], function(error, results, fields) {
+	connection.query('SELECT * FROM ingredient_all WHERE ingredient_all.ingredient_name = ? LIMIT 1' , [ingre_name], function(error, results, fields) {
 		if(error) throw error
 		else{
 			if(results.length > 0){ ingre_id = results[0].ingredient_id;}
 		}
-	})
+	});
 
 					connection.query('DELETE FROM inventory WHERE user_id = ? AND ingredient_id = ?',
 											[req.query.user_id, ingre_id], function(error, results, fields) {
@@ -352,7 +352,7 @@ app.post('/users/pantry/delete', (req, res) => {
 												else{
 													res.status(200).send('Delete Success');//Delete success
 												}
-											})
+											});
 })
 
 
@@ -494,6 +494,25 @@ app.get('/search', function(req,res){
 
 
 //------------------------------------ All Ratings ------------------------------------
+
+
+app.post('/rating/add', function(req, res) {
+	var recipeID = parseInt(req.body.recipe_id, 10);
+	var rating_diff = parseInt(req.body.rating_diff, 10);
+	var rating_taste = parseInt(req.body.rating_taste, 10);
+	rating_insert = [recipeID, rating_taste, rating_diff];
+	connection.query("INSERT INTO ratings (recipe_id, rating_taste, rating_diff) VALUES (?, ? , ?)", rating_insert
+ 							function(error, results, fields) {
+								if(error) throw error
+								else{
+									console.log('Insert Rating Success');
+									res.status(200).send('Insert Rating Success');//INSERT success
+								}
+							})
+})
+
+
+
 
 app.get('/rating',function(req,res){
 	//about mysql query
