@@ -1,12 +1,10 @@
 import React from 'react';
 import { Container, Jumbotron, Badge, Col} from 'react-bootstrap';
-import { Redirect, Link} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { Rating  } from './rating';
 import { ReviewForm } from './reviewForm';
-import { RatingList } from './ratingList';
 import { RecipeRepo } from '../../api/recipeRepo';
 import { favoriteRepository } from '../../api/favoriteRepository';
-import { FavoriteList } from '../Favorites/FavoriteList';
 
 import './RecipeDetails.css'
 
@@ -104,9 +102,9 @@ export class RecipeDetails extends React.Component{
                 </div>
                 <div style={{clear:'left'}}/>
                 <Col md={{offset:5}}>
-                    <button className="btn btn-warning" onClick={() => this.favoriteRepository.addFavorite(this.state.recipe.recipe_id)}>
+                    {/* <button className="btn btn-warning" onClick={() => this.favoriteRepository.addFavorite(this.state.recipe.recipe_id)}>
                         Add to Favorites
-                    </button>
+                    </button> */}
                 </Col>
             </Jumbotron>;
             </>

@@ -37,7 +37,7 @@ class Navigation extends Component {
                             </NavDropdown>
                             <Nav.Link as={NavLink} to="/home">Home</Nav.Link>
                             <Nav.Link as={NavLink} to="/ingredient">Ingredients</Nav.Link>
-                            <Nav.Link as={NavLink} to="/favorite">Favorites</Nav.Link>
+                            {/* <Nav.Link as={NavLink} to="/favorite">Favorites</Nav.Link> */}
                         </Nav>
                     </Navbar.Collapse>
                     <Form inline onSubmit={() => this.search()}>

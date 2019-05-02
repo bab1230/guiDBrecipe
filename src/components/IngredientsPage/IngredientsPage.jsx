@@ -52,7 +52,7 @@ class IngredientsPage extends React.Component {
               this.state.ingredients.map((a, i) =>
                 <tr key={i}>
                   <td>{a.ingredient_name}</td>
-                  <td>{a.amount} {a.unit}{(a.amount > 1 && a.unit != 0) ? "s" : ""}</td>
+                  <td>{a.amount} {a.unit}{(a.amount > 1 && a.unit !== 0) ? "s" : ""}</td>
                   <td>
                     <button className="btn btn-sm btn-danger"
                       onClick={e => this.onDelete(a.ingredient_name)}>

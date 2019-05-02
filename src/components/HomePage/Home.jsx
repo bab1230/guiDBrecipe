@@ -55,6 +55,7 @@ export class Home extends React.Component {
                                     <img 
                                         className="rounded trim d-block"
                                         src={a.image}
+                                        alt={a.recipe_name}
                                         />
                                     <Carousel.Caption>
                                         <h3 style={{color: "white", fontWeight: "bold", textShadow: "black 0px 0px 10px"}}>{a.recipe_name}</h3>
@@ -86,7 +87,7 @@ export class Home extends React.Component {
     renderCarouselCard() {
         return (
             <>
-                <h4 style={{ margin: 20 }}>Favorites</h4>
+                <h4 style={{ margin: 20 }}>Recommended</h4>
                 <Carousel className="phone-trending fix-carousel" style={{ maxHeight: "700px", margin: 20}}>
                     <Carousel.Item>
                         <CardDeck>
@@ -136,7 +137,7 @@ export class Home extends React.Component {
                         }
                         </CardDeck>
                     </Carousel.Item>
-                    <Carousel.Item>
+                    {/* <Carousel.Item>
                         <CardDeck>
                         {
                             this.state.recipes.slice(15,20).map((a,i)=>(
@@ -151,7 +152,7 @@ export class Home extends React.Component {
                             ))
                         }
                         </CardDeck>
-                    </Carousel.Item>
+                    </Carousel.Item> */}
                 </Carousel>
             </>
         );
