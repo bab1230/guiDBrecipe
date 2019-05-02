@@ -12,7 +12,7 @@ class Navigation extends Component {
     render() {
         return (
             <>
-                <Navbar sticky="top" collapseOnSelect expand="lg" bg="dark" variant="dark" style={{ margin: 20 }}>
+                <Navbar sticky="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
                     <Nav.Link as={NavLink} to="/home" style={{color: 'white', textDecoration: 'none'}}><h3>Recipeazy</h3></Nav.Link>
                     <Navbar.Toggle />
                     <Navbar.Collapse id="responsive-navbar-nav">
