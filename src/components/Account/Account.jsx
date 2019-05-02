@@ -86,7 +86,7 @@ class Account extends Component {
 					<Form.Group as={Row}>
 						<Form.Label name="lastname" column sm="3">Last Name:</Form.Label>
 						<Col sm="9">
-							<Form.Control type="text" value={this.state.lastname} onChange={this.handleChange.bind(this)}></Form.Control>
+							<Form.Control name="lastname" type="text" value={this.state.lastname} onChange={this.handleChange.bind(this)}></Form.Control>
 						</Col>
 					</Form.Group>
 				</Form>

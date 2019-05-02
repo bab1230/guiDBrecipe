@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export class recipeRepo {
+export class RecipeRepo {
     url = "http://ec2-18-222-255-36.us-east-2.compute.amazonaws.com:4000";
 
     getRecipes() {
@@ -37,6 +37,14 @@ export class recipeRepo {
                 .catch(resp => alert(resp));
         });
     }
+
+    search(search) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${this.url}/search`, { params: { recipe_name: search }})
+                .then(resp => resolve(resp.data))
+                .catch(resp => alert(resp));
+        })
+    }
 }
 
-export default recipeRepo;
+export default RecipeRepo;

@@ -3,7 +3,6 @@ import { Carousel, Card, CardDeck } from 'react-bootstrap';
 import RecipeRepo from './../../api/recipeRepo';
 import { Link } from 'react-router-dom';
 import './Home.css';
-import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
 
 export class Home extends React.Component {
 

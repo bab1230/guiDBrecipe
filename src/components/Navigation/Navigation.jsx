@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
 import Account from '../Account/Account';
-import { Navbar, Nav, Form, FormControl, Button, NavDropdown, Row } from 'react-bootstrap';
+import { Navbar, Nav, Form, FormControl, Button, NavDropdown } from 'react-bootstrap';
 import { NavLink, Redirect } from 'react-router-dom';
 class Navigation extends Component {
     state = {
         showAccount: false,
-        logout: false
+        logout: false,
+        search: false,
+        searchValue: ''
     }
     toggleAccount(){
         this.setState({showAccount: !this.state.showAccount});
     }
+    componentDidUpdate() {
+        if(this.state.search)
+            this.setState({search: false})
+    }
     render() {
+        if(this.state.search) {
+            console.log(this.state.searchValue)
+            return <Redirect to={`/search/${this.state.searchValue}`}/>
+        }
         return (
             <>
                 <Navbar sticky="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -29,8 +39,13 @@ class Navigation extends Component {
                         </Nav>
                     </Navbar.Collapse>
                     <Form inline >
-                        <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                        <Button className="float-right" variant="outline-info">Search</Button>
+                        <FormControl 
+                            type="text" 
+                            placeholder="Search" 
+                            className="mr-sm-2" 
+                            onChange={(event) =>
+								this.setState({ searchValue: event.target.value })}/>
+                        <Button className="float-right" variant="outline-info" onClick={() => {this.setState({search: true})}}>Search</Button>
                     </Form>
                 </Navbar>
                 <Account show={this.state.showAccount} close={() => this.toggleAccount()}/>

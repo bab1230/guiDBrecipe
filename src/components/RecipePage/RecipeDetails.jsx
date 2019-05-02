@@ -4,14 +4,14 @@ import { Redirect, Link} from 'react-router-dom';
 import { Rating  } from './rating';
 import { ReviewForm } from './reviewForm';
 import { RatingList } from './ratingList';
-import { recipeRepo } from '../../api/recipeRepo';
+import { RecipeRepo } from '../../api/recipeRepo';
 import { favoriteRepository } from '../../api/favoriteRepository';
 import { FavoriteList } from '../Favorites/FavoriteList';
 
 import './RecipeDetails.css'
 
 export class RecipeDetails extends React.Component{
-    recipeRepo=new recipeRepo();
+    recipeRepo=new RecipeRepo();
     favoriteRepository=new favoriteRepository();
 
     state={
