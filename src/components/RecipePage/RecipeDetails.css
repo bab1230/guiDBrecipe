@@ -1,0 +1,15 @@
+.recipe-pic {
+    height: 60vh;
+    width: auto;
+
+}
+
+ul.ingredients {
+    list-style-type: circle;
+  }
+
+@media only screen and (max-width: 500px) {
+    .ratings {
+      flex-direction: column;
+    }
+}
