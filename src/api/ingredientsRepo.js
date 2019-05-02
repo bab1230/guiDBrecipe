@@ -7,9 +7,9 @@ class IngredientsRepo extends React.Component {
 
     
     
-  getIngredients(userid) {
+  getIngredients() {
     return new Promise((resolve, reject) => {
-      return axios.get(this.url + `/users/pantry/?user_id=${localStorage.getItem('token')}`)
+      return axios.get(this.url + `/users/pantry?user_id=${localStorage.getItem('token')}`)
           .then(resp => resolve(resp.data))
           .catch(resp => alert(resp));
     });
@@ -18,7 +18,7 @@ class IngredientsRepo extends React.Component {
 
   deleteIngredient( ingredient ){
     return new Promise((resolve, reject) => {
-      axios.post(`${this.url}/users/pantry/delete?user_id=${localStorage.getItem('token')}`, {body: {ingredient}})
+      axios.post(`${this.url}/users/pantry/delete?user_id=${localStorage.getItem('token')}`, { ingredient })
           .then(resp => resolve(resp.data))
           .catch(resp => alert(resp));
   });
@@ -26,7 +26,7 @@ class IngredientsRepo extends React.Component {
 
   addIngredient(ingredient){
     return new Promise((resolve, reject) => {
-      axios.post(`${this.url}/users/pantry/update?user_id=${localStorage.getItem('token')}`, {body: { ingredient_name: ingredient.ingredient_name , amount: ingredient.amount, unit: ingredient.unit}})
+      axios.post(`${this.url}/users/pantry/add?user_id=${localStorage.getItem('token')}`, { ingredient_name: ingredient.ingredient_name , amount: ingredient.amount, unit: ingredient.unit})
           .then(resp => resolve(resp.data))
           .catch(resp => alert(resp));
   });
