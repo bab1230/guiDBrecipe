@@ -31,7 +31,8 @@ class SignUp extends Component {
             lastname: '',
             username: '',
             password: '',
-            confirmPassword: ''
+            confirmPassword: '',
+            hasEmptyField: false
         });
     }
     signUp(e) {
@@ -46,9 +47,11 @@ class SignUp extends Component {
             this.userRepository.signUp(NEW_USER).then(res => {
                 
             }).catch(err => {
-                alert(err);
+                
             })
             this.handleClose();
+        } else {
+            this.setState({ hasEmptyField: true })
         }
     }
 
@@ -98,6 +101,7 @@ class SignUp extends Component {
                                 </input>
                             </div>
                         </form>
+                        {this.state.hasEmptyField && <p style={{color: 'red', fontWeight: 'bold'}}>All fields must be filled</p>}
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.handleClose}>
