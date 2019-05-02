@@ -18,7 +18,7 @@ class IngredientsRepo extends React.Component {
 
   deleteIngredient( ingredient ){
     return new Promise((resolve, reject) => {
-      axios.post(`${this.url}/users/pantry/delete?user_id=${localStorage.getItem('token')}`, { ingredient })
+      axios.post(`${this.url}/users/pantry/delete?user_id=${localStorage.getItem('token')}`, { ingredient_name: ingredient.ingredient_name })
           .then(resp => resolve(resp.data))
           .catch(resp => alert(resp));
   });
@@ -31,6 +31,7 @@ class IngredientsRepo extends React.Component {
           .catch(resp => alert(resp));
   });
   }
+  // localStorage.getItem('token')
 }
 
 export default IngredientsRepo;
