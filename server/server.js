@@ -357,7 +357,7 @@ app.post('/users/pantry/delete', (req, res) => {
 	});
 
 					connection.query('DELETE FROM inventory WHERE user_id = ? AND ingredient_id = ?',
-											[req.query.user_id, ingre_id], function(error, results, fields) {
+											[parseInt(req.query.user_id, 10), parseInt(ingre_id, 10)], function(error, results, fields) {
 												if(error) throw error
 												else{
 													res.status(200).send('Delete Success');//Delete success
@@ -367,7 +367,7 @@ app.post('/users/pantry/delete', (req, res) => {
 
 
 
-//Update inventory ------ IN PROGRESS
+//Update inventory ------ In Progress
 app.post('/users/pantry/update', (req, res) => {
 					var ingre_id_from_all = -1;
 					//Get existing ingredient id from ingredient_all table
