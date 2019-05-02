@@ -6,7 +6,7 @@ import IngredientsRepo from './../../api/ingredientsRepo';
 
 class IngredientsPage extends React.Component {
 
-  ingredientsRepo = new IngredientsRepo;
+  ingredientsRepo = new IngredientsRepo();
 
 
   state = {
@@ -70,12 +70,13 @@ class IngredientsPage extends React.Component {
 
   onSubmit() {
     if (this.state.currentname !== "" && this.state.currentquantity !== 0) {
-      this.ingredientsRepo.updateIngredients(new ingredient(this.state.currentname, this.state.currentquantity, this.state.currentunit));
+      this.ingredientsRepo.addIngredient(new ingredient(this.state.currentname, this.state.currentquantity, this.state.currentunit));
       this.setState({
         currentname: "",
         currentquantity: 0,
         currentunit: "",
       });
+      this.componentDidMount();
     }
   }
 
@@ -84,11 +85,7 @@ class IngredientsPage extends React.Component {
     let newstate = this.state.ingredients;
     newstate.splice(index, 1);
     this.setState({ ingredients: newstate});
-  }
-
-  onSave() {
-    this.ingredientsRepo.updateIngredients(this.state.ingredients);
-    this.componentDidMount();
+    this.ingredientsRepo.deleteIngredient();
   }
 
 
@@ -148,9 +145,6 @@ class IngredientsPage extends React.Component {
           <button style={{ marginTop: "1rem" }} onClick={e => this.onSubmit()} className="btn btn-primary">
             Add
           </button>
-          <button style={{ marginTop: "1rem" }} onClick={e => this.onSave()} className="btn btn-warning">
-            Save
-          </button>
           </div>
         </div>
 
@@ -160,7 +154,7 @@ class IngredientsPage extends React.Component {
   }
 
   async componentDidMount() {
-    let ingredients = await this.ingredientsRepo.getIngredients(localStorage.getItem('token'));
+    let ingredients = await this.ingredientsRepo.getIngredients();
     this.setState({ ingredients });
   }
 }
