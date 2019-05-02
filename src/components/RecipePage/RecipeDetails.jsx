@@ -104,13 +104,10 @@ export class RecipeDetails extends React.Component{
     async componentDidMount() {
         let recipe = await this.recipeRepo.getRecipe(this.props.match.params.recipe_id);
         this.setState ({ recipe: recipe[0] });
-<<<<<<< HEAD
-=======
         
         let ingredients = await this.recipeRepo.getRecipeIngredients(this.props.match.params.recipe_id);
         this.setState ({ingredients});
 
->>>>>>> 2007f4539677d9d71fa4708cb963899d04fe5486
     }
 }
 
