@@ -41,7 +41,7 @@ class App extends Component {
 					{this.state.loginState && <Route path="/ingredient" exact component={IngredientPage} />}
 					{this.state.loginState && <Route path="/favorite" exact component={Favorite}/>}
 					{this.state.loginState && <Route path="/recipes/:recipe_id" exact component={RecipeDetails}/>}
-					{this.state.loginState && <Route path="/search/:search" exact component={Search}/>}
+					{this.state.loginState && <Route path="/search/:search?" exact component={Search}/>}
 					<Route path="/" render={(props) => <Login {...props} isLoggedIn={this.state.loginState} login={this.updateLoginState} />}/>
 				</Switch>
 			</div>
