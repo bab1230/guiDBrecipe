@@ -7,7 +7,7 @@ export class RecipeRepo {
         return new Promise((resolve, reject) => {
             axios.get(`${this.url}/all_recipes`)
                 .then(resp => resolve(resp.data))
-                .catch(resp => alert(resp));
+                .catch(resp => alert("Could not get recipes"));
         });
     }
 
@@ -16,7 +16,7 @@ export class RecipeRepo {
         return new Promise((resolve, reject) => {
             axios.get(`${this.url}/recipe/`, {params: { recipe_id: id }})
                 .then(resp => resolve(resp.data))
-                .catch(resp => alert(resp));
+                .catch(resp => alert("Could not get recipe"));
         });
     }
 
@@ -25,7 +25,7 @@ export class RecipeRepo {
         return new Promise((resolve, reject) => {
             axios.get(`${this.url}/recipe/ingredients`, {params: { recipe_id: id }})
                 .then(resp => resolve(resp.data))
-                .catch(resp => alert(resp));
+                .catch(resp => alert("Could not get ingredients"));
         });
     }
 
@@ -33,7 +33,6 @@ export class RecipeRepo {
         return new Promise((resolve, reject) => {
             axios.get(`${this.url}/rating/${recipe_id}`)
                 .then(resp => resolve(resp.data))
-                .catch(resp => alert(resp));
         });
     }
 
@@ -42,7 +41,7 @@ export class RecipeRepo {
         return new Promise((resolve, reject) => {
             axios.post(`${this.url}/rating/add`, { recipe_id: recipe_id, rating_diff: diff_rating, rating_taste: taste_rating })
                 .then(resp => resolve(resp.data))
-                .catch(resp => alert(resp));
+                .catch(resp => alert("Could not add review"));
         });
     }
 
@@ -50,7 +49,7 @@ export class RecipeRepo {
         return new Promise((resolve, reject) => {
             axios.get(`${this.url}/search`, { params: { recipe_name: search }})
                 .then(resp => resolve(resp.data))
-                .catch(resp => alert(resp));
+                .catch(resp => alert("Could not search for query"));
         })
     }
 }
