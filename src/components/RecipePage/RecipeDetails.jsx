@@ -3,7 +3,6 @@ import { Container, Jumbotron, Badge, Col} from 'react-bootstrap';
 import { Redirect, Link} from 'react-router-dom';
 import { Rating  } from './rating';
 import { ReviewForm } from './reviewForm';
-import { RatingList } from './ratingList';
 import { recipeRepo } from '../../api/recipeRepo';
 import { favoriteRepository } from '../../api/favoriteRepository';
 
@@ -74,7 +73,6 @@ export class RecipeDetails extends React.Component{
                 </div>
                 <div className="d-flex flex-column align-items-center">
                     <h2>Ingredients:</h2>
-                    {/* <div className="w-75"> */}
                         <ul className="ingredients">
                             {
                                 this.state.ingredients.map((a, i) => (
@@ -85,9 +83,12 @@ export class RecipeDetails extends React.Component{
                                 ))
                             }
                         </ul>
-                    {/* </div> */}
                     <h2>Recipe:</h2>
-                    <p>{this.state.recipe.how_to_cook}</p>
+                    {
+                        this.state.recipe.how_to_cook.split('\n').map((item, i) => {
+                            return <p key={i}>{item}</p>;
+                        })
+                    }
                 </div>
                 <div style={{clear:'left'}}/>
                 <Col md={{offset:5}}>
