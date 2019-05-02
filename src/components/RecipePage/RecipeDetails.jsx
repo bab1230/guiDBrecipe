@@ -31,10 +31,7 @@ export class RecipeDetails extends React.Component{
     };
 
     onNewRating(rating){
-        this.setState(state=>{
-          state.ratings.push(rating);
-          return state;
-        });
+        this.recipeRepo.addReview(this.state.recipe.recipe_id, rating);
       }
 
     

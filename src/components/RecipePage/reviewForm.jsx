@@ -14,7 +14,7 @@ export class ReviewForm extends React.Component{
 
         if(this.state.rating !== 0){
             let {rating}=this.state;
-            this.props.onNewRating(new Recipe(rating));
+            this.props.onNewRating(rating);
             this.setState({
                 rating:0
             });
