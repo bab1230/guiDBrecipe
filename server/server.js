@@ -233,15 +233,10 @@ app.post('/users/info/update', function(req, res) {
 //Account favorite recipes
 app.get('/users/favorite', (req, res) => {
         console.log("User ID is ", parseInt(req.query.user_id, 10));
-<<<<<<< HEAD
-        connection.query('SELECT * FROM users JOIN favorites JOIN recipes ON users.user_id = favorites.user_id AND recipes.recipe_id = favorites.recipe_id WHERE users.user_id = ' + req.query.user_id, function(error, results, fields) {
-                  let responseToFrontend = {}
-=======
         connection.query('SELECT * FROM users JOIN favorites JOIN recipes ON users.user_id = favorites.user_id AND recipes.recipe_id = favorites.recipe_id WHERE users.user_id = ?',
                         [parseInt(req.query.user_id, 10)], function(error, results, fields) {
 									let objectJavaScript = [];
 									let responseToFrontend = {};
->>>>>>> 5a75cb7ab2331420b9daaf4c34b273226feccb9f
                   for(var i = 0; i < results.length; i++){
                       responseToFrontend[results[i].recipe_name] = results[i].how_to_cook;
 											// objectJavaScript.push(responseToFrontend);
@@ -254,8 +249,8 @@ app.get('/users/favorite', (req, res) => {
 app.post('/users/favorite/delete', (req, res) => {
     var recipeID = parseInt(req.body.recipe_id, 10);
         console.log("User ID is ", req.query.user_id);
-        connection.query('DELETE FROM favorites WHERE user_id = ? AND recipe_id = ?',
-                        [parseInt(req.query.user_id, 10), recipeID], function(error, results, fields) {
+				connection.query('DELETE FROM favorites WHERE user_id = ' + req.query.user_id + ' AND recipe_id = ' + recipe_id,
+				 function(error, results, fields) {
 									if(error) {throw error;}
 									else{
                   res.status(200).send("Delete successful");}//This is an object
