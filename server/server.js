@@ -232,8 +232,7 @@ app.post('/users/info/update', function(req, res) {
 //Account favorite recipes
 app.get('/users/favorite', (req, res) => {
         console.log("User ID is ", parseInt(req.query.user_id, 10));
-        connection.query('SELECT * FROM users JOIN favorites JOIN recipes ON users.user_id = favorites.user_id AND recipes.recipe_id = favorites.recipe_id WHERE users.user_id = ?',
-                        [parseInt(req.query.user_id, 10)], function(error, results, fields) {
+        connection.query('SELECT * FROM users JOIN favorites JOIN recipes ON users.user_id = favorites.user_id AND recipes.recipe_id = favorites.recipe_id WHERE users.user_id = ' + req.query.user_id, function(error, results, fields) {
                   let responseToFrontend = {}
                   for(var i = 0; i < results.length; i++){
                       responseToFrontend[results[i].recipe_name] = results[i].how_to_cook;
