@@ -92,7 +92,7 @@ export class RecipeDetails extends React.Component{
                                 ))
                             }
                         </ul>
-                    <h2>Recipe:</h2>
+                    <h2 className="mt-2">Recipe:</h2>
                     <div className="d-flex flex-column text-left">
                     {
                         this.state.recipe.how_to_cook.split('\n').map((item, i) => {

@@ -22,11 +22,10 @@ export class ReviewForm extends React.Component{
     }
     render(){
         return(
-            <Form>
+            <Form color="grey">
                 <Card>
                     <Card.Body>
                         <Form.Row>
-
                             <Form.Group as={Col} controlId="StarSelect">
                                 <Form.Label>Difficulty Rating</Form.Label>
                                 <Form.Control as="select" value={this.state.diff_rating} onChange={e=>this.setState({diff_rating: e.target.value})}>
@@ -39,7 +38,9 @@ export class ReviewForm extends React.Component{
                                 <Rating value={this.state.diff_rating}/>
                             </Form.Group>
 
-                            <Form.Group as={Col} controlId="StartSelect">
+                        </Form.Row>
+                        <Form.Row>
+                        <Form.Group as={Col} controlId="StartSelect">
                                 <Form.Label>Taste Rating</Form.Label>
                                 <Form.Control as="select" value={this.state.taste_rating} onChange={e=>this.setState({taste_rating: e.target.value})}>
                                         {
@@ -51,7 +52,6 @@ export class ReviewForm extends React.Component{
                             <Form.Group as={Col} controlId="StarSelect" style={{margin:'2em 0em 0em 0em'}}>
                                 <Rating value={this.state.taste_rating}/>
                             </Form.Group>
-
                         </Form.Row>
                         <Button variant="primary" type="button" onClick={e=>this.onRatingAdded()}>
                             Submit
