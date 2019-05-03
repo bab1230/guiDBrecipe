@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export class RecipeRepo {
-    url = "http://ec2-18-188-0-10.us-east-2.compute.amazonaws.com:4000";
+    url = "http://ec2-13-59-82-51.us-east-2.compute.amazonaws.com:4000";
 
     getRecipes() {
         return new Promise((resolve, reject) => {
