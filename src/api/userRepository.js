@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 class UserRepository {
-    URL  = "http://ec2-13-59-82-51.us-east-2.compute.amazonaws.com:4000";
+  URL = "http://ec2-13-59-82-51.us-east-2.compute.amazonaws.com:4000";
 
     login(user){
         return new Promise((resolve, reject) => {
