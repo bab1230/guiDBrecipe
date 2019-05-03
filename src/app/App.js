@@ -44,7 +44,7 @@ class App extends Component {
 					{this.state.loginState && <Route path="/search/:search?" exact component={Search}/>}
 					<Route path="/" render={(props) => <Login {...props} isLoggedIn={this.state.loginState} login={this.updateLoginState} />}/>
 				</Switch>
-			</div>
+			</div>	
 		);
 	}
 }
