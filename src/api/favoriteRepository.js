@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export class favoriteRepository {
-    url = "http://ec2-18-222-255-36.us-east-2.compute.amazonaws.com:4000";
+    url = "http://ec2-18-188-0-10.us-east-2.compute.amazonaws.com:4000";
 
     getFavorites() {
         return new Promise((resolve, reject) => {
