@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 class IngredientsRepo extends React.Component {
-  url = "http://ec2-13-59-82-51.us-east-2.compute.amazonaws.com/:4000";
+  url = "http://ec2-13-59-82-51.us-east-2.compute.amazonaws.com:4000";
 
   getIngredients() {
     return new Promise((resolve, reject) => {
@@ -10,7 +10,7 @@ class IngredientsRepo extends React.Component {
           .then(resp => resolve(resp.data))
           .catch(resp => alert("Could not load your ingredients"));
     });
-    
+
   }
 
   deleteIngredient( ingredient ){
